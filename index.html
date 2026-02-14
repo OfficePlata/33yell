@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sassale (ササエール) | あなたのビジネスを、デジタルで全力応援。</title>
+    <meta name="description" content="Sassaleは企業のデジタル応援団員。元チアリーダーのエンジニアが、LINEやLark活用、業務改善をサポートします。">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#1E3A8A', // 信頼感のあるネイビー
+                            light: '#254aae',
+                        },
+                        yellow: {
+                            DEFAULT: '#FBBF24', // 元気が出るチアフルイエロー
+                            light: '#fbce5b',
+                        },
+                        accent: '#10B981', // 緑色（LINEボタン用など）
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        english: ['"Outfit"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 8s ease-in-out infinite 2s',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="font-english font-bold text-2xl text-navy tracking-tight">Sassale.</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about"
+                            class="text-gray-700 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <a href="#profile"
+                            class="text-gray-700 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition-colors">1to1
+                            Sheet</a>
+                        <a href="#services"
+                            class="text-gray-700 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition-colors">Services</a>
+                        <a href="#works"
+                            class="text-gray-700 hover:text-navy px-3 py-2 rounded-md text-sm font-medium transition-colors">Works</a>
+                        <a href="#contact"
+                            class="bg-navy text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">お問い合わせ</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-navy focus:outline-none"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50"
+        id="home">
+        <!-- Abstract Background Shapes (Parallax elements) -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <!-- Megaphone SVG shape -->
+            <div class="absolute top-1/4 left-10 md:left-1/4 w-32 h-32 md:w-48 md:h-48 opacity-10 text-yellow parallax-layer"
+                data-speed="2.0">
+                <div class="animate-float w-full h-full">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full transform -rotate-12">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9V15C5 17.5 7.5 19 9.5 20.25V22H14.5V20.25C16.5 19 19 17.5 19 15V9C19 5.13 15.87 2 12 2ZM7 9C7 6.24 9.24 4 12 4C14.76 4 17 6.24 17 9V15C17 16.2 15.5 17.5 12 17.5C8.5 17.5 7 16.2 7 15V9Z" />
+                        <path d="M2.5 9L4 9L4 15L2.5 15C1.67 15 1 14.33 1 13.5L1 10.5C1 9.67 1.67 9 2.5 9Z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Rising Graph SVG shape -->
+            <div class="absolute bottom-1/4 right-10 md:right-1/4 w-40 h-40 md:w-64 md:h-64 opacity-10 text-navy parallax-layer"
+                data-speed="-1.5">
+                <div class="animate-float-delayed w-full h-full">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">
+                        <path
+                            d="M3.5 18.49L3.5 15.25L13.77 4.98L17.5 8.71L21.5 4.71L22.91 6.12L17.5 11.53L13.77 7.8L5.5 16.07L5.5 18.49H3.5Z" />
+                        <path d="M21 17H3V19H21V17Z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Geometric Circles -->
+            <div
+                class="absolute top-20 right-20 w-16 h-16 bg-yellow rounded-full blur-2xl opacity-20 animate-pulse-slow">
+            </div>
+            <div
+                class="absolute bottom-20 left-20 w-24 h-24 bg-navy rounded-full blur-3xl opacity-20 animate-pulse-slow">
+            </div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h2 class="font-english font-semibold text-navy/80 text-lg md:text-xl tracking-wider mb-4 opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.1s;">DIGITAL SOLUTION PARTNER</h2>
+
+            <div class="mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <h1 class="font-english font-extrabold text-6xl md:text-8xl text-navy tracking-tight leading-tight">
+                    Sassale<span class="text-yellow">.</span>
+                </h1>
+            </div>
+
+            <p class="text-xl md:text-3xl font-bold text-gray-800 mb-8 leading-relaxed opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.5s;">
+                あなたのビジネスを、<br class="md:hidden" />デジタルで全力応援。
+            </p>
+
+            <p class="text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.7s;">
+                ITの悩み、ひとりで抱えていませんか？<br>
+                元チアリーダーのエンジニアが、あなたのビジネスのデジタル化を全力でサポートします。
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.9s;">
+                <a href="#contact"
+                    class="px-8 py-4 bg-navy text-white font-bold rounded-full shadow-lg hover:shadow-2xl hover:bg-navy-light transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>相談してみる</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <i data-lucide="chevron-down" class="w-8 h-8 text-navy"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal-on-scroll">
+                    <!-- Image Placeholder with decorative elements -->
+                    <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gray-100 shadow-2xl">
+                        <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=Profile+Image" alt="About Me"
+                            class="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Decorative box -->
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow rounded-xl -z-10"></div>
+                    <div class="absolute -top-6 -left-6 w-32 h-32 border-4 border-navy/10 rounded-xl -z-10"></div>
+                </div>
+
+                <div class="reveal-on-scroll delay-200">
+                    <span class="text-yellow font-bold tracking-wider text-sm uppercase">About Me</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-navy mt-2 mb-6">「相談しやすい」<br>デジタルパートナーを目指して</h2>
+
+                    <div class="space-y-6 text-gray-600 leading-relaxed">
+                        <p>
+                            はじめまして。Sassale（ささエール）代表です。<br>
+                            私は元々PCショップの店員として、お客様の「困った」を解決する日々を送っていました。
+                            その後、エンジニアとしてのスキルを磨き、デジタル活用のプロフェッショナルへ転身しました。
+                        </p>
+                        <p>
+                            私の強みは、難しい専門用語を使わず、お客様の目線に立って解決策を提案できることです。
+                            「システムを入れたいけど、何から始めればいいかわからない...」
+                            そんな漠然としたお悩みでも、まずは気軽にご相談ください。
+                        </p>
+                        <p>
+                            チアリーダーのように、常に明るく前向きに。お客様のビジネスの成長を、隣で伴走しながらサポートいたします。
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-blue-50 text-navy font-semibold rounded-full text-sm">#
+                            業務改善サポーター</span>
+                        <span class="px-4 py-2 bg-blue-50 text-navy font-semibold rounded-full text-sm"># 伴走型支援</span>
+                        <span class="px-4 py-2 bg-blue-50 text-navy font-semibold rounded-full text-sm"># 元チアリーダー</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1to1 Profile (GAINS) Section -->
+    <section id="profile" class="py-24 bg-blue-50 relative overflow-hidden">
+        <!-- Abstract Background for 1to1 -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-10 right-0 w-64 h-64 bg-yellow/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 left-0 w-64 h-64 bg-navy/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+                <span class="text-yellow font-bold tracking-wider text-sm uppercase">1to1 Profile</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mt-2">BNI 1to1 Sheet (GAINS)</h2>
+                <p class="mt-4 text-gray-600">ビジネスパートナーとしての私を、より深く知っていただくためのプロフィールシートです。</p>
+            </div>
+
+            <!-- GAINS Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Goals -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-navy reveal-on-scroll delay-100 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-navy/10 rounded-full flex items-center justify-center text-navy mr-4">
+                            <span class="font-english font-bold text-xl">G</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Goals <span
+                                class="text-sm font-normal text-gray-500 ml-2">目標</span></h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i data-lucide="target" class="w-5 h-5 text-yellow mt-1 mr-3 flex-shrink-0"></i>
+                            <span>九州No.1の「伴走型」DXパートナーになること。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="target" class="w-5 h-5 text-yellow mt-1 mr-3 flex-shrink-0"></i>
+                            <span>「IT担当者がいない」中小企業を100社救うこと。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="target" class="w-5 h-5 text-yellow mt-1 mr-3 flex-shrink-0"></i>
+                            <span>全社員が「本来の業務」に集中できる世界を作る。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Accomplishments -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-yellow reveal-on-scroll delay-200 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-yellow/20 rounded-full flex items-center justify-center text-yellow-700 mr-4">
+                            <span class="font-english font-bold text-xl">A</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Accomplishments <span
+                                class="text-sm font-normal text-gray-500 ml-2">実績</span></h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i data-lucide="award" class="w-5 h-5 text-navy mt-1 mr-3 flex-shrink-0"></i>
+                            <span>元チアリーダー × エンジニアという異色の経歴。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="award" class="w-5 h-5 text-navy mt-1 mr-3 flex-shrink-0"></i>
+                            <span>宮崎DXサミット202X 運営統括・システム構築。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="award" class="w-5 h-5 text-navy mt-1 mr-3 flex-shrink-0"></i>
+                            <span>建設会社様にて、日報アプリ導入で残業時間を月20時間削減。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Interests -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-green-500 reveal-on-scroll delay-100 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-4">
+                            <span class="font-english font-bold text-xl">I</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Interests <span
+                                class="text-sm font-normal text-gray-500 ml-2">興味・関心</span></h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">チアリーディング</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">最新ガジェット</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">PC自作</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">美味しいお店巡り</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">自動化ツール</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">文房具</span>
+                    </div>
+                </div>
+
+                <!-- Networks -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-pink-500 reveal-on-scroll delay-200 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 mr-4">
+                            <span class="font-english font-bold text-xl">N</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Networks <span
+                                class="text-sm font-normal text-gray-500 ml-2">人脈</span></h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i data-lucide="users" class="w-5 h-5 text-pink-500 mt-1 mr-3 flex-shrink-0"></i>
+                            <span>県内のITエンジニア・クリエイターコミュニティ。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="users" class="w-5 h-5 text-pink-500 mt-1 mr-3 flex-shrink-0"></i>
+                            <span>中小企業家同友会（経営者層）。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="users" class="w-5 h-5 text-pink-500 mt-1 mr-3 flex-shrink-0"></i>
+                            <span>建設業・飲食業のオーナー様。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Skills -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-md border-l-8 border-blue-500 md:col-span-2 reveal-on-scroll delay-300 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-4">
+                            <span class="font-english font-bold text-xl">S</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Skills <span
+                                class="text-sm font-normal text-gray-500 ml-2">スキル</span></h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <h4 class="font-bold text-navy mb-2 flex items-center"><i data-lucide="code-2"
+                                    class="w-4 h-4 mr-2"></i>開発スキル</h4>
+                            <p class="text-sm text-gray-600">HTML/CSS, JavaScript, LINE API開発, Lark構築, Python</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <h4 class="font-bold text-navy mb-2 flex items-center"><i data-lucide="messages-square"
+                                    class="w-4 h-4 mr-2"></i>コミュニケーション</h4>
+                            <p class="text-sm text-gray-600">専門用語を使わない解説, 伴走型サポート, ヒアリング力</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <h4 class="font-bold text-navy mb-2 flex items-center"><i data-lucide="zap"
+                                    class="w-4 h-4 mr-2"></i>その他</h4>
+                            <p class="text-sm text-gray-600">チアリーディング(笑顔!), イベント運営, 業務フロー改善提案</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target & Ask -->
+            <div class="bg-navy rounded-3xl p-8 md:p-12 text-white shadow-2xl reveal-on-scroll">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold text-yellow mb-4 flex items-center">
+                            <i data-lucide="crosshair" class="w-6 h-6 mr-3"></i>ベストな紹介ターゲット
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded-full mr-3 mt-1"><i data-lucide="check"
+                                        class="w-3 h-3 text-white"></i></span>
+                                <span>「IT担当者がいなくて困っている」従業員5〜30名規模の社長様。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded-full mr-3 mt-1"><i data-lucide="check"
+                                        class="w-3 h-3 text-white"></i></span>
+                                <span>「紙やFAXの管理をどうにかしたい」と考えている建設業・飲食業の方。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded-full mr-3 mt-1"><i data-lucide="check"
+                                        class="w-3 h-3 text-white"></i></span>
+                                <span>新しいこと（LINE注文やLark）を取り入れたい意欲的なオーナー様。</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold text-yellow mb-4 flex items-center">
+                            <i data-lucide="hand-heart" class="w-6 h-6 mr-3"></i>私がお役に立てること (Give)
+                        </h3>
+                        <p class="text-blue-100 leading-relaxed mb-4">
+                            御社や、御社のつながりのある方の「デジタルの困りごと」を丸ごと引き受けます。<br>
+                            「こんなことできる？」という軽い相談からでOKです。
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded-full mr-3 mt-1"><i data-lucide="gift"
+                                        class="w-3 h-3 text-white"></i></span>
+                                <span>60分の無料IT相談を実施します。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-white/20 p-1 rounded-full mr-3 mt-1"><i data-lucide="gift"
+                                        class="w-3 h-3 text-white"></i></span>
+                                <span>「今の業務のムダ」を診断し、改善案を提示します。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+                    <span class="text-yellow font-bold tracking-wider text-sm uppercase">Services</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-navy mt-2">最強の応援ツール "3つのL"</h2>
+                    <p class="mt-4 text-gray-600">お客様の課題に合わせて、最適なデジタルツールをご提案します。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service 1: LINE -->
+                    <div
+                        class="bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-green-500 reveal-on-scroll delay-100 group">
+                        <div
+                            class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6 text-green-600 group-hover:scale-110 transition-transform">
+                            <i data-lucide="message-circle" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">LINE活用</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            日本で最も身近なアプリLINEを、最強のビジネスツールに。公式アカウントの運用最適化から、Lステップ構築、ミニアプリ開発まで対応します。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Lステップ構築
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> リッチメニュー制作
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> 顧客管理の自動化
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2: Lark -->
+                    <div
+                        class="bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-blue-500 reveal-on-scroll delay-200 group">
+                        <div
+                            class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform">
+                            <i data-lucide="layout-grid" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Lark導入支援</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            チャット、カレンダー、ドキュメントなど、業務に必要な機能を一つに統合。グループウェア「Lark」で、社内コミュニケーションと業務効率を劇的に改善します。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-blue-500 mr-2"></i> 勤怠管理・日報自動化
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-blue-500 mr-2"></i> 業務フロー構築
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-blue-500 mr-2"></i> マニュアル作成
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3: rentaL -->
+                    <div
+                        class="bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-yellow delay-300 reveal-on-scroll group">
+                        <div
+                            class="w-14 h-14 bg-yellow/20 rounded-xl flex items-center justify-center mb-6 text-yellow-600 group-hover:scale-110 transition-transform">
+                            <i data-lucide="person-standing" class="w-8 h-8 text-yellow"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">rentaL (レンタルさっさー)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            「ちょっとこれ教えて」「手伝って」に対応する、スポット型のデジタル相談・代行サービス。専属のIT担当者を雇う感覚で、必要な時だけご利用いただけます。
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-yellow mr-2"></i> スポット相談
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-yellow mr-2"></i> デジタル代行作業
+                            </li>
+                            <li class="flex items-center text-sm text-gray-500">
+                                <i data-lucide="check" class="w-4 h-4 text-yellow mr-2"></i> ITツールの選定
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Works Section -->
+        <section id="works" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-on-scroll">
+                    <div>
+                        <span class="text-yellow font-bold tracking-wider text-sm uppercase">Works / Ensure</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-navy mt-2">支援実績</h2>
+                    </div>
+                    <div class="hidden md:block">
+                        <!-- Decorative line or button could go here -->
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Work 1 -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg reveal-on-scroll delay-100">
+                        <div class="aspect-video bg-gray-200 overflow-hidden">
+                            <img src="https://placehold.co/600x400/1E3A8A/FFFFFF?text=Construction+Report+System"
+                                alt="建設業向けシステム"
+                                class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-yellow text-sm font-bold mb-2">Lark Base活用</span>
+                            <h3 class="text-white text-xl font-bold">建設業向け 現場日報管理システム</h3>
+                            <p class="text-gray-200 text-sm mt-2">現場からの報告をスマホ一つで完結。リアルタイムな情報共有を実現。</p>
+                        </div>
+                        <!-- Mobile/Always visible title for better UX on touch (optional, but good for clarity) -->
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy/80 to-transparent md:hidden">
+                            <h3 class="text-white font-bold">建設業向け 現場日報管理システム</h3>
+                        </div>
+                    </div>
+
+                    <!-- Work 2 -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg reveal-on-scroll delay-200">
+                        <div class="aspect-video bg-gray-200 overflow-hidden">
+                            <img src="https://placehold.co/600x400/10B981/FFFFFF?text=Bento+Order+App" alt="飲食店向けアプリ"
+                                class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-yellow text-sm font-bold mb-2">LINE公式アカウント</span>
+                            <h3 class="text-white text-xl font-bold">飲食店向け LINEらくらく弁当注文アプリ</h3>
+                            <p class="text-gray-200 text-sm mt-2">トーク画面からスムーズに注文・決済。電話対応の工数を大幅に削減。</p>
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy/80 to-transparent md:hidden">
+                            <h3 class="text-white font-bold">飲食店向け LINEらくらく弁当注文アプリ</h3>
+                        </div>
+                    </div>
+
+                    <!-- Work 3 -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg reveal-on-scroll delay-100">
+                        <div class="aspect-video bg-gray-200 overflow-hidden">
+                            <img src="https://placehold.co/600x400/FBBF24/1E3A8A?text=Miyazaki+DX+Summit" alt="宮崎DXサミット"
+                                class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-yellow text-sm font-bold mb-2">イベント運営・管理</span>
+                            <h3 class="text-white text-xl font-bold">宮崎DXサミット 運営・管理支援</h3>
+                            <p class="text-gray-200 text-sm mt-2">参加者管理から当日のオペレーションまで、大規模イベントのDXをサポート。</p>
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy/80 to-transparent md:hidden">
+                            <h3 class="text-white font-bold">宮崎DXサミット 運営・管理支援</h3>
+                        </div>
+                    </div>
+
+                    <!-- Work 4 -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg reveal-on-scroll delay-200">
+                        <div class="aspect-video bg-gray-200 overflow-hidden">
+                            <img src="https://placehold.co/600x400/6366F1/FFFFFF?text=Vacation+Rental+Payment"
+                                alt="民泊事業管理"
+                                class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-yellow text-sm font-bold mb-2">決済・予約管理</span>
+                            <h3 class="text-white text-xl font-bold">民泊事業 決済・予約管理フロー構築</h3>
+                            <p class="text-gray-200 text-sm mt-2">複雑な予約管理と決済処理を自動化し、オーナーの負担を軽減。</p>
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy/80 to-transparent md:hidden">
+                            <h3 class="text-white font-bold">民泊事業 決済・予約管理フロー構築</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-navy z-0"></div>
+            <!-- Decorative Background -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 z-0">
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-yellow rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-blue-500 rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto px-4 relative z-10 text-center reveal-on-scroll">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Let's Cheer Up Your Business!</h2>
+                <p class="text-blue-100 text-lg md:text-xl mb-12 leading-relaxed">
+                    まずは「やりたいこと」を教えてください。<br>
+                    一緒に解決策を見つけましょう。
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <!-- LINE Button (Primary) -->
+                    <a href="#"
+                        class="group bg-[#06C755] hover:bg-[#05b54b] text-white px-8 py-5 rounded-full font-bold text-lg shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        <span>LINEで相談する</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0"></i>
+                    </a>
+
+                    <!-- Form Button (Secondary) -->
+                    <a href="#"
+                        class="group bg-white hover:bg-gray-100 text-navy px-8 py-5 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                        <span>フォームから問い合わせる</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-navy-dark text-white py-12 border-t border-white/10" style="background-color: #0f1e4a;">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <span class="font-english font-bold text-2xl tracking-tight block mb-2">Sassale.</span>
+                    <p class="text-gray-400 text-sm">Corporate Digital Cheerleader</p>
+                </div>
+                <div class="text-gray-400 text-sm text-center md:text-right">
+                    <p>&copy; 2026 Sassale. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Scripts -->
+        <script src="script.js"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+</body>
+
+</html>
