@@ -1,498 +1,983 @@
+/* =========================================================
+   ささエール LP 共通CSS 完全版
+   このファイルを style.css にそのままコピペしてください
+   ========================================================= */
+
+
+/* =========================================================
+   1. カラーパレット・共通変数
+   サイト全体で使う色、余白、角丸、影などをまとめています
+   色を一括で変えたいときは、まずここを調整してください
+   ========================================================= */
 :root {
-  --bg: #fffaf0;
-  --paper: #ffffff;
-  --ink: #3a2a1e;
-  --muted: #705b4a;
-  --line: #ead9c3;
-  --yellow: #ffd54f;
-  --orange: #f59e0b;
-  --orange-deep: #ef7f1a;
-  --brown: #5b3418;
-  --cream: #fff4d6;
-  --accent: #ff6b35;
-  --shadow: 0 12px 30px rgba(91, 52, 24, 0.10);
-  --radius: 22px;
-  --max: 1160px;
+  --bg: #f6efe4;
+  --bg-soft: #fbf7f1;
+  --panel: #fffdfa;
+  --panel-2: #f7f2ea;
+  --line: #e3d2bf;
+  --line-strong: #d7b998;
+
+  --text: #4f3622;
+  --text-soft: #7b6048;
+  --text-light: #9b7a5d;
+
+  --accent: #ff6d2d;
+  --accent-strong: #f2571e;
+  --accent-soft: #fff0e7;
+
+  --yellow: #f5b526;
+  --yellow-deep: #e7a500;
+  --yellow-soft: #fff3cc;
+
+  --brown: #5b3d22;
+  --brown-deep: #432b17;
+
+  --white: #ffffff;
+
+  --shadow-sm: 0 4px 12px rgba(79, 54, 34, 0.06);
+  --shadow-md: 0 10px 24px rgba(79, 54, 34, 0.08);
+
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+
+  --container: 1200px;
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+
+/* =========================================================
+   2. リセット・基本設定
+   ブラウザごとの差を減らし、見た目を安定させます
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
-  color: var(--ink);
-  background:
-    radial-gradient(circle at top right, rgba(255, 213, 79, 0.18), transparent 22%),
-    linear-gradient(180deg, #fffaf0 0%, #fff7e8 100%);
-  line-height: 1.75;
+  font-family:
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
-a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+
+/* =========================================================
+   3. レイアウト共通
+   セクション幅や上下余白を揃えるための基礎設定です
+   ========================================================= */
 .container {
-  width: min(calc(100% - 32px), var(--max));
+  width: min(var(--container), calc(100% - 32px));
   margin: 0 auto;
 }
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  backdrop-filter: blur(12px);
-  background: rgba(255, 250, 240, 0.88);
-  border-bottom: 1px solid rgba(234, 217, 195, 0.8);
+
+.section {
+  padding: 72px 0;
 }
-.nav {
-  display: flex;
-  justify-content: space-between;
+
+.section-tight {
+  padding: 48px 0;
+}
+
+.section-head {
+  margin-bottom: 28px;
+}
+
+.section-kicker {
+  display: inline-flex;
   align-items: center;
-  padding: 14px 0;
-  gap: 16px;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-.brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--yellow), var(--orange-deep));
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--yellow-soft);
+  border: 1px solid #eed8a5;
   color: var(--brown);
-  display: grid;
-  place-items: center;
-  font-size: 20px;
-  box-shadow: var(--shadow);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 14px;
 }
-.nav-links {
+
+.section-title {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--brown-deep);
+}
+
+.section-lead {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   4. 背景装飾
+   ヒーローや強調セクションを明るく見せたい時の下地です
+   ========================================================= */
+.bg-soft {
+  background:
+    radial-gradient(circle at top right, rgba(245, 181, 38, 0.18), transparent 30%),
+    radial-gradient(circle at top left, rgba(255, 109, 45, 0.10), transparent 28%),
+    var(--bg-soft);
+}
+
+.bg-panel {
+  background: var(--panel);
+}
+
+.bg-accent-soft {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 109, 45, 0.12), transparent 25%),
+    radial-gradient(circle at 90% 0%, rgba(245, 181, 38, 0.14), transparent 26%),
+    var(--accent-soft);
+}
+
+
+/* =========================================================
+   5. ボタン共通
+   CTAやリンクボタンの見た目を統一します
+   ========================================================= */
+.btn-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+  gap: 12px;
 }
-.nav-links a {
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.nav-links a:hover {
-  background: rgba(245, 158, 11, 0.10);
-  color: var(--brown);
-}
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 22px;
+  min-height: 52px;
+  padding: 0 22px;
   border-radius: 999px;
-  font-weight: 800;
+  border: 1px solid transparent;
+  font-weight: 700;
   transition: 0.25s ease;
   cursor: pointer;
-  border: none;
 }
-.btn:hover { transform: translateY(-2px); }
+
 .btn-primary {
-  background: linear-gradient(135deg, var(--orange), var(--accent));
-  color: #fff;
-  box-shadow: 0 12px 24px rgba(239, 127, 26, 0.28);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
 }
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
 .btn-secondary {
-  background: #fff;
+  background: var(--white);
   color: var(--brown);
-  border: 1px solid var(--line);
+  border-color: var(--line-strong);
 }
-.hero { padding: 72px 0 44px; }
+
+.btn-secondary:hover {
+  background: #fff8ef;
+}
+
+
+/* =========================================================
+   6. ヒーロー
+   LPの最上部。最初にサービスの価値が伝わる領域です
+   ========================================================= */
+.hero {
+  padding: 72px 0 54px;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(245, 181, 38, 0.28), transparent 25%),
+    radial-gradient(circle at 12% 0%, rgba(255, 109, 45, 0.14), transparent 26%),
+    linear-gradient(180deg, #fff9ee 0%, #f8efe0 100%);
+  overflow: hidden;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 28px;
+  gap: 36px;
   align-items: center;
 }
-.eyebrow {
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 213, 79, 0.18);
-  color: var(--brown);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  padding: 8px 14px;
+  width: fit-content;
+  padding: 10px 18px;
   border-radius: 999px;
-  font-size: 13px;
+  background: var(--yellow-soft);
+  border: 1px solid #edd49c;
   font-weight: 800;
-  margin-bottom: 18px;
+  color: var(--brown);
 }
-h1 {
-  margin: 0 0 16px;
-  font-size: clamp(34px, 5vw, 58px);
-  line-height: 1.15;
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(34px, 6vw, 68px);
+  line-height: 1.08;
   letter-spacing: -0.03em;
+  color: var(--brown-deep);
 }
-.hero p.lead {
-  margin: 0 0 22px;
-  font-size: clamp(16px, 2vw, 19px);
-  color: var(--muted);
+
+.hero-title strong {
+  color: var(--accent-strong);
 }
+
+.hero-lead {
+  margin: 0;
+  font-size: 19px;
+  color: var(--text-soft);
+  max-width: 760px;
+}
+
 .hero-points {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 18px 0 26px;
+  gap: 10px 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
-.chip {
-  background: #fff;
-  border: 1px solid var(--line);
+
+.hero-points li {
   padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  font-size: 14px;
   font-weight: 700;
   color: var(--brown);
 }
-.cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 22px;
-}
+
 .hero-card {
-  background: linear-gradient(180deg, #fff 0%, #fff8e9 100%);
-  border: 1px solid rgba(234, 217, 195, 0.95);
-  border-radius: 30px;
+  background: rgba(255, 253, 250, 0.92);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   padding: 28px;
-  box-shadow: var(--shadow);
-  position: relative;
-  overflow: hidden;
 }
-.hero-card::before,
-.hero-card::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 213, 79, 0.22);
-  z-index: 0;
-}
-.hero-card::before {
-  width: 180px;
-  height: 180px;
-  right: -40px;
-  top: -40px;
-}
-.hero-card::after {
-  width: 130px;
-  height: 130px;
-  left: -32px;
-  bottom: -28px;
-  background: rgba(239, 127, 26, 0.12);
-}
-.hero-card > * { position: relative; z-index: 1; }
-.hero-side-title { margin: 0 0 10px; font-size: 26px; }
-.hero-side-text, .panel-text { margin: 0; }
-.mini-panel {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 16px;
-  margin-top: 14px;
-}
-.mini-panel h3 { margin: 0 0 8px; font-size: 18px; }
-section { padding: 36px 0; }
-.section-head { text-align: center; margin-bottom: 24px; }
-.section-head h2 {
-  margin: 0 0 8px;
-  font-size: clamp(28px, 4vw, 40px);
+
+.hero-card h3 {
+  margin: 0 0 10px;
+  font-size: 28px;
   line-height: 1.2;
+  color: var(--brown-deep);
 }
-.section-head p {
-  margin: 0 auto;
-  max-width: 760px;
-  color: var(--muted);
+
+.hero-card p {
+  margin: 0;
+  color: var(--text-soft);
 }
-.cards-3, .cards-2, .cards-4 { display: grid; gap: 20px; }
-.cards-3 { grid-template-columns: repeat(3, 1fr); }
-.cards-2 { grid-template-columns: repeat(2, 1fr); }
-.cards-4 { grid-template-columns: repeat(4, 1fr); }
-.card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-}
-.card h3, .card h4 { margin: 0 0 10px; line-height: 1.3; }
-.icon {
-  width: 52px;
-  height: 52px;
+
+
+/* =========================================================
+   7. 悩み訴求カード
+   よくある悩みを並べて共感をつくるブロックです
+   ========================================================= */
+.worries {
   display: grid;
-  place-items: center;
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255, 213, 79, 0.28), rgba(245, 158, 11, 0.18));
-  margin-bottom: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.worry-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.worry-card h3 {
+  margin: 0 0 8px;
   font-size: 22px;
+  color: var(--brown-deep);
 }
-.muted { color: var(--muted); }
-ul.clean {
+
+.worry-card p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   8. 役割整理ブロック
+   Lark / AI / LINE の役割分担を見せるためのカード群です
+   ========================================================= */
+.roles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.role-card {
+  background: linear-gradient(180deg, #fffdf9 0%, #f8f2e8 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.role-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--yellow-soft);
+  border: 1px solid #ebd296;
+  font-weight: 800;
+  color: var(--brown);
+  margin-bottom: 14px;
+}
+
+.role-card h3 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--brown-deep);
+}
+
+.role-card p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   9. 共通カードレイアウト
+   2列カードや一覧表示で使い回す共通グリッドです
+   ========================================================= */
+.cards-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   10. サービス一覧カード
+   レンタルさっさーやライトプランなどの一覧表示用です
+   ========================================================= */
+.service-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+}
+
+.service-card h3 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--brown-deep);
+}
+
+.service-card p {
+  margin: 0 0 14px;
+  color: var(--text-soft);
+}
+
+.price-mini {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent-strong);
+}
+
+.price-mini-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   11. パッケージ比較カード
+   今回の修正の中心です
+   左右のタイトル・価格・箇条書き・工程を揃えやすくしています
+   ========================================================= */
+.package {
+  background: rgba(255, 253, 250, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.package-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--yellow-soft);
+  border: 1px solid #ebd49d;
+  color: var(--brown);
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+/* タイトル行
+   左にタイトルと説明、右に価格を置く構造です
+   nowrap にしておくと左右比較が安定します */
+.package .title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 18px;
+  flex-wrap: nowrap;
+}
+
+/* 左側のタイトル領域
+   説明文が長くても価格を押し下げにくくします */
+.package .title-row > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 右側の価格領域
+   幅をある程度固定して、左右の価格位置を揃えます */
+.package .title-row > div:last-child {
+  flex: 0 0 180px;
+  text-align: right;
+}
+
+.package-title {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--brown-deep);
+}
+
+/* タイトル下の説明文
+   min-height を入れることで左右の箇条書き開始位置が揃いやすくなります */
+.package-copy {
+  margin: 0;
+  min-height: 3.4em;
+  line-height: 1.65;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+.package .big-price {
+  margin: 0;
+  font-size: clamp(56px, 5vw, 82px);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.package .sub {
+  display: block;
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--text-soft);
+}
+
+/* パッケージの箇条書き
+   min-height を入れて左右の工程カード開始位置を揃えています */
+.package ul.clean {
   list-style: none;
-  margin: 14px 0 0;
   padding: 0;
+  margin: 24px 0 30px;
+  min-height: 255px;
 }
-ul.clean li {
+
+.package ul.clean li {
   position: relative;
-  padding-left: 22px;
-  margin: 8px 0;
+  padding-left: 28px;
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.65;
 }
-ul.clean li::before {
+
+.package ul.clean li::before {
   content: "✓";
   position: absolute;
   left: 0;
   top: 0;
   color: var(--accent);
-  font-weight: 800;
+  font-weight: 900;
 }
-.service-table-wrap {
-  background: var(--paper);
+
+/* 工程タイムライン全体
+   margin-top:auto にすることで、上側の内容量が少し違っても
+   下の工程ブロックが底側に揃いやすくなります */
+.timeline {
+  margin-top: auto;
+  display: grid;
+  gap: 18px;
+}
+
+/* 工程1つ分のカード
+   左に月数、右に内容。高さをそろえて見やすくしています */
+.timeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-height: 112px;
+  padding: 18px 20px;
+  background: #fffdfa;
   border: 1px solid var(--line);
   border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
 }
+
+/* 左側の黄色ラベル */
+.step-label {
+  flex: 0 0 118px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--yellow);
+  color: var(--brown);
+  border-radius: 18px;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 右側の本文
+   HTML側で class="step-body" を付けると揃いやすいです */
+.step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-body strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 18px;
+  color: var(--brown-deep);
+}
+
+.step-body span,
+.step-body p {
+  color: var(--text-soft);
+  margin: 0;
+}
+
+
+/* =========================================================
+   12. 比較表
+   サービス比較テーブル用です
+   ========================================================= */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 820px;
+  min-width: 760px;
 }
+
 thead th {
-  background: linear-gradient(135deg, var(--brown), #76461f);
-  color: #fff;
-  padding: 16px;
+  background: linear-gradient(180deg, #6a4729 0%, #53361f 100%);
+  color: var(--white);
   text-align: left;
-  font-size: 14px;
-}
-tbody td {
-  padding: 16px;
-  border-top: 1px solid var(--line);
-  vertical-align: top;
+  padding: 16px 18px;
   font-size: 15px;
-  background: #fff;
 }
-tbody tr.highlight td {
-  background: linear-gradient(180deg, #fff6db 0%, #fffdf6 100%);
+
+tbody td {
+  padding: 16px 18px;
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  vertical-align: top;
 }
-.price {
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--accent);
-  white-space: nowrap;
+
+tbody tr:nth-child(even) {
+  background: #fffaf3;
 }
-.badge {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  background: rgba(255, 213, 79, 0.18);
-  color: var(--brown);
-  border: 1px solid rgba(245, 158, 11, 0.16);
-}
-.badge-inverse {
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  border-color: rgba(255,255,255,0.12);
-}
-.package {
-  position: relative;
-  overflow: hidden;
-}
-.package::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 213, 79, 0.10), transparent 50%);
-  pointer-events: none;
-}
-.package .title-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: start;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.package-title { font-size: 30px; margin: 0 0 8px; }
-.package-copy { margin: 0; }
-.package .big-price {
-  font-size: clamp(30px, 4vw, 44px);
-  line-height: 1;
-  font-weight: 900;
-  color: var(--accent);
-}
-.package .sub {
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 14px;
-}
-.timeline {
-  display: grid;
-  gap: 14px;
-  margin-top: 18px;
-}
-.timeline-step {
-  display: grid;
-  grid-template-columns: 92px 1fr;
-  gap: 14px;
-  align-items: start;
-  padding: 16px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.75);
-  border: 1px solid var(--line);
-}
-.step-label {
-  background: linear-gradient(135deg, var(--yellow), var(--orange));
-  color: var(--brown);
-  border-radius: 14px;
-  text-align: center;
-  padding: 8px 10px;
-  font-weight: 900;
-  font-size: 14px;
-}
-.process { counter-reset: item; }
-.process-grid {
+
+
+/* =========================================================
+   13. 導入の流れ
+   ステップ形式で見せる導入フロー用です
+   ========================================================= */
+.flow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
-.process-card {
-  background: #fff;
+
+.flow-card {
+  background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
   position: relative;
 }
-.process-card::before {
-  counter-increment: item;
-  content: counter(item);
+
+.flow-num {
+  display: inline-flex;
   width: 42px;
   height: 42px;
-  display: grid;
-  place-items: center;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--orange), var(--accent));
-  color: #fff;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--white);
   font-weight: 900;
+  margin-bottom: 12px;
 }
-.faq-list { display: grid; gap: 14px; }
+
+.flow-card h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: var(--brown-deep);
+}
+
+.flow-card p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   14. FAQ
+   JSで開閉するアコーディオン用です
+   ========================================================= */
+.faq-list {
+  display: grid;
+  gap: 14px;
+}
+
 .faq-item {
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-md);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
+
 .faq-q {
   width: 100%;
+  background: transparent;
+  border: 0;
   padding: 18px 20px;
-  border: none;
-  background: none;
   text-align: left;
-  font-size: 16px;
   font-weight: 800;
-  color: var(--brown);
+  color: var(--brown-deep);
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-}
-.faq-q span:last-child {
-  font-size: 22px;
-  line-height: 1;
-  color: var(--accent);
-}
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.28s ease;
-  padding: 0 20px;
-  color: var(--muted);
-}
-.faq-item.active .faq-a {
-  padding: 0 20px 18px;
-  max-height: 240px;
-}
-.cta-box {
-  background: linear-gradient(135deg, var(--brown), #7b4a20);
-  color: #fff;
-  border-radius: 30px;
-  padding: 34px;
-  box-shadow: var(--shadow);
   position: relative;
-  overflow: hidden;
 }
-.cta-box::before,
-.cta-box::after {
-  content: "";
+
+.faq-q::after {
+  content: "+";
   position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 213, 79, 0.14);
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 26px;
+  color: var(--accent);
+  transition: 0.2s ease;
 }
-.cta-box::before {
-  width: 240px;
-  height: 240px;
-  top: -60px;
-  right: -60px;
+
+.faq-item.is-open .faq-q::after {
+  content: "−";
 }
-.cta-box::after {
-  width: 140px;
-  height: 140px;
-  bottom: -30px;
-  left: -30px;
+
+.faq-a {
+  display: none;
+  padding: 0 20px 18px;
+  color: var(--text-soft);
 }
-.cta-box > * { position: relative; z-index: 1; }
-.cta-box .btn-secondary {
-  border-color: rgba(255,255,255,0.22);
-  color: #fff;
-  background: rgba(255,255,255,0.08);
+
+.faq-item.is-open .faq-a {
+  display: block;
 }
-.cta-title { margin: 0 0 10px; font-size: clamp(28px, 4vw, 42px); }
-.cta-text { max-width: 720px; margin: 0 0 20px; color: rgba(255,255,255,0.9); }
+
+
+/* =========================================================
+   15. CTA
+   最後の問い合わせ誘導エリアです
+   ========================================================= */
+.cta-box {
+  background:
+    radial-gradient(circle at top right, rgba(245, 181, 38, 0.18), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(255, 109, 45, 0.15), transparent 24%),
+    linear-gradient(180deg, #fff8ee 0%, #f6ead8 100%);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  padding: 34px;
+  box-shadow: var(--shadow-md);
+}
+
+.cta-box h2 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.15;
+  color: var(--brown-deep);
+}
+
+.cta-box p {
+  margin: 0 0 20px;
+  color: var(--text-soft);
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   16. フッター
+   最下部の簡単な情報表示です
+   ========================================================= */
 .footer {
-  padding: 28px 0 48px;
-  color: var(--muted);
-  text-align: center;
+  padding: 24px 0 42px;
+  color: var(--text-light);
   font-size: 14px;
 }
-.footer-title { margin: 0 0 6px; }
-.footer-sub { margin: 0; }
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+
+.footer-inner {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+
+
+/* =========================================================
+   17. ユーティリティ
+   細かい調整用の補助クラスです
+   ========================================================= */
+.text-center {
+  text-align: center;
 }
-@media (max-width: 980px) {
-  .hero-grid,
-  .cards-3,
-  .cards-2,
-  .cards-4,
-  .process-grid {
+
+.text-right {
+  text-align: right;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mb-8 {
+  margin-bottom: 8px !important;
+}
+
+.mb-12 {
+  margin-bottom: 12px !important;
+}
+
+.mb-16 {
+  margin-bottom: 16px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mb-24 {
+  margin-bottom: 24px !important;
+}
+
+
+/* =========================================================
+   18. レスポンシブ（タブレット）
+   画面が少し狭くなった時の調整です
+   ========================================================= */
+@media (max-width: 1100px) {
+  .hero-grid {
     grid-template-columns: 1fr;
   }
-  .nav-links { display: none; }
-  .service-table-wrap { overflow-x: auto; }
-  .timeline-step { grid-template-columns: 1fr; }
+
+  .worries,
+  .roles,
+  .cards-3,
+  .flow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .package .big-price {
+    font-size: clamp(50px, 6vw, 72px);
+  }
 }
+
+
+/* =========================================================
+   19. レスポンシブ（スマホ寄り）
+   1列化して崩れを防ぐための設定です
+   ========================================================= */
+@media (max-width: 960px) {
+  .section {
+    padding: 56px 0;
+  }
+
+  .cards-2,
+  .worries,
+  .roles,
+  .cards-3,
+  .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .card,
+  .package,
+  .cta-box,
+  .hero-card {
+    padding: 22px;
+  }
+
+  .package .title-row {
+    flex-wrap: wrap;
+  }
+
+  .package .title-row > div:last-child {
+    flex: 0 0 auto;
+    text-align: left;
+  }
+
+  .package-copy {
+    min-height: auto;
+  }
+
+  .package ul.clean {
+    min-height: auto;
+  }
+
+  .timeline-step {
+    min-height: auto;
+    flex-direction: column;
+  }
+
+  .step-label {
+    flex: 0 0 auto;
+    min-width: 110px;
+  }
+}
+
+
+/* =========================================================
+   20. レスポンシブ（スマホ）
+   文字サイズや余白をさらに見やすく整えます
+   ========================================================= */
 @media (max-width: 640px) {
-  .hero { padding-top: 42px; }
-  .container { width: min(calc(100% - 24px), var(--max)); }
-  .card, .hero-card, .cta-box { padding: 20px; }
-  .btn { width: 100%; }
-  .cta-row { flex-direction: column; }
-  h1 { font-size: 34px; }
+  .container {
+    width: min(var(--container), calc(100% - 20px));
+  }
+
+  .hero {
+    padding: 48px 0 40px;
+  }
+
+  .hero-title {
+    font-size: clamp(30px, 9vw, 46px);
+  }
+
+  .hero-lead,
+  .section-lead,
+  .package-copy,
+  .cta-box p {
+    font-size: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(26px, 7vw, 34px);
+  }
+
+  .package-title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .package .big-price {
+    font-size: clamp(42px, 14vw, 62px);
+  }
+
+  .package ul.clean li,
+  .step-body strong,
+  .step-body span,
+  .step-body p {
+    font-size: 16px;
+  }
+
+  .step-label {
+    font-size: 16px;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .faq-q {
+    padding-right: 48px;
+  }
 }
