@@ -1,210 +1,221 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ささエール | Lark・AI・LINEを現場で使える形に</title>
-  <meta name="description" content="ささエールは、Lark・AI・LINEを活用し、業務改善を現場で使える形に整える伴走型サービスです。導入伴走パッケージ、実行定着パッケージ、LINE運用サポート、スポット相談に対応。" />
-  <link rel="stylesheet" href="./style.css" />
+  <meta name="description" content="Lark・AI・LINEを活用し、業務改善を現場で使える形に整える伴走型サービス『ささエール』の紹介LPです。">
+  
+  <!-- ======================================================
+       外部CSS読み込み
+       GitHub Pagesで崩れにくいように相対パス ./style.css を使用
+       ====================================================== -->
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a href="#top" class="brand" aria-label="ささエール トップへ戻る">
-        <span class="brand-mark">さ</span>
-        <span>ささエール</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#problems">お悩み</a>
-        <a href="#services">サービス</a>
+  <!-- ======================================================
+       ページ先頭へ戻る補助アンカー
+       JSのスムーススクロールや固定ボタンの戻り先になります
+       ====================================================== -->
+  <div id="top"></div>
+
+  <!-- ======================================================
+       ヘッダー
+       左にロゴ風テキスト、右にCTAを配置
+       "トップページに戻る" ボタンは officeplata.com へ遷移
+       ====================================================== -->
+  <header class="site-header bg-soft">
+    <div class="container site-header-inner">
+      <a href="#top" class="site-logo">ささエール</a>
+      <nav class="site-nav" aria-label="ページ内ナビゲーション">
+        <a href="#services">サービス一覧</a>
         <a href="#packages">パッケージ</a>
         <a href="#flow">導入の流れ</a>
         <a href="#faq">FAQ</a>
-        <a href="#contact" class="btn btn-primary">相談する</a>
       </nav>
+      <div class="site-actions">
+        <a class="btn btn-secondary" href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">トップページに戻る</a>
+        <a class="btn btn-primary" href="#cta">まずは相談する</a>
+      </div>
     </div>
   </header>
 
-  <main id="top">
+  <main>
+    <!-- ======================================================
+         ヒーロー
+         サービス全体の価値を最初に伝えるエリア
+         左に訴求、右に簡潔な要約カード
+         ====================================================== -->
     <section class="hero">
       <div class="container hero-grid">
-        <div class="reveal visible">
-          <div class="eyebrow">Lark・AI・LINEを現場で使える形に</div>
-          <h1>「何から始める？」を<br>「これならできる」に変える。</h1>
-          <p class="lead">
-            ささエールは、Lark・AI・LINEを活用し、業務改善を<strong>現場で回る仕組み</strong>に整える伴走型サービスです。
-            気軽な相談から、3ヶ月・6ヶ月のパッケージ支援、継続顧問まで対応します。
+        <div class="hero-copy">
+          <div class="hero-badge">Lark・AI・LINEを、現場で使える形に。</div>
+          <h1 class="hero-title">
+            “難しい”を“できる”へ。<br>
+            <strong>業務改善を現場で回る仕組み</strong>に変える。
+          </h1>
+          <p class="hero-lead">
+            ささエールは、Lark・AI・LINEを活用し、業務整理、設計、実行、教育、定着までを伴走支援するサービスです。
+            まずは小さく始めて、必要に応じて本格導入へ進められます。
           </p>
-          <div class="hero-points">
-            <span class="chip">業務整理</span>
-            <span class="chip">Lark活用</span>
-            <span class="chip">AI活用</span>
-            <span class="chip">LINE運用</span>
-            <span class="chip">教育・定着</span>
-          </div>
-          <div class="cta-row">
-            <a href="#packages" class="btn btn-primary">パッケージを見る</a>
-            <a href="#contact" class="btn btn-secondary">まずは相談する</a>
-          </div>
-        </div>
-
-        <div class="hero-card reveal visible">
-          <h2 class="hero-side-title">おすすめの進め方</h2>
-          <p class="muted hero-side-text">スポット相談からでも、本格導入からでも始められます。</p>
-
-          <div class="mini-panel">
-            <h3>入口サービス</h3>
-            <p class="muted panel-text">レンタルさっさー 3,300円 / 30分<br>LINE公式運用サポート 11,000円 / 月</p>
-          </div>
-
-          <div class="mini-panel">
-            <h3>中核パッケージ</h3>
-            <p class="muted panel-text">導入伴走パッケージ 50万円 / 3ヶ月<br>実行定着パッケージ 120万円 / 6ヶ月</p>
-          </div>
-
-          <div class="mini-panel">
-            <h3>継続支援</h3>
-            <p class="muted panel-text">顧問サービス 梅・竹・松で継続伴走</p>
+          <ul class="hero-points">
+            <li>業務改善</li>
+            <li>Lark活用</li>
+            <li>AI活用</li>
+            <li>LINE活用</li>
+            <li>教育・定着支援</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#packages">パッケージを見る</a>
+            <a class="btn btn-secondary" href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">トップページに戻る</a>
           </div>
         </div>
+        <aside class="hero-card" aria-label="ささエールの特徴">
+          <h3>相談だけで終わらせない伴走支援</h3>
+          <p>
+            気軽なスポット相談から、3ヶ月・6ヶ月のパッケージ、継続顧問まで。
+            事業者さまの状況に合わせて、無理なく進められる形をご提案します。
+          </p>
+        </aside>
       </div>
     </section>
 
-    <section id="problems">
+    <!-- ======================================================
+         悩み訴求
+         読み手が「自分ごと」として読み進めやすくするブロック
+         ====================================================== -->
+    <section class="section bg-panel" id="worries">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>こんなお悩み、ありませんか？</h2>
-          <p>ツールを増やすことが目的ではなく、毎日の仕事をラクにし、伝達や運用を整えることが本当の目的です。</p>
+        <div class="section-head">
+          <div class="section-kicker">こんなお悩みに対応</div>
+          <h2 class="section-title">デジタル活用したいのに、進まない。</h2>
+          <p class="section-lead">そんな状態を、整理・設計・実行・定着の流れでサポートします。</p>
         </div>
-        <div class="cards-3">
-          <article class="card reveal">
-            <div class="icon">🌀</div>
+        <div class="worries">
+          <article class="worry-card">
             <h3>何から始めればいいかわからない</h3>
-            <p class="muted">AIもLINEもLarkも気になるけれど、優先順位がつけられず、結局進まない。</p>
+            <p>AIもLINEも気になる。でも、どこから手を付けるべきか見えない。</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">📣</div>
-            <h3>連絡・管理・対応がバラバラ</h3>
-            <p class="muted">口頭、紙、LINE、個人メモに情報が散らばり、最新情報がどこにあるかわからない。</p>
+          <article class="worry-card">
+            <h3>連絡や管理がバラバラ</h3>
+            <p>口頭・LINE・紙・個人メモが混在し、現場で確認の手間が増えている。</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">🏃</div>
-            <h3>導入しても定着しない</h3>
-            <p class="muted">試してみても続かない。担当者しか使えない。現場に落ちず、形だけで終わってしまう。</p>
+          <article class="worry-card">
+            <h3>導入しただけで終わってしまう</h3>
+            <p>ツールを入れても定着しない。教育や運用ルールづくりまで手が回らない。</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="pillars">
+    <!-- ======================================================
+         Lark / AI / LINE の役割整理
+         役割を分けることで分かりやすくするための説明ブロック
+         ====================================================== -->
+    <section class="section bg-soft" id="roles">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>ささエールが大事にしている考え方</h2>
-          <p>全部を一気に変えるのではなく、役割を分けて、現場で使える形に整えていきます。</p>
+        <div class="section-head">
+          <div class="section-kicker">役割を分けると進めやすい</div>
+          <h2 class="section-title">Lark・AI・LINEの使い分け</h2>
+          <p class="section-lead">ツールを増やす前に、何をどこで使うかを整理することが大切です。</p>
+        </div>
+        <div class="roles">
+          <article class="role-card">
+            <div class="role-label">社内整理</div>
+            <h3>Lark</h3>
+            <p>情報共有、業務管理、進捗確認など、社内の整理と見える化に活用します。</p>
+          </article>
+          <article class="role-card">
+            <div class="role-label">効率化</div>
+            <h3>AI</h3>
+            <p>文章作成、整理、下書き、チェックなど、日々の業務時間を短縮するために活用します。</p>
+          </article>
+          <article class="role-card">
+            <div class="role-label">顧客接点</div>
+            <h3>LINE</h3>
+            <p>お客様への案内、配信、導線設計、問い合わせ導線の整理に活用します。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         サービス一覧
+         入口商品・継続支援・上位支援を一覧で見せるエリア
+         ====================================================== -->
+    <section class="section bg-panel" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">選べるサービス一覧</div>
+          <h2 class="section-title">まずは小さく、必要に応じて広げる</h2>
+          <p class="section-lead">スポット相談から継続顧問まで、状況に応じて選べます。</p>
         </div>
         <div class="cards-3">
-          <article class="card reveal">
-            <div class="icon">🗂️</div>
-            <h3>Lark</h3>
-            <p class="muted">社内整理、情報共有、管理の土台づくりに。散らばった情報を見える化します。</p>
+          <article class="service-card">
+            <h3>レンタルさっさー</h3>
+            <p>まずは気軽に相談したい方向けのスポット相談。</p>
+            <span class="price-mini">3,300円</span>
+            <span class="price-mini-sub">税込 / 30分</span>
           </article>
-          <article class="card reveal">
-            <div class="icon">🤖</div>
-            <h3>AI</h3>
-            <p class="muted">業務効率化、文章作成補助、整理、発想支援に。人の時間を空ける使い方を設計します。</p>
+          <article class="service-card">
+            <h3>LINE公式運用サポート</h3>
+            <p>自社運用しながら相談できる、LINE公式のライト支援。</p>
+            <span class="price-mini">11,000円</span>
+            <span class="price-mini-sub">税込 / 月</span>
           </article>
-          <article class="card reveal">
-            <div class="icon">💬</div>
-            <h3>LINE</h3>
-            <p class="muted">お客様対応、発信、導線づくりに。社内整備と分けて考えることで、運用しやすくなります。</p>
+          <article class="service-card">
+            <h3>顧問サービス 梅</h3>
+            <p>まずは課題整理と優先順位づけから進めたい方向け。</p>
+            <span class="price-mini">50,000円</span>
+            <span class="price-mini-sub">税込 / 月</span>
+          </article>
+          <article class="service-card">
+            <h3>顧問サービス 竹</h3>
+            <p>改善を継続的に進め、教育まで伴走してほしい方向け。</p>
+            <span class="price-mini">100,000〜120,000円</span>
+            <span class="price-mini-sub">税込 / 月</span>
+          </article>
+          <article class="service-card">
+            <h3>顧問サービス 松</h3>
+            <p>仕組みづくりから定着まで、まとめて伴走してほしい方向け。</p>
+            <span class="price-mini">250,000〜300,000円</span>
+            <span class="price-mini-sub">税込 / 月</span>
+          </article>
+          <article class="service-card">
+            <h3>本命はパッケージ</h3>
+            <p>導入伴走・実行定着の2つを中心に、段階的に導入できます。</p>
+            <span class="price-mini">50万円 / 120万円</span>
+            <span class="price-mini-sub">税込 / 3ヶ月・6ヶ月</span>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="services">
+    <!-- ======================================================
+         パッケージ比較
+         今回の中心となる2パッケージ比較ブロック
+         CSS側で左右の位置が揃うよう設計
+         ====================================================== -->
+    <section class="section bg-soft" id="packages">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>サービス一覧</h2>
-          <p>まずは相談だけでも。状況に応じて、入口サービス・パッケージ・継続支援から選べます。</p>
-        </div>
-        <div class="service-table-wrap reveal">
-          <table>
-            <thead>
-              <tr>
-                <th>サービス名</th>
-                <th>料金</th>
-                <th>こんな方におすすめ</th>
-                <th>主な内容</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>レンタルさっさー</strong></td>
-                <td><span class="price">3,300円</span><br>/ 30分</td>
-                <td>まずは気軽に相談したい方</td>
-                <td>課題整理、方向性相談、壁打ち、活用アドバイス</td>
-              </tr>
-              <tr>
-                <td><strong>LINE公式運用サポート ライト</strong></td>
-                <td><span class="price">11,000円</span><br>/ 月</td>
-                <td>LINE公式を自社運用しながら相談したい方</td>
-                <td>月1回相談、チャット相談、配信添削、簡易改善アドバイス</td>
-              </tr>
-              <tr>
-                <td><strong>顧問サービス 梅</strong></td>
-                <td><span class="price">50,000円</span><br>/ 月</td>
-                <td>まずは課題整理や方向性づくりから始めたい方</td>
-                <td>月1回定例、課題整理、Lark・AI・LINEの初期アドバイス</td>
-              </tr>
-              <tr>
-                <td><strong>顧問サービス 竹</strong></td>
-                <td><span class="price">100,000〜120,000円</span><br>/ 月</td>
-                <td>改善を継続的に進めたい方</td>
-                <td>月2回定例、業務改善支援、Lark・AI活用支援、教育支援</td>
-              </tr>
-              <tr class="highlight">
-                <td><strong>導入伴走パッケージ</strong></td>
-                <td><span class="price">500,000円</span><br>/ 3ヶ月</td>
-                <td>何から始めるかを整理し、短期間で土台をつくりたい方</td>
-                <td>課題整理、役割整理、初期設計、運用ルールたたき台づくり</td>
-              </tr>
-              <tr class="highlight">
-                <td><strong>実行定着パッケージ</strong></td>
-                <td><span class="price">1,200,000円</span><br>/ 6ヶ月</td>
-                <td>導入後の実行と定着まで進めたい方</td>
-                <td>実行伴走、教育、運用整備、改善設計</td>
-              </tr>
-              <tr>
-                <td><strong>顧問サービス 松</strong></td>
-                <td><span class="price">250,000〜300,000円</span><br>/ 月</td>
-                <td>全体をまとめて伴走してほしい方</td>
-                <td>全体設計、教育、運用定着、優先対応</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="packages">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>本命はこの2つのパッケージ</h2>
-          <p>単発対応ではなく、整理・実行・教育・定着までを見据えた、成果につながりやすい期間設計です。</p>
+        <div class="section-head">
+          <div class="section-kicker">中核となる2つのパッケージ</div>
+          <h2 class="section-title">導入の土台づくりから、現場定着まで</h2>
+          <p class="section-lead">まず始めるための3ヶ月。導入を現場で回る形にする6ヶ月。</p>
         </div>
 
         <div class="cards-2">
-          <article class="card package reveal">
-            <span class="badge">3ヶ月集中</span>
+          <!-- 左カード：導入伴走パッケージ -->
+          <article class="package">
+            <div class="package-badge">3ヶ月集中</div>
             <div class="title-row">
               <div>
                 <h3 class="package-title">導入伴走パッケージ</h3>
-                <p class="muted package-copy">まずは3ヶ月で、業務改善の土台を整える。</p>
+                <p class="package-copy">まずは3ヶ月で、業務改善の土台を整える。</p>
               </div>
               <div>
-                <div class="big-price">50万円</div>
-                <div class="sub">税込 / 3ヶ月</div>
+                <p class="big-price">50万円</p>
+                <span class="sub">税込 / 3ヶ月</span>
               </div>
             </div>
 
@@ -220,29 +231,39 @@
             <div class="timeline">
               <div class="timeline-step">
                 <div class="step-label">1ヶ月目</div>
-                <div><strong>現状整理</strong><br><span class="muted">課題の見える化、重複業務や属人化の整理、優先順位の決定</span></div>
+                <div class="step-body">
+                  <strong>現状整理</strong>
+                  <p>課題の見える化、重複業務や属人化の整理、優先順位の決定</p>
+                </div>
               </div>
               <div class="timeline-step">
                 <div class="step-label">2ヶ月目</div>
-                <div><strong>導入設計</strong><br><span class="muted">Lark・AI・LINEの使い分け、運用イメージの設計、現場に合う形へ調整</span></div>
+                <div class="step-body">
+                  <strong>導入設計</strong>
+                  <p>Lark・AI・LINEの使い分け、運用イメージの設計、現場に合う形へ調整</p>
+                </div>
               </div>
               <div class="timeline-step">
                 <div class="step-label">3ヶ月目</div>
-                <div><strong>試験運用</strong><br><span class="muted">小さく開始、問題点の確認、次フェーズへ進むための土台づくり</span></div>
+                <div class="step-body">
+                  <strong>試験運用</strong>
+                  <p>小さく開始、問題点の確認、次フェーズへ進むための土台づくり</p>
+                </div>
               </div>
             </div>
           </article>
 
-          <article class="card package reveal">
-            <span class="badge">6ヶ月伴走</span>
+          <!-- 右カード：実行定着パッケージ -->
+          <article class="package">
+            <div class="package-badge">6ヶ月伴走</div>
             <div class="title-row">
               <div>
                 <h3 class="package-title">実行定着パッケージ</h3>
-                <p class="muted package-copy">導入で終わらせず、6ヶ月で現場に定着する仕組みへ。</p>
+                <p class="package-copy">導入で終わらせず、6ヶ月で現場に定着する仕組みへ。</p>
               </div>
               <div>
-                <div class="big-price">120万円</div>
-                <div class="sub">税込 / 6ヶ月</div>
+                <p class="big-price">120万円</p>
+                <span class="sub">税込 / 6ヶ月</span>
               </div>
             </div>
 
@@ -258,15 +279,24 @@
             <div class="timeline">
               <div class="timeline-step">
                 <div class="step-label">1〜2ヶ月</div>
-                <div><strong>整理・設計</strong><br><span class="muted">現状把握、課題整理、優先順位決定、全体導入設計</span></div>
+                <div class="step-body">
+                  <strong>整理・設計</strong>
+                  <p>現状把握、課題整理、優先順位決定、全体導入設計</p>
+                </div>
               </div>
               <div class="timeline-step">
                 <div class="step-label">3〜4ヶ月</div>
-                <div><strong>実行・調整</strong><br><span class="muted">運用開始、問題点の洗い出し、実務に合わせた改善</span></div>
+                <div class="step-body">
+                  <strong>実行・調整</strong>
+                  <p>運用開始、問題点の洗い出し、実務に合わせた改善</p>
+                </div>
               </div>
               <div class="timeline-step">
                 <div class="step-label">5〜6ヶ月</div>
-                <div><strong>教育・定着</strong><br><span class="muted">教育、ルール整備、引き継ぎ、継続改善設計</span></div>
+                <div class="step-body">
+                  <strong>教育・定着</strong>
+                  <p>教育、ルール整備、引き継ぎ、継続改善設計</p>
+                </div>
               </div>
             </div>
           </article>
@@ -274,92 +304,186 @@
       </div>
     </section>
 
-    <section id="flow" class="process">
+    <!-- ======================================================
+         比較表
+         サービス全体の違いを一目で見せたい時に使うテーブル
+         ====================================================== -->
+    <section class="section bg-panel" id="compare">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>導入の流れ</h2>
-          <p>小さな相談からでも、本格パッケージからでも始められます。</p>
+        <div class="section-head">
+          <div class="section-kicker">比較表</div>
+          <h2 class="section-title">状況に合わせて選べる支援メニュー</h2>
+          <p class="section-lead">まず相談したい方から、本格的に仕組み化したい方まで対応します。</p>
         </div>
-        <div class="process-grid">
-          <article class="process-card reveal">
-            <h3>お問い合わせ</h3>
-            <p class="muted">現在のお悩みや、気になっていることをお聞かせください。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>サービス</th>
+                <th>料金</th>
+                <th>おすすめの方</th>
+                <th>主な内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>レンタルさっさー</td>
+                <td>3,300円 / 30分</td>
+                <td>まずは相談したい</td>
+                <td>壁打ち・方向性整理</td>
+              </tr>
+              <tr>
+                <td>LINE公式運用サポート</td>
+                <td>11,000円 / 月</td>
+                <td>LINEだけ相談したい</td>
+                <td>月1相談・添削・改善助言</td>
+              </tr>
+              <tr>
+                <td>導入伴走パッケージ</td>
+                <td>50万円 / 3ヶ月</td>
+                <td>何から始めるか整理したい</td>
+                <td>課題整理・設計・土台づくり</td>
+              </tr>
+              <tr>
+                <td>実行定着パッケージ</td>
+                <td>120万円 / 6ヶ月</td>
+                <td>現場定着まで進めたい</td>
+                <td>実行・教育・運用整備・定着支援</td>
+              </tr>
+              <tr>
+                <td>顧問サービス 松</td>
+                <td>250,000〜300,000円 / 月</td>
+                <td>まとめて伴走してほしい</td>
+                <td>全体設計・教育・定着支援</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         導入の流れ
+         実際に相談から開始までどう進むかを示す流れです
+         ====================================================== -->
+    <section class="section bg-soft" id="flow">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">導入の流れ</div>
+          <h2 class="section-title">まずは相談から、無理なくスタート</h2>
+          <p class="section-lead">現状に合わせて、必要な支援メニューをご提案します。</p>
+        </div>
+        <div class="flow">
+          <article class="flow-card">
+            <div class="flow-num">1</div>
+            <h3>ご相談</h3>
+            <p>現状のお悩みや、今困っていることを整理します。</p>
           </article>
-          <article class="process-card reveal">
-            <h3>ヒアリング</h3>
-            <p class="muted">課題、業務状況、使いたいツール、優先順位を整理します。</p>
+          <article class="flow-card">
+            <div class="flow-num">2</div>
+            <h3>方向性整理</h3>
+            <p>Lark・AI・LINEのどこから着手するかを決めます。</p>
           </article>
-          <article class="process-card reveal">
-            <h3>ご提案</h3>
-            <p class="muted">入口サービス、パッケージ、顧問の中から最適な進め方をご提案します。</p>
+          <article class="flow-card">
+            <div class="flow-num">3</div>
+            <h3>プラン提案</h3>
+            <p>スポット相談、パッケージ、顧問支援から最適な形をご提案します。</p>
           </article>
-          <article class="process-card reveal">
+          <article class="flow-card">
+            <div class="flow-num">4</div>
             <h3>伴走開始</h3>
-            <p class="muted">整理・設計・実行・教育・定着まで、段階に合わせて支援します。</p>
+            <p>整理・設計・実行・教育・定着までを段階的にサポートします。</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="faq">
+    <!-- ======================================================
+         FAQ
+         よくある質問。JSで開閉するアコーディオン構造です
+         ====================================================== -->
+    <section class="section bg-panel" id="faq">
       <div class="container">
-        <div class="section-head reveal">
-          <h2>よくあるご質問</h2>
-          <p>ご相談前によくいただく内容をまとめました。</p>
+        <div class="section-head">
+          <div class="section-kicker">FAQ</div>
+          <h2 class="section-title">よくあるご質問</h2>
+          <p class="section-lead">導入前によくいただく質問をまとめています。</p>
         </div>
         <div class="faq-list">
-          <article class="faq-item reveal active">
-            <button class="faq-q" type="button"><span>まだ何をお願いすればいいか整理できていません。それでも相談できますか？</span><span>＋</span></button>
+          <div class="faq-item">
+            <button class="faq-q" type="button">どのプランを選べばよいかわかりません。</button>
             <div class="faq-a">
-              <p>はい、大丈夫です。むしろ最初の段階では、何から始めるべきかを整理するためにご相談いただくケースが多いです。レンタルさっさーや導入伴走パッケージから始めやすいです。</p>
+              <p>まずはレンタルさっさーで現状整理をおすすめしています。必要に応じてパッケージや顧問支援へご案内します。</p>
             </div>
-          </article>
-          <article class="faq-item reveal">
-            <button class="faq-q" type="button"><span>LINE公式だけの相談も可能ですか？</span><span>＋</span></button>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button">Lark・AI・LINEを全部同時に導入しないといけませんか？</button>
             <div class="faq-a">
-              <p>可能です。LINE公式運用サポート ライトでは、自社運用を前提に、配信内容の添削や簡易改善アドバイスを行います。</p>
+              <p>いいえ。現状に合わせて優先順位を決め、必要なところから段階的に進めます。</p>
             </div>
-          </article>
-          <article class="faq-item reveal">
-            <button class="faq-q" type="button"><span>LarkやAIを使ったことがなくても大丈夫ですか？</span><span>＋</span></button>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button">LINE公式だけ相談したい場合でも依頼できますか？</button>
             <div class="faq-a">
-              <p>問題ありません。現場で使いやすい順序で導入を整理し、必要に応じて教育やレクチャーも含めて進めます。</p>
+              <p>はい。LINE公式運用サポート ライトで、自社運用しながら相談できる形をご用意しています。</p>
             </div>
-          </article>
-          <article class="faq-item reveal">
-            <button class="faq-q" type="button"><span>パッケージ終了後も継続支援はお願いできますか？</span><span>＋</span></button>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button">社内教育や運用ルール整備までお願いできますか？</button>
             <div class="faq-a">
-              <p>はい。状況に応じて、顧問サービスの梅・竹・松へ移行し、継続的な改善や運用定着を支援できます。</p>
+              <p>はい。特に実行定着パッケージや顧問サービス松では、教育・ルール整備・引き継ぎまで見据えて伴走します。</p>
             </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="contact">
+    <!-- ======================================================
+         CTA
+         最後に問い合わせ・相談へつなげる締めブロック
+         ここにもトップページに戻るボタンを設置
+         ====================================================== -->
+    <section class="section bg-accent-soft" id="cta">
       <div class="container">
-        <div class="cta-box reveal">
-          <div class="badge badge-inverse">ご相談受付中</div>
-          <h2 class="cta-title">まずは、今の悩みを整理するところから。</h2>
-          <p class="cta-text">
-            いきなり大きな導入でなくても大丈夫です。30分のスポット相談、LINE公式のライトサポート、3ヶ月・6ヶ月のパッケージ支援まで、状況に合わせてご提案します。
+        <div class="cta-box text-center">
+          <h2>“難しい”を“できる”へ。</h2>
+          <p>
+            まずは気軽な相談からでも大丈夫です。<br>
+            Lark・AI・LINEを、現場で使える形に整えるところから始めましょう。
           </p>
-          <div class="cta-row">
+          <div class="btn-row" style="justify-content:center;">
             <a class="btn btn-primary" href="mailto:ipad4sasa@gmail.com?subject=%E3%81%95%E3%81%95%E3%82%A8%E3%83%BC%E3%83%AB%E3%81%AE%E7%9B%B8%E8%AB%87">メールで相談する</a>
-            <a class="btn btn-secondary" href="#top">ページ上部へ戻る</a>
+            <a class="btn btn-secondary" href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">トップページに戻る</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <p class="footer-title"><strong>ささエール</strong> | Lark・AI・LINEを、現場で使える形に。</p>
-      <p class="footer-sub">OFFICE PLATA</p>
+  <!-- ======================================================
+       フッター
+       簡潔なコピーと戻る導線を設置
+       ====================================================== -->
+  <footer class="footer bg-panel">
+    <div class="container footer-inner">
+      <div>ささエール | Lark・AI・LINEを活用した業務改善・教育支援</div>
+      <div style="margin-top:8px;">
+        <a href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">Office Plata トップページへ</a>
+      </div>
     </div>
   </footer>
 
+  <!-- ======================================================
+       右下固定ボタン
+       スクロール後に表示される「ページ先頭へ」ボタン
+       JSで表示制御します
+       ====================================================== -->
+  <button id="backToTop" class="back-to-top" type="button" aria-label="ページ先頭へ戻る">↑</button>
+
+  <!-- ======================================================
+       外部JS読み込み
+       FAQ開閉・スムーススクロール補助・先頭へ戻るボタンを制御
+       ====================================================== -->
   <script src="./script.js"></script>
 </body>
 </html>

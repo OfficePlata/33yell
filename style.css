@@ -3,12 +3,6 @@
    このファイルを style.css にそのままコピペしてください
    ========================================================= */
 
-
-/* =========================================================
-   1. カラーパレット・共通変数
-   サイト全体で使う色、余白、角丸、影などをまとめています
-   色を一括で変えたいときは、まずここを調整してください
-   ========================================================= */
 :root {
   --bg: #f6efe4;
   --bg-soft: #fbf7f1;
@@ -16,968 +10,133 @@
   --panel-2: #f7f2ea;
   --line: #e3d2bf;
   --line-strong: #d7b998;
-
   --text: #4f3622;
   --text-soft: #7b6048;
   --text-light: #9b7a5d;
-
   --accent: #ff6d2d;
   --accent-strong: #f2571e;
   --accent-soft: #fff0e7;
-
   --yellow: #f5b526;
-  --yellow-deep: #e7a500;
   --yellow-soft: #fff3cc;
-
   --brown: #5b3d22;
   --brown-deep: #432b17;
-
   --white: #ffffff;
-
   --shadow-sm: 0 4px 12px rgba(79, 54, 34, 0.06);
   --shadow-md: 0 10px 24px rgba(79, 54, 34, 0.08);
-
   --radius-sm: 14px;
   --radius-md: 20px;
   --radius-lg: 28px;
-
   --container: 1200px;
 }
 
-
-/* =========================================================
-   2. リセット・基本設定
-   ブラウザごとの差を減らし、見た目を安定させます
-   ========================================================= */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family:
-    "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN",
-    "Yu Gothic",
-    "Meiryo",
-    sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-
-/* =========================================================
-   3. レイアウト共通
-   セクション幅や上下余白を揃えるための基礎設定です
-   ========================================================= */
-.container {
-  width: min(var(--container), calc(100% - 32px));
-  margin: 0 auto;
-}
-
-.section {
-  padding: 72px 0;
-}
-
-.section-tight {
-  padding: 48px 0;
-}
-
-.section-head {
-  margin-bottom: 28px;
-}
-
-.section-kicker {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: var(--yellow-soft);
-  border: 1px solid #eed8a5;
-  color: var(--brown);
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.section-title {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 46px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--brown-deep);
-}
-
-.section-lead {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   4. 背景装飾
-   ヒーローや強調セクションを明るく見せたい時の下地です
-   ========================================================= */
-.bg-soft {
-  background:
-    radial-gradient(circle at top right, rgba(245, 181, 38, 0.18), transparent 30%),
-    radial-gradient(circle at top left, rgba(255, 109, 45, 0.10), transparent 28%),
-    var(--bg-soft);
-}
-
-.bg-panel {
-  background: var(--panel);
-}
-
-.bg-accent-soft {
-  background:
-    radial-gradient(circle at 10% 10%, rgba(255, 109, 45, 0.12), transparent 25%),
-    radial-gradient(circle at 90% 0%, rgba(245, 181, 38, 0.14), transparent 26%),
-    var(--accent-soft);
-}
-
-
-/* =========================================================
-   5. ボタン共通
-   CTAやリンクボタンの見た目を統一します
-   ========================================================= */
-.btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 0 22px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  font-weight: 700;
-  transition: 0.25s ease;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  color: var(--white);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-}
-
-.btn-secondary {
-  background: var(--white);
-  color: var(--brown);
-  border-color: var(--line-strong);
-}
-
-.btn-secondary:hover {
-  background: #fff8ef;
-}
-
-
-/* =========================================================
-   6. ヒーロー
-   LPの最上部。最初にサービスの価値が伝わる領域です
-   ========================================================= */
-.hero {
-  padding: 72px 0 54px;
-  background:
-    radial-gradient(circle at 85% 15%, rgba(245, 181, 38, 0.28), transparent 25%),
-    radial-gradient(circle at 12% 0%, rgba(255, 109, 45, 0.14), transparent 26%),
-    linear-gradient(180deg, #fff9ee 0%, #f8efe0 100%);
-  overflow: hidden;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 36px;
-  align-items: center;
-}
-
-.hero-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: var(--yellow-soft);
-  border: 1px solid #edd49c;
-  font-weight: 800;
-  color: var(--brown);
-}
-
-.hero-title {
-  margin: 0;
-  font-size: clamp(34px, 6vw, 68px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: var(--brown-deep);
-}
-
-.hero-title strong {
-  color: var(--accent-strong);
-}
-
-.hero-lead {
-  margin: 0;
-  font-size: 19px;
-  color: var(--text-soft);
-  max-width: 760px;
-}
-
-.hero-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 12px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.hero-points li {
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-weight: 700;
-  color: var(--brown);
-}
-
-.hero-card {
-  background: rgba(255, 253, 250, 0.92);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: 28px;
-}
-
-.hero-card h3 {
-  margin: 0 0 10px;
-  font-size: 28px;
-  line-height: 1.2;
-  color: var(--brown-deep);
-}
-
-.hero-card p {
-  margin: 0;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   7. 悩み訴求カード
-   よくある悩みを並べて共感をつくるブロックです
-   ========================================================= */
-.worries {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.worry-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-}
-
-.worry-card h3 {
-  margin: 0 0 8px;
-  font-size: 22px;
-  color: var(--brown-deep);
-}
-
-.worry-card p {
-  margin: 0;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   8. 役割整理ブロック
-   Lark / AI / LINE の役割分担を見せるためのカード群です
-   ========================================================= */
-.roles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.role-card {
-  background: linear-gradient(180deg, #fffdf9 0%, #f8f2e8 100%);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-
-.role-label {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: var(--yellow-soft);
-  border: 1px solid #ebd296;
-  font-weight: 800;
-  color: var(--brown);
-  margin-bottom: 14px;
-}
-
-.role-card h3 {
-  margin: 0 0 10px;
-  font-size: 30px;
-  line-height: 1.2;
-  color: var(--brown-deep);
-}
-
-.role-card p {
-  margin: 0;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   9. 共通カードレイアウト
-   2列カードや一覧表示で使い回す共通グリッドです
-   ========================================================= */
-.cards-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  align-items: stretch;
-}
-
-.cards-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  align-items: stretch;
-}
-
-.card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  box-shadow: var(--shadow-sm);
-}
-
-
-/* =========================================================
-   10. サービス一覧カード
-   レンタルさっさーやライトプランなどの一覧表示用です
-   ========================================================= */
-.service-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
-.service-card h3 {
-  margin: 0 0 8px;
-  font-size: 24px;
-  line-height: 1.3;
-  color: var(--brown-deep);
-}
-
-.service-card p {
-  margin: 0 0 14px;
-  color: var(--text-soft);
-}
-
-.price-mini {
-  display: inline-block;
-  margin-top: 2px;
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1;
-  color: var(--accent-strong);
-}
-
-.price-mini-sub {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   11. パッケージ比較カード
-   今回の修正の中心です
-   左右のタイトル・価格・箇条書き・工程を揃えやすくしています
-   ========================================================= */
-.package {
-  background: rgba(255, 253, 250, 0.94);
-  border: 1px solid var(--line);
-  border-radius: 32px;
-  padding: 30px;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.package-badge {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  min-height: 40px;
-  padding: 0 16px;
-  border-radius: 999px;
-  background: var(--yellow-soft);
-  border: 1px solid #ebd49d;
-  color: var(--brown);
-  font-weight: 800;
-  font-size: 15px;
-  margin-bottom: 18px;
-}
-
-/* タイトル行
-   左にタイトルと説明、右に価格を置く構造です
-   nowrap にしておくと左右比較が安定します */
-.package .title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  margin-bottom: 18px;
-  flex-wrap: nowrap;
-}
-
-/* 左側のタイトル領域
-   説明文が長くても価格を押し下げにくくします */
-.package .title-row > div:first-child {
-  flex: 1;
-  min-width: 0;
-}
-
-/* 右側の価格領域
-   幅をある程度固定して、左右の価格位置を揃えます */
-.package .title-row > div:last-child {
-  flex: 0 0 180px;
-  text-align: right;
-}
-
-.package-title {
-  margin: 0 0 12px;
-  font-size: clamp(28px, 3vw, 40px);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  color: var(--brown-deep);
-}
-
-/* タイトル下の説明文
-   min-height を入れることで左右の箇条書き開始位置が揃いやすくなります */
-.package-copy {
-  margin: 0;
-  min-height: 3.4em;
-  line-height: 1.65;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-soft);
-}
-
-.package .big-price {
-  margin: 0;
-  font-size: clamp(56px, 5vw, 82px);
-  line-height: 0.96;
-  letter-spacing: -0.03em;
-  font-weight: 900;
-  color: var(--accent);
-}
-
-.package .sub {
-  display: block;
-  margin-top: 8px;
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1.3;
-  color: var(--text-soft);
-}
-
-/* パッケージの箇条書き
-   min-height を入れて左右の工程カード開始位置を揃えています */
-.package ul.clean {
-  list-style: none;
-  padding: 0;
-  margin: 24px 0 30px;
-  min-height: 255px;
-}
-
-.package ul.clean li {
-  position: relative;
-  padding-left: 28px;
-  margin-bottom: 12px;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.65;
-}
-
-.package ul.clean li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--accent);
-  font-weight: 900;
-}
-
-/* 工程タイムライン全体
-   margin-top:auto にすることで、上側の内容量が少し違っても
-   下の工程ブロックが底側に揃いやすくなります */
-.timeline {
-  margin-top: auto;
-  display: grid;
-  gap: 18px;
-}
-
-/* 工程1つ分のカード
-   左に月数、右に内容。高さをそろえて見やすくしています */
-.timeline-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  min-height: 112px;
-  padding: 18px 20px;
-  background: #fffdfa;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-}
-
-/* 左側の黄色ラベル */
-.step-label {
-  flex: 0 0 118px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--yellow);
-  color: var(--brown);
-  border-radius: 18px;
-  font-weight: 900;
-  font-size: 18px;
-  line-height: 1;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.05);
-}
-
-/* 右側の本文
-   HTML側で class="step-body" を付けると揃いやすいです */
-.step-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.step-body strong {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 18px;
-  color: var(--brown-deep);
-}
-
-.step-body span,
-.step-body p {
-  color: var(--text-soft);
-  margin: 0;
-}
-
-
-/* =========================================================
-   12. 比較表
-   サービス比較テーブル用です
-   ========================================================= */
-.table-wrap {
-  overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--panel);
-  box-shadow: var(--shadow-sm);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 760px;
-}
-
-thead th {
-  background: linear-gradient(180deg, #6a4729 0%, #53361f 100%);
-  color: var(--white);
-  text-align: left;
-  padding: 16px 18px;
-  font-size: 15px;
-}
-
-tbody td {
-  padding: 16px 18px;
-  border-top: 1px solid var(--line);
-  color: var(--text);
-  vertical-align: top;
-}
-
-tbody tr:nth-child(even) {
-  background: #fffaf3;
-}
-
-
-/* =========================================================
-   13. 導入の流れ
-   ステップ形式で見せる導入フロー用です
-   ========================================================= */
-.flow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-}
-
-.flow-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-}
-
-.flow-num {
-  display: inline-flex;
-  width: 42px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--white);
-  font-weight: 900;
-  margin-bottom: 12px;
-}
-
-.flow-card h3 {
-  margin: 0 0 8px;
-  font-size: 22px;
-  color: var(--brown-deep);
-}
-
-.flow-card p {
-  margin: 0;
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   14. FAQ
-   JSで開閉するアコーディオン用です
-   ========================================================= */
-.faq-list {
-  display: grid;
-  gap: 14px;
-}
-
-.faq-item {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.faq-q {
-  width: 100%;
-  background: transparent;
-  border: 0;
-  padding: 18px 20px;
-  text-align: left;
-  font-weight: 800;
-  color: var(--brown-deep);
-  cursor: pointer;
-  position: relative;
-}
-
-.faq-q::after {
-  content: "+";
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 26px;
-  color: var(--accent);
-  transition: 0.2s ease;
-}
-
-.faq-item.is-open .faq-q::after {
-  content: "−";
-}
-
-.faq-a {
-  display: none;
-  padding: 0 20px 18px;
-  color: var(--text-soft);
-}
-
-.faq-item.is-open .faq-a {
-  display: block;
-}
-
-
-/* =========================================================
-   15. CTA
-   最後の問い合わせ誘導エリアです
-   ========================================================= */
-.cta-box {
-  background:
-    radial-gradient(circle at top right, rgba(245, 181, 38, 0.18), transparent 24%),
-    radial-gradient(circle at bottom left, rgba(255, 109, 45, 0.15), transparent 24%),
-    linear-gradient(180deg, #fff8ee 0%, #f6ead8 100%);
-  border: 1px solid var(--line);
-  border-radius: 32px;
-  padding: 34px;
-  box-shadow: var(--shadow-md);
-}
-
-.cta-box h2 {
-  margin: 0 0 12px;
-  font-size: clamp(30px, 4vw, 48px);
-  line-height: 1.15;
-  color: var(--brown-deep);
-}
-
-.cta-box p {
-  margin: 0 0 20px;
-  color: var(--text-soft);
-  font-size: 18px;
-}
-
-
-/* =========================================================
-   16. フッター
-   最下部の簡単な情報表示です
-   ========================================================= */
-.footer {
-  padding: 24px 0 42px;
-  color: var(--text-light);
-  font-size: 14px;
-}
-
-.footer-inner {
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
-}
-
-
-/* =========================================================
-   17. ユーティリティ
-   細かい調整用の補助クラスです
-   ========================================================= */
-.text-center {
-  text-align: center;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.mt-0 {
-  margin-top: 0 !important;
-}
-
-.mb-0 {
-  margin-bottom: 0 !important;
-}
-
-.mb-8 {
-  margin-bottom: 8px !important;
-}
-
-.mb-12 {
-  margin-bottom: 12px !important;
-}
-
-.mb-16 {
-  margin-bottom: 16px !important;
-}
-
-.mb-20 {
-  margin-bottom: 20px !important;
-}
-
-.mb-24 {
-  margin-bottom: 24px !important;
-}
-
-
-/* =========================================================
-   18. レスポンシブ（タブレット）
-   画面が少し狭くなった時の調整です
-   ========================================================= */
-@media (max-width: 1100px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .worries,
-  .roles,
-  .cards-3,
-  .flow {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .package .big-price {
-    font-size: clamp(50px, 6vw, 72px);
-  }
-}
-
-
-/* =========================================================
-   19. レスポンシブ（スマホ寄り）
-   1列化して崩れを防ぐための設定です
-   ========================================================= */
-@media (max-width: 960px) {
-  .section {
-    padding: 56px 0;
-  }
-
-  .cards-2,
-  .worries,
-  .roles,
-  .cards-3,
-  .flow {
-    grid-template-columns: 1fr;
-  }
-
-  .card,
-  .package,
-  .cta-box,
-  .hero-card {
-    padding: 22px;
-  }
-
-  .package .title-row {
-    flex-wrap: wrap;
-  }
-
-  .package .title-row > div:last-child {
-    flex: 0 0 auto;
-    text-align: left;
-  }
-
-  .package-copy {
-    min-height: auto;
-  }
-
-  .package ul.clean {
-    min-height: auto;
-  }
-
-  .timeline-step {
-    min-height: auto;
-    flex-direction: column;
-  }
-
-  .step-label {
-    flex: 0 0 auto;
-    min-width: 110px;
-  }
-}
-
-
-/* =========================================================
-   20. レスポンシブ（スマホ）
-   文字サイズや余白をさらに見やすく整えます
-   ========================================================= */
-@media (max-width: 640px) {
-  .container {
-    width: min(var(--container), calc(100% - 20px));
-  }
-
-  .hero {
-    padding: 48px 0 40px;
-  }
-
-  .hero-title {
-    font-size: clamp(30px, 9vw, 46px);
-  }
-
-  .hero-lead,
-  .section-lead,
-  .package-copy,
-  .cta-box p {
-    font-size: 16px;
-  }
-
-  .section-title {
-    font-size: clamp(26px, 7vw, 34px);
-  }
-
-  .package-title {
-    font-size: clamp(24px, 7vw, 34px);
-  }
-
-  .package .big-price {
-    font-size: clamp(42px, 14vw, 62px);
-  }
-
-  .package ul.clean li,
-  .step-body strong,
-  .step-body span,
-  .step-body p {
-    font-size: 16px;
-  }
-
-  .step-label {
-    font-size: 16px;
-    min-height: 44px;
-    padding: 0 14px;
-  }
-
-  .faq-q {
-    padding-right: 48px;
-  }
-}
+*,:before,:after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit}
+
+.container{width:min(var(--container),calc(100% - 32px));margin:0 auto}
+.section{padding:72px 0}
+.section-head{margin-bottom:28px}
+.section-kicker{display:inline-flex;align-items:center;padding:8px 16px;border-radius:999px;background:var(--yellow-soft);border:1px solid #eed8a5;color:var(--brown);font-weight:700;font-size:14px;margin-bottom:14px}
+.section-title{margin:0 0 10px;font-size:clamp(28px,4vw,46px);line-height:1.2;letter-spacing:-.02em;color:var(--brown-deep)}
+.section-lead{margin:0;font-size:18px;color:var(--text-soft)}
+
+.bg-soft{background:radial-gradient(circle at top right, rgba(245,181,38,.18), transparent 30%),radial-gradient(circle at top left, rgba(255,109,45,.10), transparent 28%),var(--bg-soft)}
+.bg-panel{background:var(--panel)}
+.bg-accent-soft{background:radial-gradient(circle at 10% 10%, rgba(255,109,45,.12), transparent 25%),radial-gradient(circle at 90% 0%, rgba(245,181,38,.14), transparent 26%),var(--accent-soft)}
+
+.btn-row{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border-radius:999px;border:1px solid transparent;font-weight:700;transition:.25s ease;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:var(--white);box-shadow:var(--shadow-sm)}
+.btn-primary:hover{transform:translateY(-1px);filter:brightness(1.03)}
+.btn-secondary{background:var(--white);color:var(--brown);border-color:var(--line-strong)}
+.btn-secondary:hover{background:#fff8ef}
+
+/* ヘッダー */
+.site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.site-header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 0}
+.site-logo{font-size:24px;font-weight:900;color:var(--brown-deep)}
+.site-nav{display:flex;gap:18px;flex-wrap:wrap}
+.site-nav a{font-weight:700;color:var(--text-soft)}
+.site-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.hero{padding:72px 0 54px;background:radial-gradient(circle at 85% 15%, rgba(245,181,38,.28), transparent 25%),radial-gradient(circle at 12% 0%, rgba(255,109,45,.14), transparent 26%),linear-gradient(180deg,#fff9ee 0%,#f8efe0 100%);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:18px}
+.hero-badge{display:inline-flex;align-items:center;width:fit-content;padding:10px 18px;border-radius:999px;background:var(--yellow-soft);border:1px solid #edd49c;font-weight:800;color:var(--brown)}
+.hero-title{margin:0;font-size:clamp(34px,6vw,68px);line-height:1.08;letter-spacing:-.03em;color:var(--brown-deep)}
+.hero-title strong{color:var(--accent-strong)}
+.hero-lead{margin:0;font-size:19px;color:var(--text-soft);max-width:760px}
+.hero-points{display:flex;flex-wrap:wrap;gap:10px 12px;padding:0;margin:0;list-style:none}
+.hero-points li{padding:10px 14px;background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:999px;font-weight:700;color:var(--brown)}
+.hero-card{background:rgba(255,253,250,.92);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:28px}
+.hero-card h3{margin:0 0 10px;font-size:28px;line-height:1.2;color:var(--brown-deep)}
+.hero-card p{margin:0;color:var(--text-soft)}
+
+.worries,.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.worry-card,.role-card,.service-card,.flow-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-md);padding:22px;box-shadow:var(--shadow-sm)}
+.worry-card h3,.flow-card h3{margin:0 0 8px;font-size:22px;color:var(--brown-deep)}
+.worry-card p,.flow-card p{margin:0;color:var(--text-soft)}
+.role-card{background:linear-gradient(180deg,#fffdf9 0%,#f8f2e8 100%);padding:24px}
+.role-label{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;background:var(--yellow-soft);border:1px solid #ebd296;font-weight:800;color:var(--brown);margin-bottom:14px}
+.role-card h3{margin:0 0 10px;font-size:30px;line-height:1.2;color:var(--brown-deep)}
+.role-card p{margin:0;color:var(--text-soft)}
+
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;align-items:stretch}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.service-card{padding:24px;height:100%}
+.service-card h3{margin:0 0 8px;font-size:24px;line-height:1.3;color:var(--brown-deep)}
+.service-card p{margin:0 0 14px;color:var(--text-soft)}
+.price-mini{display:inline-block;margin-top:2px;font-size:28px;font-weight:900;line-height:1;color:var(--accent-strong)}
+.price-mini-sub{display:block;margin-top:6px;font-size:14px;font-weight:700;color:var(--text-soft)}
+
+/* パッケージ比較 */
+.package{background:rgba(255,253,250,.94);border:1px solid var(--line);border-radius:32px;padding:30px;box-shadow:var(--shadow-sm);height:100%;display:flex;flex-direction:column}
+.package-badge{display:inline-flex;align-items:center;width:fit-content;min-height:40px;padding:0 16px;border-radius:999px;background:var(--yellow-soft);border:1px solid #ebd49d;color:var(--brown);font-weight:800;font-size:15px;margin-bottom:18px}
+.package .title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px;flex-wrap:nowrap}
+.package .title-row>div:first-child{flex:1;min-width:0}
+.package .title-row>div:last-child{flex:0 0 180px;text-align:right}
+.package-title{margin:0 0 12px;font-size:clamp(28px,3vw,40px);line-height:1.18;letter-spacing:-.02em;color:var(--brown-deep)}
+.package-copy{margin:0;min-height:3.4em;line-height:1.65;font-size:18px;font-weight:700;color:var(--text-soft)}
+.package .big-price{margin:0;font-size:clamp(56px,5vw,82px);line-height:.96;letter-spacing:-.03em;font-weight:900;color:var(--accent)}
+.package .sub{display:block;margin-top:8px;font-size:18px;font-weight:800;line-height:1.3;color:var(--text-soft)}
+.package ul.clean{list-style:none;padding:0;margin:24px 0 30px;min-height:255px}
+.package ul.clean li{position:relative;padding-left:28px;margin-bottom:12px;font-size:18px;font-weight:700;color:var(--text);line-height:1.65}
+.package ul.clean li:before{content:"✓";position:absolute;left:0;top:0;color:var(--accent);font-weight:900}
+.timeline{margin-top:auto;display:grid;gap:18px}
+.timeline-step{display:flex;align-items:flex-start;gap:16px;min-height:112px;padding:18px 20px;background:#fffdfa;border:1px solid var(--line);border-radius:24px}
+.step-label{flex:0 0 118px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;background:var(--yellow);color:var(--brown);border-radius:18px;font-weight:900;font-size:18px;line-height:1;box-shadow:inset 0 -2px 0 rgba(0,0,0,.05)}
+.step-body{flex:1;min-width:0}
+.step-body strong{display:block;margin-bottom:4px;font-size:18px;color:var(--brown-deep)}
+.step-body p{margin:0;color:var(--text-soft)}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--panel);box-shadow:var(--shadow-sm)}
+table{width:100%;border-collapse:collapse;min-width:760px}
+thead th{background:linear-gradient(180deg,#6a4729 0%,#53361f 100%);color:var(--white);text-align:left;padding:16px 18px;font-size:15px}
+tbody td{padding:16px 18px;border-top:1px solid var(--line);color:var(--text);vertical-align:top}
+tbody tr:nth-child(even){background:#fffaf3}
+
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.flow-num{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border-radius:999px;background:var(--accent);color:var(--white);font-weight:900;margin-bottom:12px}
+
+.faq-list{display:grid;gap:14px}.faq-item{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+.faq-q{width:100%;background:transparent;border:0;padding:18px 20px;text-align:left;font-weight:800;color:var(--brown-deep);cursor:pointer;position:relative}
+.faq-q:after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:26px;color:var(--accent);transition:.2s ease}
+.faq-item.is-open .faq-q:after{content:"−"}.faq-a{display:none;padding:0 20px 18px;color:var(--text-soft)}.faq-item.is-open .faq-a{display:block}
+
+.cta-box{background:radial-gradient(circle at top right, rgba(245,181,38,.18), transparent 24%),radial-gradient(circle at bottom left, rgba(255,109,45,.15), transparent 24%),linear-gradient(180deg,#fff8ee 0%,#f6ead8 100%);border:1px solid var(--line);border-radius:32px;padding:34px;box-shadow:var(--shadow-md)}
+.cta-box h2{margin:0 0 12px;font-size:clamp(30px,4vw,48px);line-height:1.15;color:var(--brown-deep)}
+.cta-box p{margin:0 0 20px;color:var(--text-soft);font-size:18px}
+
+.footer{padding:24px 0 42px;color:var(--text-light);font-size:14px}.footer-inner{border-top:1px solid var(--line);padding-top:18px}
+.text-center{text-align:center}
+
+/* 右下固定の先頭へ戻るボタン */
+.back-to-top{position:fixed;right:20px;bottom:20px;width:52px;height:52px;border:none;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:#fff;font-size:22px;font-weight:900;box-shadow:var(--shadow-md);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:.25s ease;z-index:120}
+.back-to-top.is-show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{filter:brightness(1.04)}
+
+@media (max-width:1100px){.hero-grid{grid-template-columns:1fr}.worries,.roles,.cards-3,.flow{grid-template-columns:repeat(2,1fr)}.package .big-price{font-size:clamp(50px,6vw,72px)}}
+@media (max-width:960px){.section{padding:56px 0}.site-header-inner{flex-direction:column;align-items:flex-start}.site-nav,.site-actions{width:100%}.cards-2,.worries,.roles,.cards-3,.flow{grid-template-columns:1fr}.package,.cta-box,.hero-card{padding:22px}.package .title-row{flex-wrap:wrap}.package .title-row>div:last-child{flex:0 0 auto;text-align:left}.package-copy,.package ul.clean{min-height:auto}.timeline-step{min-height:auto;flex-direction:column}.step-label{flex:0 0 auto;min-width:110px}}
+@media (max-width:640px){.container{width:min(var(--container),calc(100% - 20px))}.hero{padding:48px 0 40px}.hero-title{font-size:clamp(30px,9vw,46px)}.hero-lead,.section-lead,.package-copy,.cta-box p{font-size:16px}.section-title{font-size:clamp(26px,7vw,34px)}.package-title{font-size:clamp(24px,7vw,34px)}.package .big-price{font-size:clamp(42px,14vw,62px)}.package ul.clean li,.step-body strong,.step-body p{font-size:16px}.step-label{font-size:16px;min-height:44px;padding:0 14px}.faq-q{padding-right:48px}.back-to-top{right:14px;bottom:14px;width:48px;height:48px}}
