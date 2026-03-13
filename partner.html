@@ -5,466 +5,899 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ささエール｜パートナー企業向け協業プラン</title>
   <meta name="description" content="Lark・AI・LINEを活用し、業務改善を現場で使える形に整える伴走型サービス『ささエール』のパートナー企業向け協業プラン紹介ページです。">
-  
-  <!-- 外部CSS読み込み -->
-  <link rel="stylesheet" href="./style.css">
-  
-  <!-- Font Awesome (CDN) for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Preload for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* Critical CSS for faster initial render */
-    body { opacity: 0; transition: opacity 0.4s ease; }
-    body.loaded { opacity: 1; }
-    
-    /* Partner Page Specific Styles */
-    .partner-header {
-      position: relative;
-      padding: 120px 20px 80px;
-      text-align: center;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
-      color: white;
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', Meiryo, sans-serif;
+      background: #f8f9fc;
+      color: #1a1a2e;
+      line-height: 1.7;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
-    
-    .partner-header::before {
+    body.loaded { opacity: 1; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; }
+
+    /* ===== VARIABLES ===== */
+    :root {
+      --navy:   #0f1c3f;
+      --blue:   #1a3a8f;
+      --cyan:   #00c4e0;
+      --orange: #fd6a2a;
+      --orange-light: #ff8f5a;
+      --white:  #ffffff;
+      --gray-50: #f8f9fc;
+      --gray-100: #f0f2f8;
+      --gray-200: #e2e6f0;
+      --gray-600: #5a6480;
+      --gray-800: #1a1a2e;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+      --radius: 20px;
+    }
+
+    /* ===== LAYOUT ===== */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== REVEAL ANIMATION ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== SECTION LABEL ===== */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(253,106,42,0.1);
+      color: var(--orange);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(253,106,42,0.2);
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 640px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('./images/partner-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(15,28,63,0.97) 0%,
+        rgba(26,58,143,0.85) 50%,
+        rgba(15,28,63,0.92) 100%
+      );
+    }
+    /* デジタルグリッド */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,196,224,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,196,224,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 120px 0 80px;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(253,106,42,0.15);
+      border: 1px solid rgba(253,106,42,0.4);
+      color: var(--orange-light);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge i { font-size: 0.75rem; }
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+    .hero-title .accent {
+      color: var(--orange);
+      position: relative;
+    }
+    .hero-title .company-name {
+      color: var(--cyan);
+      border-bottom: 3px solid var(--cyan);
+      padding-bottom: 2px;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.75);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--orange);
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 18px 36px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(253,106,42,0.4);
+    }
+    .hero-cta:hover {
+      background: var(--orange-light);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(253,106,42,0.5);
+    }
+    /* スクロール矢印 */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== PROBLEM SECTION ===== */
+    .problem-section {
+      padding: 100px 0;
+      background: white;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    @media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .problem-list { display: flex; flex-direction: column; gap: 20px; }
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 24px;
+      background: #fff5f5;
+      border-radius: 16px;
+      border-left: 4px solid #ff4757;
+    }
+    .problem-item-icon {
+      width: 44px; height: 44px;
+      background: #ffe0e3;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #ff4757;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .problem-item-text { font-size: 1rem; font-weight: 600; color: #2d2d2d; line-height: 1.5; }
+    .problem-item-sub { font-size: 0.85rem; color: #888; margin-top: 4px; font-weight: 400; }
+    .solution-box {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .solution-box::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(253, 106, 42, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(253, 106, 42, 0.1) 0%, transparent 50%);
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,196,224,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .solution-box-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .solution-box-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .solution-box-title span { color: var(--orange); }
+    .solution-points { display: flex; flex-direction: column; gap: 14px; }
+    .solution-point {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .solution-point i { color: var(--cyan); font-size: 1rem; }
+
+    /* ===== MERIT SECTION ===== */
+    .merit-section {
+      padding: 100px 0;
+      background: var(--gray-50);
+    }
+    .merit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-top: 60px;
+    }
+    @media (max-width: 768px) { .merit-grid { grid-template-columns: 1fr; } }
+    .merit-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .merit-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .merit-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    .merit-card:hover::before { transform: scaleX(1); }
+    .merit-num {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--gray-200);
+      line-height: 1;
+      margin-bottom: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+    .merit-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .merit-icon.blue { background: #e8f0fe; color: var(--blue); }
+    .merit-icon.orange { background: rgba(253,106,42,0.1); color: var(--orange); }
+    .merit-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .merit-desc { font-size: 0.95rem; color: var(--gray-600); line-height: 1.75; }
+
+    /* ===== FLOW SECTION ===== */
+    .flow-section {
+      padding: 100px 0;
+      background: var(--navy);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,196,224,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,196,224,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .flow-section .section-title { color: white; }
+    .flow-section .section-desc { color: rgba(255,255,255,0.6); }
+    .flow-image-wrap {
+      margin: 50px 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .flow-image-wrap img { width: 100%; }
+    .flow-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    @media (max-width: 768px) { .flow-cards { grid-template-columns: 1fr; } }
+    .flow-cards::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 16.6%;
+      right: 16.6%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--orange), var(--blue));
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    @media (max-width: 768px) { .flow-cards::before { display: none; } }
+    .flow-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .flow-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-6px);
+    }
+    .flow-card.center {
+      border-color: rgba(253,106,42,0.5);
+      background: rgba(253,106,42,0.08);
+    }
+    .flow-card-icon {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+    }
+    .flow-card-icon.blue-icon { background: rgba(0,196,224,0.15); color: var(--cyan); border: 2px solid rgba(0,196,224,0.3); }
+    .flow-card-icon.orange-icon { background: rgba(253,106,42,0.15); color: var(--orange); border: 2px solid rgba(253,106,42,0.4); }
+    .flow-card-title { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 6px; }
+    .flow-card-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 18px; }
+    .flow-card-list { list-style: none; text-align: left; }
+    .flow-card-list li {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.8);
+      padding: 6px 0 6px 20px;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .flow-card-list li::before {
+      content: '▶';
+      position: absolute; left: 0;
+      font-size: 0.6rem; top: 9px;
+      color: var(--cyan);
+    }
+    .flow-card.center .flow-card-list li::before { color: var(--orange); }
+
+    /* ===== MENU SECTION ===== */
+    .menu-section {
+      padding: 100px 0;
+      background: white;
+    }
+    .menu-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    @media (max-width: 900px) { .menu-cards { grid-template-columns: 1fr; } }
+    .menu-card {
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+    }
+    .menu-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    .menu-card.entry {
+      background: var(--gray-50);
+      border: 2px solid var(--gray-200);
+    }
+    .menu-card.main {
+      background: linear-gradient(145deg, #fff5f0, #fff);
+      border: 2px solid rgba(253,106,42,0.3);
+      box-shadow: 0 10px 40px rgba(253,106,42,0.12);
+    }
+    .menu-card.cont {
+      background: linear-gradient(145deg, #f0f4ff, #fff);
+      border: 2px solid rgba(26,58,143,0.2);
+    }
+    .menu-card-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .tag-entry { background: #e8f5e9; color: #2e7d32; }
+    .tag-main { background: rgba(253,106,42,0.12); color: var(--orange); }
+    .tag-cont { background: #e8eaf6; color: #3949ab; }
+    .menu-card-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .menu-card-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+    .menu-card-price.highlight { color: var(--orange); }
+    .menu-card-unit {
+      font-size: 0.82rem;
+      color: var(--gray-600);
+      margin-bottom: 20px;
+    }
+    .menu-card-divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 20px 0;
+    }
+    .menu-card-desc {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+    .menu-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .mini-tag {
+      font-size: 0.72rem;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+    /* 本命カードのおすすめリボン */
+    .ribbon {
+      position: absolute;
+      top: 20px; right: -28px;
+      background: var(--orange);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 6px 40px;
+      transform: rotate(45deg);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      padding: 120px 0;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,196,224,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,196,224,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .cta-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: white;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-title span { color: var(--orange); }
+    .cta-desc {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--orange);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 22px 48px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+      box-shadow: 0 12px 40px rgba(253,106,42,0.4);
+      position: relative;
+      z-index: 1;
+    }
+    .cta-btn:hover {
+      background: var(--orange-light);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(253,106,42,0.5);
+    }
+    .cta-note {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      position: relative;
       z-index: 1;
     }
 
-    .partner-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .partner-badge {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 6px 20px;
-      border-radius: 100px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
-      color: var(--color-accent);
-    }
-
-    .partner-title {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.2;
-      margin-bottom: 24px;
-      font-weight: 800;
-    }
-
-    .partner-subtitle {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    .issue-box {
-      background: rgba(255, 71, 87, 0.05);
-      border-left: 4px solid #ff4757;
-      padding: 40px;
-      border-radius: 0 16px 16px 0;
-      margin: 60px 0;
-    }
-
-    .issue-title {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: var(--color-text-main);
-    }
-
-    .issue-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .issue-list li {
-      position: relative;
-      padding-left: 30px;
-      margin-bottom: 12px;
-      color: var(--color-text-sub);
-      font-weight: 500;
-    }
-
-    .issue-list li::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      left: 0;
-      color: #ff4757;
-    }
-
-    .benefit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin: 60px 0;
-    }
-
-    .benefit-card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: var(--shadow-md);
-      transition: all 0.3s ease;
-      border: 1px solid var(--color-border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .benefit-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--color-accent);
-    }
-
-    .benefit-icon {
-      width: 60px;
-      height: 60px;
-      background: var(--color-bg-sub);
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      color: var(--color-primary);
-      margin-bottom: 20px;
-    }
-
-    .flow-section {
-      background: var(--color-bg-sub);
-      padding: 80px 40px;
-      border-radius: 30px;
-      margin: 80px 0;
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #070d1f;
+      color: rgba(255,255,255,0.5);
+      padding: 40px 20px;
       text-align: center;
+      font-size: 0.85rem;
     }
+    .footer strong { color: rgba(255,255,255,0.8); }
 
-    .flow-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      margin-top: 50px;
-      position: relative;
-    }
-
-    @media (max-width: 768px) {
-      .flow-grid { grid-template-columns: 1fr; }
-    }
-
-    .flow-card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      z-index: 2;
-    }
-
-    .flow-card h3 { margin-bottom: 15px; color: var(--color-primary); }
-
-    .flow-card ul {
-      text-align: left;
-      list-style: none;
-      padding: 0;
-      font-size: 0.9rem;
-    }
-
-    .flow-card ul li {
-      margin-bottom: 8px;
-      padding-left: 20px;
-      position: relative;
-    }
-
-    .flow-card ul li::before {
-      content: '▶';
-      position: absolute;
-      left: 0;
-      font-size: 0.7rem;
-      top: 2px;
-      color: var(--color-accent);
-    }
-
-    .menu-table-container {
-      margin: 80px 0;
-      overflow-x: auto;
-      border-radius: 20px;
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--color-border);
-    }
-
-    .menu-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      min-width: 800px;
-    }
-
-    .menu-table th {
-      background: var(--color-bg-sub);
-      padding: 20px;
-      text-align: left;
-      font-weight: 700;
-      color: var(--color-text-main);
-      border-bottom: 2px solid var(--color-border);
-    }
-
-    .menu-table td {
-      padding: 20px;
-      border-bottom: 1px solid var(--color-border);
-      vertical-align: top;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .tag-entry { background: #e3f2fd; color: #1976d2; }
-    .tag-main { background: var(--color-accent-soft); color: var(--color-accent); }
-    .tag-cont { background: #f3e5f5; color: #7b1fa2; }
-
-    .footer-partner {
-      background: var(--color-primary-dark);
-      color: white;
-      padding: 80px 20px;
-      text-align: center;
-    }
-
-    .btn-partner {
-      display: inline-block;
-      background: var(--color-accent);
-      color: white;
-      padding: 18px 40px;
-      border-radius: 100px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 20px rgba(253, 106, 42, 0.3);
-      margin-top: 30px;
-    }
-
-    .btn-partner:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(253, 106, 42, 0.4);
-      background: #ff7e45;
-    }
-
-    /* Parameter dynamic text */
-    #company-name-display {
-      color: var(--color-accent);
-      text-decoration: underline;
-      text-underline-offset: 8px;
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2rem; }
+      .wrap { padding: 0 16px; }
+      .solution-box { padding: 32px 24px; }
+      .merit-card, .menu-card { padding: 28px 24px; }
     }
   </style>
 </head>
 <body class="loaded">
-  <div id="top"></div>
-  
-  <!-- デジタル背景 -->
-  <div class="digital-grid"></div>
-  <canvas id="particle-canvas"></canvas>
 
-  <header class="partner-header">
-    <div class="partner-container reveal">
-      <div class="partner-badge">PARTNER PROGRAM</div>
-      <h1 class="partner-title">
-        <span id="company-name-display">貴社</span>の提案に、<br>
-        「現場実装」の力を。
-      </h1>
-      <p class="partner-subtitle">
-        Lark・AI・LINEを活用し、提案して終わりにしない。<br>
-        現場定着までの一気通貫サポートで、貴社の提案価値を最大化します。
-      </p>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="hero-badge">
+            <i class="fa-solid fa-handshake"></i>
+            PARTNER PROGRAM
+          </div>
+          <h1 class="hero-title">
+            <span id="company-name-display" class="company-name">貴社</span>の提案に、<br>
+            <span class="accent">「現場実装」</span>の力を。
+          </h1>
+          <p class="hero-subtitle">
+            Lark・AI・LINEを活用し、提案して終わりにしない。<br>
+            現場定着までの一気通貫サポートで、貴社の提案価値を最大化します。
+          </p>
+          <a href="#cta" class="hero-cta">
+            <i class="fa-solid fa-calendar-check"></i>
+            協業について相談する
+          </a>
+        </div>
+      </div>
     </div>
-  </header>
+    <div class="hero-scroll">
+      <span>SCROLL</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
 
-  <main class="partner-container">
-    
-    <!-- 課題セクション -->
-    <section class="issue-box reveal">
-      <div class="issue-title">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <h2>元請け企業さまのよくある課題</h2>
+  <!-- ===== PROBLEM ===== -->
+  <section class="problem-section">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="section-label"><i class="fa-solid fa-triangle-exclamation"></i> PROBLEM</div>
+        <h2 class="section-title">こんな課題、<br>抱えていませんか？</h2>
       </div>
-      <ul class="issue-list">
-        <li>提案後の導入や教育まで手が回らない</li>
-        <li>AIやLarkを提案しても、現場で定着しない</li>
-        <li>LINE導入後の細かい現場フォローまで届かない</li>
-      </ul>
-      <div style="margin-top: 30px; text-align: center;">
-        <p style="font-weight: 800; color: var(--color-primary);">ささエールがこれらの課題を「現場実装」で補完します！</p>
+      <div class="problem-grid">
+        <div class="problem-list">
+          <div class="problem-item reveal reveal-delay-1">
+            <div class="problem-item-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div>
+              <div class="problem-item-text">提案後の導入・教育まで手が回らない</div>
+              <div class="problem-item-sub">受注後のフォローに工数が取れず、定着しないまま終わってしまう</div>
+            </div>
+          </div>
+          <div class="problem-item reveal reveal-delay-2">
+            <div class="problem-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <div>
+              <div class="problem-item-text">AIやLarkを提案しても、現場で定着しない</div>
+              <div class="problem-item-sub">ツールを入れるだけでは変わらない。現場の習慣を変えるフォローが必要</div>
+            </div>
+          </div>
+          <div class="problem-item reveal reveal-delay-3">
+            <div class="problem-item-icon"><i class="fa-brands fa-line"></i></div>
+            <div>
+              <div class="problem-item-text">LINE導入後の細かい現場フォローまで届かない</div>
+              <div class="problem-item-sub">設定して終わりではなく、運用・改善まで伴走できるパートナーが必要</div>
+            </div>
+          </div>
+        </div>
+        <div class="solution-box reveal reveal-delay-2">
+          <div class="solution-box-label">SOLUTION</div>
+          <h3 class="solution-box-title">ささエールが<br><span>「現場実装」</span>で<br>補完します</h3>
+          <div class="solution-points">
+            <div class="solution-point">
+              <i class="fa-solid fa-circle-check"></i>
+              業務棚卸しから導入設計まで一気通貫
+            </div>
+            <div class="solution-point">
+              <i class="fa-solid fa-circle-check"></i>
+              現場教育・定着支援まで責任を持って伴走
+            </div>
+            <div class="solution-point">
+              <i class="fa-solid fa-circle-check"></i>
+              鹿児島・宮崎の地域密着で温度感に合わせた対応
+            </div>
+            <div class="solution-point">
+              <i class="fa-solid fa-circle-check"></i>
+              スポット相談から長期顧問まで柔軟に対応
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- メリット -->
-    <section class="reveal">
-      <h2 class="section-title">協業の4つのメリット</h2>
-      <div class="benefit-grid">
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fa-solid fa-layer-group"></i></div>
-          <h3>1. 提案の幅が広がる</h3>
-          <p>単一のツールだけでなく、Lark・AI・LINEを組み合わせた相乗効果のある提案を既存メニューに追加できます。</p>
+  <!-- ===== MERIT ===== -->
+  <section class="merit-section">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="section-label"><i class="fa-solid fa-star"></i> MERIT</div>
+        <h2 class="section-title">協業の4つのメリット</h2>
+        <p class="section-desc">貴社の既存サービスに「現場実装力」を加えることで、提案の幅と成果が広がります。</p>
+      </div>
+      <div class="merit-grid">
+        <div class="merit-card reveal reveal-delay-1">
+          <div class="merit-num">01</div>
+          <div class="merit-icon blue"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="merit-title">提案の幅が広がる</div>
+          <p class="merit-desc">Lark・AI・LINEを組み合わせた相乗効果のある提案を既存メニューに追加。単一ツールを超えた包括的な提案が可能になります。</p>
         </div>
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fa-solid fa-handshake-angle"></i></div>
-          <h3>2. 実務まで任せやすい</h3>
-          <p>戦略設計だけでなく、業務の棚卸し・設計・教育・定着支援まで、一気通貫で外部補完としてお任せいただけます。</p>
+        <div class="merit-card reveal reveal-delay-2">
+          <div class="merit-num">02</div>
+          <div class="merit-icon orange"><i class="fa-solid fa-handshake-angle"></i></div>
+          <div class="merit-title">実務まで任せやすい</div>
+          <p class="merit-desc">戦略設計だけでなく、業務の棚卸し・設計・教育・定着支援まで一気通貫。外部補完として安心してお任せいただけます。</p>
         </div>
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-          <h3>3. 地域密着で動ける</h3>
-          <p>鹿児島・宮崎を中心に、地域の企業様へ寄り添い、現場の温度感に合わせた伴走支援が可能です。</p>
+        <div class="merit-card reveal reveal-delay-3">
+          <div class="merit-num">03</div>
+          <div class="merit-icon blue"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="merit-title">地域密着で動ける</div>
+          <p class="merit-desc">鹿児島・宮崎を中心に、地域の企業様へ寄り添い、現場の温度感に合わせた伴走支援が可能です。</p>
         </div>
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fa-solid fa-seedling"></i></div>
-          <h3>4. 小さく試して広げやすい</h3>
-          <p>単発のスポット相談から、期間を決めたパッケージ導入まで設計済み。継続案件化しやすい構成です。</p>
+        <div class="merit-card reveal reveal-delay-4">
+          <div class="merit-num">04</div>
+          <div class="merit-icon orange"><i class="fa-solid fa-seedling"></i></div>
+          <div class="merit-title">小さく試して広げやすい</div>
+          <p class="merit-desc">単発のスポット相談から期間を決めたパッケージ導入まで設計済み。継続案件化しやすい構成です。</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- フロー -->
-    <section class="flow-section reveal">
-      <h2 class="section-title">協業の役割分担イメージ</h2>
-      <p>シームレスな連携で、クライアントの課題解決を加速させます。</p>
-      <div class="flow-grid">
-        <div class="flow-card">
-          <i class="fa-regular fa-building" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 20px; display: block;"></i>
-          <h3>元請け企業さま</h3>
-          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（貴社）</p>
-          <ul>
+  <!-- ===== FLOW ===== -->
+  <section class="flow-section">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="section-label" style="background:rgba(0,196,224,0.1);color:var(--cyan);border-color:rgba(0,196,224,0.2);">
+          <i class="fa-solid fa-diagram-project"></i> HOW IT WORKS
+        </div>
+        <h2 class="section-title">協業の役割分担イメージ</h2>
+        <p class="section-desc">シームレスな連携で、クライアントの課題解決を加速させます。</p>
+      </div>
+      <div class="flow-image-wrap reveal">
+        <img src="./images/partner-flow.jpg" alt="協業フロー図" loading="lazy">
+      </div>
+      <div class="flow-cards">
+        <div class="flow-card reveal reveal-delay-1">
+          <div class="flow-card-icon blue-icon"><i class="fa-regular fa-building"></i></div>
+          <div class="flow-card-title">元請け企業さま</div>
+          <div class="flow-card-sub">（貴社）</div>
+          <ul class="flow-card-list">
             <li>案件のご相談</li>
             <li>要件の共有</li>
             <li>全体ディレクション</li>
           </ul>
         </div>
-        <div class="flow-card" style="border: 2px solid var(--color-accent);">
-          <i class="fa-solid fa-lightbulb" style="font-size: 3rem; color: var(--color-accent); margin-bottom: 20px; display: block;"></i>
-          <h3>ささエール</h3>
-          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（伴走支援）</p>
-          <ul>
+        <div class="flow-card center reveal reveal-delay-2">
+          <div class="flow-card-icon orange-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <div class="flow-card-title">ささエール</div>
+          <div class="flow-card-sub">（現場実装・伴走支援）</div>
+          <ul class="flow-card-list">
             <li>業務整理・棚卸し</li>
             <li>導入初期設計</li>
-            <li>導入伴走</li>
+            <li>導入伴走・教育</li>
           </ul>
         </div>
-        <div class="flow-card">
-          <i class="fa-solid fa-users-gear" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 20px; display: block;"></i>
-          <h3>クライアント現場</h3>
-          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（最終目標）</p>
-          <ul>
+        <div class="flow-card reveal reveal-delay-3">
+          <div class="flow-card-icon blue-icon"><i class="fa-solid fa-users-gear"></i></div>
+          <div class="flow-card-title">クライアント現場</div>
+          <div class="flow-card-sub">（最終目標）</div>
+          <ul class="flow-card-list">
             <li>現場教育</li>
             <li>ルールに沿った運用</li>
             <li>自走・定着</li>
           </ul>
         </div>
       </div>
-    </section>
-
-    <!-- メニュー -->
-    <section class="reveal">
-      <h2 class="section-title">選べる支援メニュー</h2>
-      <div class="menu-table-container">
-        <table class="menu-table">
-          <thead>
-            <tr>
-              <th>段階</th>
-              <th>サービス名</th>
-              <th>価格（税込）</th>
-              <th>主な役割・おすすめの案件</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="tag tag-entry">入口</span></td>
-              <td style="font-weight: 700;">レンタルさっさー</td>
-              <td>3,300円 / 30分</td>
-              <td>まずは気軽に相談したい案件。<br><small>壁打ち・課題整理・方向性確認</small></td>
-            </tr>
-            <tr>
-              <td><span class="tag tag-entry">入口</span></td>
-              <td style="font-weight: 700;">LINE運用サポート ライト</td>
-              <td>11,000円 / 月</td>
-              <td>LINE公式だけ見てほしい案件。<br><small>配信添削・簡易改善・自社運用支援</small></td>
-            </tr>
-            <tr style="background: var(--color-accent-soft);">
-              <td><span class="tag tag-main">本命</span></td>
-              <td style="font-weight: 700; color: var(--color-accent);">導入伴走パッケージ</td>
-              <td style="font-weight: 700;">50万円 / 3ヶ月</td>
-              <td>短期間で土台をつくりたい案件向け。<br><small>課題整理・業務棚卸し・初期設計・役割整理</small></td>
-            </tr>
-            <tr style="background: var(--color-accent-soft);">
-              <td><span class="tag tag-main">本命</span></td>
-              <td style="font-weight: 700; color: var(--color-accent);">実行定着パッケージ</td>
-              <td style="font-weight: 700;">120万円 / 6ヶ月</td>
-              <td>導入後の実行と定着まで進めたい案件向け。<br><small>全体設計・教育・運用ルール整備・定着</small></td>
-            </tr>
-            <tr>
-              <td><span class="tag tag-cont">継続</span></td>
-              <td style="font-weight: 700;">顧問サービス (梅/竹/松)</td>
-              <td>5万〜30万円 / 月</td>
-              <td>課題整理から外部DX担当レベルの全体設計まで、状況に合わせた継続伴走。</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer-partner">
-    <div class="partner-container">
-      <h2 style="font-size: 2rem; margin-bottom: 10px;">ささエール</h2>
-      <p>Lark・AI・LINEを活用した業務改善 / 教育 / 運用支援</p>
-      <a href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" class="btn-partner">
-        まずは協業について相談する
-      </a>
-      <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">&copy; Sasayell All rights reserved.</p>
     </div>
+  </section>
+
+  <!-- ===== MENU ===== -->
+  <section class="menu-section">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="section-label"><i class="fa-solid fa-list-check"></i> SERVICE MENU</div>
+        <h2 class="section-title">選べる支援メニュー</h2>
+        <p class="section-desc">相談しやすい「入口」から、成果を出す「本命」、手放しで任せる「継続」まで。元請け企業さまが提案しやすい全体構成をご用意しています。</p>
+      </div>
+      <div class="menu-cards">
+
+        <!-- 入口 -->
+        <div class="menu-card entry reveal reveal-delay-1">
+          <span class="menu-card-tag tag-entry">入口</span>
+          <div class="menu-card-name">レンタルさっさー<br>/ LINE運用ライト</div>
+          <div class="menu-card-price">3,300円〜</div>
+          <div class="menu-card-unit">/ 30分〜 または 月額</div>
+          <div class="menu-card-divider"></div>
+          <p class="menu-card-desc">まずは気軽に相談したい案件に。壁打ち・課題整理・方向性確認から、LINE公式の配信添削・簡易改善まで対応します。</p>
+          <div class="menu-card-tags">
+            <span class="mini-tag">壁打ち</span>
+            <span class="mini-tag">課題整理</span>
+            <span class="mini-tag">LINE配信添削</span>
+          </div>
+        </div>
+
+        <!-- 本命 -->
+        <div class="menu-card main reveal reveal-delay-2">
+          <div class="ribbon">おすすめ</div>
+          <span class="menu-card-tag tag-main">本命</span>
+          <div class="menu-card-name">導入伴走 / 実行定着<br>パッケージ</div>
+          <div class="menu-card-price highlight">50万〜120万円</div>
+          <div class="menu-card-unit">/ 3ヶ月〜6ヶ月</div>
+          <div class="menu-card-divider"></div>
+          <p class="menu-card-desc">短期間で土台をつくりたい・導入後の実行と定着まで進めたい案件向け。課題整理から業務棚卸し・全体設計・教育・定着まで一気通貫で対応します。</p>
+          <div class="menu-card-tags">
+            <span class="mini-tag">業務棚卸し</span>
+            <span class="mini-tag">初期設計</span>
+            <span class="mini-tag">現場教育</span>
+            <span class="mini-tag">定着支援</span>
+          </div>
+        </div>
+
+        <!-- 継続 -->
+        <div class="menu-card cont reveal reveal-delay-3">
+          <span class="menu-card-tag tag-cont">継続</span>
+          <div class="menu-card-name">顧問サービス<br>（梅 / 竹 / 松）</div>
+          <div class="menu-card-price">5万〜30万円</div>
+          <div class="menu-card-unit">/ 月</div>
+          <div class="menu-card-divider"></div>
+          <p class="menu-card-desc">課題整理から外部DX担当レベルの全体設計まで、状況に合わせた継続伴走。長期的な関係構築と継続案件化に最適です。</p>
+          <div class="menu-card-tags">
+            <span class="mini-tag">外部DX担当</span>
+            <span class="mini-tag">全体設計</span>
+            <span class="mini-tag">継続伴走</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section" id="cta">
+    <div class="wrap">
+      <div class="reveal">
+        <h2 class="cta-title">まずは、<span>気軽に話しましょう。</span></h2>
+        <p class="cta-desc">
+          「こんな案件、任せられる？」という壁打ちから大歓迎です。<br>
+          レンタルさっさー（30分 3,300円）でお気軽にどうぞ。
+        </p>
+        <a href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" class="cta-btn">
+          <i class="fa-solid fa-calendar-check"></i>
+          協業について相談する（レンタルさっさー）
+        </a>
+        <p class="cta-note">※ 予約フォームが開きます</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <strong>ささエール</strong> &nbsp;|&nbsp; Lark・AI・LINEを活用した業務改善 / 教育 / 運用支援<br>
+    <span style="margin-top:8px;display:block;">&copy; Sasayell All rights reserved.</span>
   </footer>
 
-  <!-- 外部JS読み込み -->
-  <script src="./script.js"></script>
+  <!-- ===== JS ===== -->
   <script>
     // URLパラメータから会社名を取得して反映
-    document.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const companyName = urlParams.get('name');
-      if (companyName) {
-        const displayElement = document.getElementById('company-name-display');
-        if (displayElement) {
-          displayElement.textContent = companyName + '様';
-        }
-        document.title = companyName + '様向け協業プラン | ささエール';
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get('name');
+      if (name) {
+        const el = document.getElementById('company-name-display');
+        if (el) el.textContent = name + '様';
+        document.title = name + '様向け協業プラン | ささエール';
       }
+    })();
+
+    // Intersection Observer でスクロールアニメーション
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     });
   </script>
 </body>
