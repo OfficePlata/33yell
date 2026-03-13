@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ささエール｜パートナー企業向け協業プラン</title>
+  <meta name="description" content="Lark・AI・LINEを活用し、業務改善を現場で使える形に整える伴走型サービス『ささエール』のパートナー企業向け協業プラン紹介ページです。">
+  
+  <!-- 外部CSS読み込み -->
+  <link rel="stylesheet" href="./style.css">
+  
+  <!-- Font Awesome (CDN) for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Preload for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <style>
+    /* Critical CSS for faster initial render */
+    body { opacity: 0; transition: opacity 0.4s ease; }
+    body.loaded { opacity: 1; }
+    
+    /* Partner Page Specific Styles */
+    .partner-header {
+      position: relative;
+      padding: 120px 20px 80px;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+      color: white;
+    }
+    
+    .partner-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(253, 106, 42, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(253, 106, 42, 0.1) 0%, transparent 50%);
+      z-index: 1;
+    }
+
+    .partner-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .partner-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      color: var(--color-accent);
+    }
+
+    .partner-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.2;
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+
+    .partner-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .issue-box {
+      background: rgba(255, 71, 87, 0.05);
+      border-left: 4px solid #ff4757;
+      padding: 40px;
+      border-radius: 0 16px 16px 0;
+      margin: 60px 0;
+    }
+
+    .issue-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--color-text-main);
+    }
+
+    .issue-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .issue-list li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+      color: var(--color-text-sub);
+      font-weight: 500;
+    }
+
+    .issue-list li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: #ff4757;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+    }
+
+    .benefit-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-accent);
+    }
+
+    .benefit-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--color-bg-sub);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+    }
+
+    .flow-section {
+      background: var(--color-bg-sub);
+      padding: 80px 40px;
+      border-radius: 30px;
+      margin: 80px 0;
+      text-align: center;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 50px;
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .flow-grid { grid-template-columns: 1fr; }
+    }
+
+    .flow-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 2;
+    }
+
+    .flow-card h3 { margin-bottom: 15px; color: var(--color-primary); }
+
+    .flow-card ul {
+      text-align: left;
+      list-style: none;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    .flow-card ul li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .flow-card ul li::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      font-size: 0.7rem;
+      top: 2px;
+      color: var(--color-accent);
+    }
+
+    .menu-table-container {
+      margin: 80px 0;
+      overflow-x: auto;
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .menu-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 800px;
+    }
+
+    .menu-table th {
+      background: var(--color-bg-sub);
+      padding: 20px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--color-text-main);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .menu-table td {
+      padding: 20px;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: top;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tag-entry { background: #e3f2fd; color: #1976d2; }
+    .tag-main { background: var(--color-accent-soft); color: var(--color-accent); }
+    .tag-cont { background: #f3e5f5; color: #7b1fa2; }
+
+    .footer-partner {
+      background: var(--color-primary-dark);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .btn-partner {
+      display: inline-block;
+      background: var(--color-accent);
+      color: white;
+      padding: 18px 40px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(253, 106, 42, 0.3);
+      margin-top: 30px;
+    }
+
+    .btn-partner:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(253, 106, 42, 0.4);
+      background: #ff7e45;
+    }
+
+    /* Parameter dynamic text */
+    #company-name-display {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 8px;
+    }
+  </style>
+</head>
+<body class="loaded">
+  <div id="top"></div>
+  
+  <!-- デジタル背景 -->
+  <div class="digital-grid"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <header class="partner-header">
+    <div class="partner-container reveal">
+      <div class="partner-badge">PARTNER PROGRAM</div>
+      <h1 class="partner-title">
+        <span id="company-name-display">貴社</span>の提案に、<br>
+        「現場実装」の力を。
+      </h1>
+      <p class="partner-subtitle">
+        Lark・AI・LINEを活用し、提案して終わりにしない。<br>
+        現場定着までの一気通貫サポートで、貴社の提案価値を最大化します。
+      </p>
+    </div>
+  </header>
+
+  <main class="partner-container">
+    
+    <!-- 課題セクション -->
+    <section class="issue-box reveal">
+      <div class="issue-title">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h2>元請け企業さまのよくある課題</h2>
+      </div>
+      <ul class="issue-list">
+        <li>提案後の導入や教育まで手が回らない</li>
+        <li>AIやLarkを提案しても、現場で定着しない</li>
+        <li>LINE導入後の細かい現場フォローまで届かない</li>
+      </ul>
+      <div style="margin-top: 30px; text-align: center;">
+        <p style="font-weight: 800; color: var(--color-primary);">ささエールがこれらの課題を「現場実装」で補完します！</p>
+      </div>
+    </section>
+
+    <!-- メリット -->
+    <section class="reveal">
+      <h2 class="section-title">協業の4つのメリット</h2>
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h3>1. 提案の幅が広がる</h3>
+          <p>単一のツールだけでなく、Lark・AI・LINEを組み合わせた相乗効果のある提案を既存メニューに追加できます。</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+          <h3>2. 実務まで任せやすい</h3>
+          <p>戦略設計だけでなく、業務の棚卸し・設計・教育・定着支援まで、一気通貫で外部補完としてお任せいただけます。</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>3. 地域密着で動ける</h3>
+          <p>鹿児島・宮崎を中心に、地域の企業様へ寄り添い、現場の温度感に合わせた伴走支援が可能です。</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fa-solid fa-seedling"></i></div>
+          <h3>4. 小さく試して広げやすい</h3>
+          <p>単発のスポット相談から、期間を決めたパッケージ導入まで設計済み。継続案件化しやすい構成です。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- フロー -->
+    <section class="flow-section reveal">
+      <h2 class="section-title">協業の役割分担イメージ</h2>
+      <p>シームレスな連携で、クライアントの課題解決を加速させます。</p>
+      <div class="flow-grid">
+        <div class="flow-card">
+          <i class="fa-regular fa-building" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 20px; display: block;"></i>
+          <h3>元請け企業さま</h3>
+          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（貴社）</p>
+          <ul>
+            <li>案件のご相談</li>
+            <li>要件の共有</li>
+            <li>全体ディレクション</li>
+          </ul>
+        </div>
+        <div class="flow-card" style="border: 2px solid var(--color-accent);">
+          <i class="fa-solid fa-lightbulb" style="font-size: 3rem; color: var(--color-accent); margin-bottom: 20px; display: block;"></i>
+          <h3>ささエール</h3>
+          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（伴走支援）</p>
+          <ul>
+            <li>業務整理・棚卸し</li>
+            <li>導入初期設計</li>
+            <li>導入伴走</li>
+          </ul>
+        </div>
+        <div class="flow-card">
+          <i class="fa-solid fa-users-gear" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 20px; display: block;"></i>
+          <h3>クライアント現場</h3>
+          <p style="font-size: 0.8rem; color: var(--color-text-sub); margin-bottom: 15px;">（最終目標）</p>
+          <ul>
+            <li>現場教育</li>
+            <li>ルールに沿った運用</li>
+            <li>自走・定着</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- メニュー -->
+    <section class="reveal">
+      <h2 class="section-title">選べる支援メニュー</h2>
+      <div class="menu-table-container">
+        <table class="menu-table">
+          <thead>
+            <tr>
+              <th>段階</th>
+              <th>サービス名</th>
+              <th>価格（税込）</th>
+              <th>主な役割・おすすめの案件</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-entry">入口</span></td>
+              <td style="font-weight: 700;">レンタルさっさー</td>
+              <td>3,300円 / 30分</td>
+              <td>まずは気軽に相談したい案件。<br><small>壁打ち・課題整理・方向性確認</small></td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-entry">入口</span></td>
+              <td style="font-weight: 700;">LINE運用サポート ライト</td>
+              <td>11,000円 / 月</td>
+              <td>LINE公式だけ見てほしい案件。<br><small>配信添削・簡易改善・自社運用支援</small></td>
+            </tr>
+            <tr style="background: var(--color-accent-soft);">
+              <td><span class="tag tag-main">本命</span></td>
+              <td style="font-weight: 700; color: var(--color-accent);">導入伴走パッケージ</td>
+              <td style="font-weight: 700;">50万円 / 3ヶ月</td>
+              <td>短期間で土台をつくりたい案件向け。<br><small>課題整理・業務棚卸し・初期設計・役割整理</small></td>
+            </tr>
+            <tr style="background: var(--color-accent-soft);">
+              <td><span class="tag tag-main">本命</span></td>
+              <td style="font-weight: 700; color: var(--color-accent);">実行定着パッケージ</td>
+              <td style="font-weight: 700;">120万円 / 6ヶ月</td>
+              <td>導入後の実行と定着まで進めたい案件向け。<br><small>全体設計・教育・運用ルール整備・定着</small></td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-cont">継続</span></td>
+              <td style="font-weight: 700;">顧問サービス (梅/竹/松)</td>
+              <td>5万〜30万円 / 月</td>
+              <td>課題整理から外部DX担当レベルの全体設計まで、状況に合わせた継続伴走。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-partner">
+    <div class="partner-container">
+      <h2 style="font-size: 2rem; margin-bottom: 10px;">ささエール</h2>
+      <p>Lark・AI・LINEを活用した業務改善 / 教育 / 運用支援</p>
+      <a href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" class="btn-partner">
+        まずは協業について相談する
+      </a>
+      <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">&copy; Sasayell All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 外部JS読み込み -->
+  <script src="./script.js"></script>
+  <script>
+    // URLパラメータから会社名を取得して反映
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const companyName = urlParams.get('name');
+      if (companyName) {
+        const displayElement = document.getElementById('company-name-display');
+        if (displayElement) {
+          displayElement.textContent = companyName + '様';
+        }
+        document.title = companyName + '様向け協業プラン | ささエール';
+      }
+    });
+  </script>
+</body>
+</html>
