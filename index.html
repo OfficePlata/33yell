@@ -452,7 +452,7 @@
             Lark・AI・LINEを、現場で使える形に整えるところから始めましょう。
           </p>
           <div class="btn-row" style="justify-content:center;">
-            <a class="btn btn-primary" href="mailto:ipad4sasa@gmail.com?subject=%E3%81%95%E3%81%95%E3%82%A8%E3%83%BC%E3%83%AB%E3%81%AE%E7%9B%B8%E8%AB%87">メールで相談する</a>
+            <a class="btn btn-primary" href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/d4238e24cad71047" target="_blank" rel="noopener noreferrer">お問い合わせ/レンタルさっさーはこちら</a>
             <a class="btn btn-secondary" href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">トップページに戻る</a>
           </div>
         </div>
@@ -485,5 +485,37 @@
        FAQ開閉・スムーススクロール補助・先頭へ戻るボタンを制御
        ====================================================== -->
   <script src="./script.js"></script>
+
+  <!-- ======================================================
+       Lark Scheduler Popup Widget
+       右下のポップアップ予約導線を表示します
+       ====================================================== -->
+  <!-- Lark Scheduler Popup Widget Begin -->
+  <!--
+    安全性を高めるため、window.onload の上書きは使わず、
+    外部スクリプト読込後に初期化関数を実行する方式にしています。
+    これにより既存の script.js や他の onload 処理と競合しにくくなります。
+  -->
+  <script
+    type="text/javascript"
+    src="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/scheduler-widget.js"
+    async
+    onload="initLarkSchedulerWidget()"></script>
+  <script type="text/javascript">
+    function initLarkSchedulerWidget() {
+      if (!window.LarkScheduler || typeof window.LarkScheduler.initPopupWidget !== 'function') {
+        return;
+      }
+
+      window.LarkScheduler.initPopupWidget({
+        url: 'https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047',
+        text: '予約する',
+        color: '#FFFFFF',
+        background: '#FD6A2A'
+      });
+    }
+  </script>
+  <!-- Lark Scheduler Popup Widget End -->
+
 </body>
 </html>
