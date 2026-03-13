@@ -11,13 +11,26 @@
        GitHub Pagesで崩れにくいように相対パス ./style.css を使用
        ====================================================== -->
   <link rel="stylesheet" href="./style.css">
+  
+  <!-- Preload for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <style>
+    /* Critical CSS for faster initial render */
+    body { opacity: 0; transition: opacity 0.4s ease; }
+    body.loaded { opacity: 1; }
+  </style>
 </head>
-<body>
+<body class="loaded">
   <!-- ======================================================
        ページ先頭へ戻る補助アンカー
        JSのスムーススクロールや固定ボタンの戻り先になります
        ====================================================== -->
   <div id="top"></div>
+  
+  <!-- Digital Grid Background -->
+  <div class="digital-grid" aria-hidden="true"></div>
 
   <!-- ======================================================
        ヘッダー
@@ -47,6 +60,11 @@
          左に訴求、右に簡潔な要約カード
          ====================================================== -->
     <section class="hero">
+      <!-- Floating Orbs for digital feel -->
+      <div class="floating-orb orb-1" aria-hidden="true"></div>
+      <div class="floating-orb orb-2" aria-hidden="true"></div>
+      <div class="floating-orb orb-3" aria-hidden="true"></div>
+      <div class="floating-orb orb-4" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="hero-badge">Lark・AI・LINEを、現場で使える形に。</div>
@@ -71,6 +89,15 @@
           </div>
         </div>
         <aside class="hero-card" aria-label="ささエールの特徴">
+          <!-- Visual Icon for warmth -->
+          <div class="hero-card-visual" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 12px;">
+              <circle cx="24" cy="24" r="20" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.3"/>
+              <circle cx="24" cy="24" r="12" stroke="var(--yellow)" stroke-width="2" fill="none" opacity="0.5"/>
+              <circle cx="24" cy="24" r="4" fill="var(--accent)"/>
+              <path d="M24 8v4M24 36v4M8 24h4M36 24h4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            </svg>
+          </div>
           <h3>相談だけで終わらせない伴走支援</h3>
           <p>
             気軽なスポット相談から、3ヶ月・6ヶ月のパッケージ、継続顧問まで。
@@ -121,16 +148,36 @@
         </div>
         <div class="roles">
           <article class="role-card">
+            <div class="human-touch-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" rx="1" stroke="var(--brown)" stroke-width="2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1" stroke="var(--brown)" stroke-width="2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1" stroke="var(--brown)" stroke-width="2"/>
+                <rect x="14" y="14" width="7" height="7" rx="1" stroke="var(--brown)" stroke-width="2"/>
+              </svg>
+            </div>
             <div class="role-label">社内整理</div>
             <h3>Lark</h3>
             <p>情報共有、業務管理、進捗確認など、社内の整理と見える化に活用します。</p>
           </article>
           <article class="role-card">
+            <div class="human-touch-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="3" stroke="var(--brown)" stroke-width="2"/>
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="var(--brown)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="var(--brown)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
             <div class="role-label">効率化</div>
             <h3>AI</h3>
             <p>文章作成、整理、下書き、チェックなど、日々の業務時間を短縮するために活用します。</p>
           </article>
           <article class="role-card">
+            <div class="human-touch-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="var(--brown)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="role-label">顧客接点</div>
             <h3>LINE</h3>
             <p>お客様への案内、配信、導線設計、問い合わせ導線の整理に活用します。</p>
@@ -306,7 +353,7 @@
 
     <!-- ======================================================
          比較表
-         サービス全体の違いを一目で見せたい時に使うテーブル
+         サービス全体の違いを一目で見せたい時に使��テーブル
          ====================================================== -->
     <section class="section bg-panel" id="compare">
       <div class="container">
@@ -445,7 +492,7 @@
          ====================================================== -->
     <section class="section bg-accent-soft" id="cta">
       <div class="container">
-        <div class="cta-box text-center">
+        <div class="cta-box text-center warm-texture">
           <h2>“難しい”を“できる”へ。</h2>
           <p>
             まずは気軽な相談からでも大丈夫です。<br>
