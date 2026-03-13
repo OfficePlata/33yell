@@ -7,638 +7,607 @@
   <meta name="description" content="Lark・AI・LINEを活用し、業務改善を現場で使える形に整える伴走型サービス『ささエール』のパートナー企業向け協業プラン紹介ページです。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    /* ===== RESET & BASE ===== */
+    /* =========================================================
+       Partner Page - officeplata.com トンマナ + アメコミ演出
+       ========================================================= */
+    :root {
+      --main: #04384c;
+      --main-dark: #032a39;
+      --main-light: #0a5f7a;
+      --text: #333;
+      --text-soft: #5a6872;
+      --bg: #fdfdfd;
+      --bg-soft: #f4f8fa;
+      --panel: #ffffff;
+      --accent: #DD6420;
+      --accent-strong: #c45518;
+      --yellow: #f5b526;
+      --comic-yellow: #FFD600;
+      --comic-red: #e53935;
+      --line-green: #06C755;
+      --lark-blue: #3370FF;
+      --shadow-sm: 0 2px 8px rgba(4,56,76,0.08);
+      --shadow-md: 0 8px 24px rgba(4,56,76,0.12);
+      --shadow-lg: 0 20px 50px rgba(4,56,76,0.18);
+      --radius: 16px;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Noto Sans JP', 'Hiragino Sans', Meiryo, sans-serif;
-      background: #f8f9fc;
-      color: #1a1a2e;
-      line-height: 1.7;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      font-family: "游ゴシック体","Yu Gothic",YuGothic,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;
+      font-weight: 500;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      overflow-x: hidden;
     }
-    body.loaded { opacity: 1; }
     img { max-width: 100%; display: block; }
-    a { text-decoration: none; }
+    a { text-decoration: none; color: inherit; }
+    .comic-font { font-family: 'Bangers', cursive; letter-spacing: 2px; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* ===== VARIABLES ===== */
-    :root {
-      --navy:   #0f1c3f;
-      --blue:   #1a3a8f;
-      --cyan:   #00c4e0;
-      --orange: #fd6a2a;
-      --orange-light: #ff8f5a;
-      --white:  #ffffff;
-      --gray-50: #f8f9fc;
-      --gray-100: #f0f2f8;
-      --gray-200: #e2e6f0;
-      --gray-600: #5a6480;
-      --gray-800: #1a1a2e;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
-      --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-      --radius: 20px;
+    /* ---- Halftone ---- */
+    .halftone::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(4,56,76,0.05) 1px, transparent 1px);
+      background-size: 8px 8px;
+      pointer-events: none; z-index: 0;
     }
 
-    /* ===== LAYOUT ===== */
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-    /* ===== REVEAL ANIMATION ===== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    /* ---- Keyframes ---- */
+    @keyframes pop-in {
+      0% { opacity: 0; transform: scale(0.4) rotate(-8deg); }
+      60% { transform: scale(1.12) rotate(2deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ===== SECTION LABEL ===== */
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(253,106,42,0.1);
-      color: var(--orange);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 6px 16px;
-      border-radius: 100px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(253,106,42,0.2);
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900;
-      line-height: 1.2;
-      color: var(--navy);
-      margin-bottom: 16px;
+    @keyframes burst {
+      0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+      50% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
     }
-    .section-desc {
-      font-size: 1.05rem;
-      color: var(--gray-600);
-      max-width: 640px;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
-
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      background: var(--navy);
+    @keyframes speed-lines {
+      0% { transform: translateX(-100%); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateX(100vw); opacity: 0; }
     }
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background-image: url('./images/partner-hero.jpg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.25;
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg,
-        rgba(15,28,63,0.97) 0%,
-        rgba(26,58,143,0.85) 50%,
-        rgba(15,28,63,0.92) 100%
-      );
-    }
-    /* デジタルグリッド */
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,196,224,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,196,224,0.06) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      padding: 120px 0 80px;
-      width: 100%;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(253,106,42,0.15);
-      border: 1px solid rgba(253,106,42,0.4);
-      color: var(--orange-light);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      padding: 8px 20px;
-      border-radius: 100px;
-      margin-bottom: 28px;
-      backdrop-filter: blur(10px);
-    }
-    .hero-badge i { font-size: 0.75rem; }
-    .hero-title {
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      font-weight: 900;
-      line-height: 1.15;
-      color: #fff;
-      margin-bottom: 28px;
-    }
-    .hero-title .accent {
-      color: var(--orange);
-      position: relative;
-    }
-    .hero-title .company-name {
-      color: var(--cyan);
-      border-bottom: 3px solid var(--cyan);
-      padding-bottom: 2px;
-    }
-    .hero-subtitle {
-      font-size: 1.15rem;
-      color: rgba(255,255,255,0.75);
-      max-width: 600px;
-      line-height: 1.8;
-      margin-bottom: 48px;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--orange);
-      color: white;
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 18px 36px;
-      border-radius: 100px;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(253,106,42,0.4);
-    }
-    .hero-cta:hover {
-      background: var(--orange-light);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(253,106,42,0.5);
-    }
-    /* スクロール矢印 */
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.4);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      animation: bounce 2s infinite;
+    @keyframes scan-line {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
     }
     @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(8px); }
     }
 
-    /* ===== PROBLEM SECTION ===== */
-    .problem-section {
-      padding: 100px 0;
-      background: white;
+    /* ---- Reveal ---- */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 52px; padding: 0 28px; border-radius: 999px;
+      font-weight: 700; font-size: 15px; border: 2px solid transparent;
+      cursor: pointer; transition: all 0.3s; position: relative;
     }
-    .problem-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      margin-top: 60px;
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border-color: var(--accent);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
     }
-    @media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; gap: 40px; } }
-    .problem-list { display: flex; flex-direction: column; gap: 20px; }
-    .problem-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 24px;
-      background: #fff5f5;
-      border-radius: 16px;
-      border-left: 4px solid #ff4757;
+    .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(0,0,0,0.25); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      border-color: rgba(255,255,255,0.4);
     }
-    .problem-item-icon {
-      width: 44px; height: 44px;
-      background: #ffe0e3;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      color: #ff4757;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-    .problem-item-text { font-size: 1rem; font-weight: 600; color: #2d2d2d; line-height: 1.5; }
-    .problem-item-sub { font-size: 0.85rem; color: #888; margin-top: 4px; font-weight: 400; }
-    .solution-box {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-      border-radius: var(--radius);
-      padding: 48px 40px;
-      color: white;
+    .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* =========================================================
+       HERO - Comic Style with Representative
+       ========================================================= */
+    .hero {
       position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
       overflow: hidden;
+      background: linear-gradient(135deg, var(--main) 0%, var(--main-dark) 60%, #011e2a 100%);
+    }
+    /* Speed lines */
+    .hero-speed-lines {
+      position: absolute; inset: 0;
+      overflow: hidden; pointer-events: none; z-index: 1;
+    }
+    .hero-speed-lines span {
+      position: absolute; display: block;
+      height: 2px; background: rgba(255,214,0,0.12);
+      animation: speed-lines 3.5s linear infinite;
+    }
+    .hero-speed-lines span:nth-child(1) { top: 12%; width: 200px; animation-delay: 0s; }
+    .hero-speed-lines span:nth-child(2) { top: 28%; width: 300px; animation-delay: 0.6s; }
+    .hero-speed-lines span:nth-child(3) { top: 48%; width: 160px; animation-delay: 1.2s; }
+    .hero-speed-lines span:nth-child(4) { top: 68%; width: 240px; animation-delay: 1.8s; }
+    .hero-speed-lines span:nth-child(5) { top: 85%; width: 180px; animation-delay: 2.4s; }
+
+    .hero-inner {
+      position: relative; z-index: 10;
+      display: grid; grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px; align-items: center;
+      width: 100%; padding: 100px 0 60px;
+    }
+    .hero-copy { display: flex; flex-direction: column; gap: 18px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      width: fit-content;
+      padding: 8px 18px; border-radius: 999px;
+      background: var(--comic-yellow); color: #000;
+      font-weight: 900; font-size: 13px;
+      border: 2px solid #000;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+      animation: pop-in 0.6s ease-out;
+    }
+    .hero-title {
+      font-size: clamp(28px,5vw,54px);
+      line-height: 1.2; color: #fff;
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+    }
+    .hero-title .company-name {
+      color: var(--comic-yellow);
+      border-bottom: 3px solid var(--comic-yellow);
+      padding-bottom: 2px;
+    }
+    .hero-title .accent { color: var(--comic-yellow); }
+    .hero-subtitle {
+      font-size: 16px; color: rgba(255,255,255,0.8);
+      line-height: 1.8;
+    }
+    .hero-logos {
+      display: flex; gap: 12px; align-items: center;
+    }
+    .hero-logos img {
+      height: 34px; width: auto; border-radius: 8px;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .hero-logos span {
+      color: rgba(255,255,255,0.7); font-weight: 700; font-size: 18px;
+    }
+    .hero-btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* Hero Right - Representative + Comic Burst */
+    .hero-right {
+      position: relative; display: flex; justify-content: center; align-items: flex-end;
+    }
+    .hero-representative {
+      position: relative; z-index: 2;
+      max-width: 320px; filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.4));
+      animation: slide-up 0.8s ease-out 0.3s both;
+    }
+    .comic-burst {
+      position: absolute; z-index: 3;
+      font-family: 'Bangers', cursive; color: #000;
+      text-shadow: 2px 2px 0 var(--comic-yellow);
+      animation: burst 0.5s ease-out both;
+      white-space: nowrap;
+    }
+    .burst-1 {
+      top: 5%; right: -8%; font-size: clamp(24px,3.5vw,42px);
+      animation-delay: 0.8s;
+      background: var(--comic-yellow); padding: 4px 14px;
+      border: 3px solid #000; border-radius: 8px;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    }
+    .burst-2 {
+      bottom: 18%; left: -6%; font-size: clamp(18px,2.5vw,32px);
+      animation-delay: 1.2s;
+      background: #fff; padding: 4px 12px;
+      border: 3px solid #000; border-radius: 8px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%); z-index: 10;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.35); font-size: 12px; letter-spacing: 0.1em;
+      animation: bounce 2s infinite;
+    }
+
+    /* =========================================================
+       Section Common
+       ========================================================= */
+    .section { padding: 80px 0; position: relative; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 999px;
+      background: var(--comic-yellow); color: #000;
+      font-weight: 900; font-size: 12px; letter-spacing: 0.1em;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(24px,4vw,40px);
+      line-height: 1.25; color: var(--main-dark);
+      margin-bottom: 12px;
+    }
+    .section-desc { font-size: 16px; color: var(--text-soft); max-width: 640px; }
+
+    .bg-white { background: #fff; }
+    .bg-soft { background: var(--bg-soft); }
+    .bg-dark {
+      background: linear-gradient(135deg, var(--main) 0%, var(--main-dark) 100%);
+      color: #fff;
+    }
+    .bg-dark .section-title { color: #fff; }
+    .bg-dark .section-desc { color: rgba(255,255,255,0.7); }
+    .bg-dark .section-label {
+      background: rgba(255,214,0,0.15); color: var(--comic-yellow);
+      border-color: rgba(255,214,0,0.4);
+    }
+
+    /* =========================================================
+       PROBLEM Section - Comic Panel
+       ========================================================= */
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: center; margin-top: 40px;
+    }
+    .problem-list { display: flex; flex-direction: column; gap: 16px; }
+    .problem-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 20px; background: #fff;
+      border-radius: var(--radius);
+      border: 3px solid #222; border-left: 6px solid var(--comic-red);
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    .problem-item:hover {
+      transform: translateX(6px) rotate(-0.3deg);
+      box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+    }
+    .problem-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: #ffe0e3; color: var(--comic-red);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .problem-text { font-size: 15px; font-weight: 700; color: var(--main-dark); line-height: 1.5; }
+    .problem-sub { font-size: 13px; color: var(--text-soft); margin-top: 4px; font-weight: 400; }
+
+    .solution-box {
+      background: var(--main); border: 3px solid var(--comic-yellow);
+      border-radius: 24px; padding: 36px 32px; color: #fff;
+      position: relative; overflow: hidden;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
     }
     .solution-box::before {
-      content: '';
-      position: absolute;
-      top: -40px; right: -40px;
-      width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(0,196,224,0.15) 0%, transparent 70%);
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(255,214,0,0.12) 0%, transparent 70%);
       border-radius: 50%;
     }
-    .solution-box-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      color: var(--cyan);
-      margin-bottom: 12px;
+    .solution-label {
+      font-size: 12px; font-weight: 900; letter-spacing: 0.15em;
+      color: var(--comic-yellow); margin-bottom: 10px;
     }
-    .solution-box-title {
-      font-size: 1.8rem;
-      font-weight: 900;
-      line-height: 1.3;
-      margin-bottom: 24px;
+    .solution-title {
+      font-size: clamp(22px,3vw,30px); font-weight: 900;
+      line-height: 1.3; margin-bottom: 20px;
     }
-    .solution-box-title span { color: var(--orange); }
-    .solution-points { display: flex; flex-direction: column; gap: 14px; }
+    .solution-title span { color: var(--comic-yellow); }
+    .solution-points { display: flex; flex-direction: column; gap: 12px; }
     .solution-point {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.9);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: rgba(255,255,255,0.9);
     }
-    .solution-point i { color: var(--cyan); font-size: 1rem; }
+    .solution-point i { color: var(--comic-yellow); font-size: 14px; }
 
-    /* ===== MERIT SECTION ===== */
-    .merit-section {
-      padding: 100px 0;
-      background: var(--gray-50);
-    }
+    /* =========================================================
+       MERIT Section - Comic Cards with Numbers
+       ========================================================= */
     .merit-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-      margin-top: 60px;
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 24px; margin-top: 40px;
     }
-    @media (max-width: 768px) { .merit-grid { grid-template-columns: 1fr; } }
     .merit-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      transition: all 0.35s ease;
-      position: relative;
-      overflow: hidden;
+      background: #fff; border: 3px solid #222;
+      border-radius: var(--radius); padding: 32px;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+      position: relative; overflow: hidden;
+      transition: all 0.35s;
     }
     .merit-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--orange), var(--cyan));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s ease;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--comic-yellow), var(--accent));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s; animation: none;
     }
-    .merit-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    .merit-card:hover {
+      transform: translateY(-6px) rotate(-0.3deg);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+    }
     .merit-card:hover::before { transform: scaleX(1); }
     .merit-num {
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--gray-200);
-      line-height: 1;
-      margin-bottom: 16px;
-      font-variant-numeric: tabular-nums;
+      font-size: 52px; font-weight: 900; line-height: 1;
+      color: rgba(4,56,76,0.08); margin-bottom: 12px;
     }
     .merit-icon {
-      width: 56px; height: 56px;
-      border-radius: 14px;
+      width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+      font-size: 22px; margin-bottom: 16px;
     }
-    .merit-icon.blue { background: #e8f0fe; color: var(--blue); }
-    .merit-icon.orange { background: rgba(253,106,42,0.1); color: var(--orange); }
-    .merit-title {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 12px;
-    }
-    .merit-desc { font-size: 0.95rem; color: var(--gray-600); line-height: 1.75; }
+    .merit-icon.blue { background: rgba(51,112,255,0.1); color: var(--lark-blue); }
+    .merit-icon.orange { background: rgba(221,100,32,0.1); color: var(--accent); }
+    .merit-title { font-size: 20px; font-weight: 800; color: var(--main-dark); margin-bottom: 10px; }
+    .merit-desc { font-size: 14px; color: var(--text-soft); line-height: 1.75; }
 
-    /* ===== FLOW SECTION ===== */
-    .flow-section {
-      padding: 100px 0;
-      background: var(--navy);
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-    .flow-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,196,224,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,196,224,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .flow-section .section-title { color: white; }
-    .flow-section .section-desc { color: rgba(255,255,255,0.6); }
+    /* =========================================================
+       FLOW Section - Dark + Comic
+       ========================================================= */
     .flow-image-wrap {
-      margin: 50px 0;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      margin: 40px 0; border-radius: var(--radius);
+      overflow: hidden; border: 3px solid rgba(255,214,0,0.3);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
     }
     .flow-image-wrap img { width: 100%; }
     .flow-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      position: relative;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 20px; position: relative;
     }
-    @media (max-width: 768px) { .flow-cards { grid-template-columns: 1fr; } }
     .flow-cards::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 16.6%;
-      right: 16.6%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--blue), var(--orange), var(--blue));
-      transform: translateY(-50%);
-      z-index: 0;
+      content: ''; position: absolute; top: 50%;
+      left: 16.6%; right: 16.6%; height: 3px;
+      background: linear-gradient(90deg, var(--lark-blue), var(--accent), var(--line-green));
+      transform: translateY(-50%); z-index: 0;
     }
-    @media (max-width: 768px) { .flow-cards::before { display: none; } }
     .flow-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: var(--radius);
-      padding: 36px 28px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius); padding: 30px 24px;
+      text-align: center; position: relative; z-index: 1;
+      backdrop-filter: blur(10px); transition: all 0.3s;
     }
     .flow-card:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.12);
       transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     .flow-card.center {
-      border-color: rgba(253,106,42,0.5);
-      background: rgba(253,106,42,0.08);
+      border-color: rgba(255,214,0,0.5);
+      background: rgba(255,214,0,0.06);
     }
     .flow-card-icon {
-      width: 70px; height: 70px;
-      border-radius: 50%;
+      width: 64px; height: 64px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      margin: 0 auto 20px;
+      font-size: 26px; margin: 0 auto 16px;
+      border: 3px solid;
     }
-    .flow-card-icon.blue-icon { background: rgba(0,196,224,0.15); color: var(--cyan); border: 2px solid rgba(0,196,224,0.3); }
-    .flow-card-icon.orange-icon { background: rgba(253,106,42,0.15); color: var(--orange); border: 2px solid rgba(253,106,42,0.4); }
-    .flow-card-title { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 6px; }
-    .flow-card-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 18px; }
+    .flow-card-icon.blue-icon { background: rgba(51,112,255,0.12); color: var(--lark-blue); border-color: rgba(51,112,255,0.3); }
+    .flow-card-icon.orange-icon { background: rgba(221,100,32,0.12); color: var(--accent); border-color: rgba(221,100,32,0.3); }
+    .flow-card-icon.green-icon { background: rgba(6,199,85,0.12); color: var(--line-green); border-color: rgba(6,199,85,0.3); }
+    .flow-card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .flow-card-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 14px; }
     .flow-card-list { list-style: none; text-align: left; }
     .flow-card-list li {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.8);
-      padding: 6px 0 6px 20px;
-      position: relative;
+      font-size: 13px; color: rgba(255,255,255,0.8);
+      padding: 5px 0 5px 18px; position: relative;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .flow-card-list li::before {
-      content: '▶';
-      position: absolute; left: 0;
-      font-size: 0.6rem; top: 9px;
-      color: var(--cyan);
+      content: '\25B6'; position: absolute; left: 0;
+      font-size: 8px; top: 8px; color: var(--comic-yellow);
     }
-    .flow-card.center .flow-card-list li::before { color: var(--orange); }
 
-    /* ===== MENU SECTION ===== */
-    .menu-section {
-      padding: 100px 0;
-      background: white;
-    }
+    /* =========================================================
+       MENU Section - Comic Card Style
+       ========================================================= */
     .menu-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 60px;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 24px; margin-top: 40px;
     }
-    @media (max-width: 900px) { .menu-cards { grid-template-columns: 1fr; } }
     .menu-card {
-      border-radius: var(--radius);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.35s ease;
+      border-radius: var(--radius); padding: 32px 26px;
+      position: relative; overflow: hidden;
+      transition: all 0.35s;
+      border: 3px solid #222;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
     }
-    .menu-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
-    .menu-card.entry {
-      background: var(--gray-50);
-      border: 2px solid var(--gray-200);
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
     }
+    .menu-card.entry { background: #fff; }
     .menu-card.main {
-      background: linear-gradient(145deg, #fff5f0, #fff);
-      border: 2px solid rgba(253,106,42,0.3);
-      box-shadow: 0 10px 40px rgba(253,106,42,0.12);
+      background: linear-gradient(145deg, #fff8f0, #fff);
+      border-color: var(--accent);
     }
     .menu-card.cont {
-      background: linear-gradient(145deg, #f0f4ff, #fff);
-      border: 2px solid rgba(26,58,143,0.2);
+      background: linear-gradient(145deg, #f0f6ff, #fff);
+      border-color: var(--lark-blue);
     }
-    .menu-card-tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      padding: 5px 14px;
-      border-radius: 100px;
-      margin-bottom: 20px;
+    .menu-tag {
+      display: inline-block; font-size: 11px; font-weight: 900;
+      letter-spacing: 0.1em; padding: 4px 14px;
+      border-radius: 999px; margin-bottom: 16px;
+      border: 2px solid;
     }
-    .tag-entry { background: #e8f5e9; color: #2e7d32; }
-    .tag-main { background: rgba(253,106,42,0.12); color: var(--orange); }
-    .tag-cont { background: #e8eaf6; color: #3949ab; }
-    .menu-card-name {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    .menu-card-price {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--navy);
-      margin-bottom: 4px;
-      line-height: 1;
-    }
-    .menu-card-price.highlight { color: var(--orange); }
-    .menu-card-unit {
-      font-size: 0.82rem;
-      color: var(--gray-600);
-      margin-bottom: 20px;
-    }
-    .menu-card-divider {
-      height: 1px;
-      background: var(--gray-200);
-      margin: 20px 0;
-    }
-    .menu-card-desc {
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      line-height: 1.7;
-    }
-    .menu-card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 16px;
-    }
+    .tag-entry { background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; }
+    .tag-main { background: rgba(221,100,32,0.1); color: var(--accent); border-color: var(--accent); }
+    .tag-cont { background: rgba(51,112,255,0.1); color: var(--lark-blue); border-color: var(--lark-blue); }
+    .menu-name { font-size: 18px; font-weight: 800; color: var(--main-dark); margin-bottom: 8px; line-height: 1.3; }
+    .menu-price { font-size: 28px; font-weight: 900; color: var(--main-dark); margin-bottom: 4px; }
+    .menu-price.highlight { color: var(--accent); text-shadow: 1px 1px 0 rgba(221,100,32,0.1); }
+    .menu-unit { font-size: 13px; color: var(--text-soft); margin-bottom: 16px; }
+    .menu-divider { height: 2px; background: #e0e6ea; margin: 16px 0; }
+    .menu-desc { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
+    .menu-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
     .mini-tag {
-      font-size: 0.72rem;
-      background: var(--gray-100);
-      color: var(--gray-600);
-      padding: 3px 10px;
-      border-radius: 100px;
+      font-size: 11px; background: var(--bg-soft); color: var(--text-soft);
+      padding: 3px 10px; border-radius: 999px; border: 1px solid #e0e6ea;
     }
-    /* 本命カードのおすすめリボン */
     .ribbon {
-      position: absolute;
-      top: 20px; right: -28px;
-      background: var(--orange);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 6px 40px;
-      transform: rotate(45deg);
-      letter-spacing: 0.1em;
+      position: absolute; top: 18px; right: -30px;
+      background: var(--comic-yellow); color: #000;
+      font-size: 11px; font-weight: 900; padding: 5px 40px;
+      transform: rotate(45deg); letter-spacing: 0.1em;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
     }
 
-    /* ===== CTA SECTION ===== */
+    /* =========================================================
+       CTA Section - Comic Burst
+       ========================================================= */
     .cta-section {
-      padding: 120px 0;
-      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--main) 0%, var(--main-dark) 100%);
+      text-align: center; position: relative; overflow: hidden;
     }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,196,224,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,196,224,0.05) 1px, transparent 1px);
-      background-size: 60px 60px;
+    .cta-representative {
+      max-width: 180px; margin: 0 auto 16px;
+      filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.4));
+      animation: float 3s ease-in-out infinite;
+    }
+    .cta-comic { font-family: 'Bangers', cursive; font-size: clamp(32px,5vw,56px);
+      color: var(--comic-yellow); text-shadow: 3px 3px 0 #000;
+      margin-bottom: 10px; letter-spacing: 3px;
     }
     .cta-title {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 900;
-      color: white;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
+      font-size: clamp(24px,4vw,40px); font-weight: 900;
+      color: #fff; margin-bottom: 16px;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+      position: relative; z-index: 1;
     }
-    .cta-title span { color: var(--orange); }
+    .cta-title span { color: var(--comic-yellow); }
     .cta-desc {
-      font-size: 1.1rem;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 48px;
-      position: relative;
-      z-index: 1;
+      font-size: 16px; color: rgba(255,255,255,0.75);
+      margin-bottom: 32px; position: relative; z-index: 1;
     }
     .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--orange);
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 800;
-      padding: 22px 48px;
-      border-radius: 100px;
-      transition: all 0.3s ease;
-      box-shadow: 0 12px 40px rgba(253,106,42,0.4);
-      position: relative;
-      z-index: 1;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      font-size: 16px; font-weight: 700;
+      padding: 18px 36px; border-radius: 999px;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+      transition: all 0.3s; position: relative; z-index: 1;
     }
     .cta-btn:hover {
-      background: var(--orange-light);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(253,106,42,0.5);
+      transform: translate(-2px,-2px);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.35);
+      background: var(--accent-strong);
     }
     .cta-note {
-      margin-top: 20px;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-      position: relative;
-      z-index: 1;
+      margin-top: 16px; font-size: 13px;
+      color: rgba(255,255,255,0.4); position: relative; z-index: 1;
     }
 
-    /* ===== FOOTER ===== */
+    /* =========================================================
+       Footer
+       ========================================================= */
     .footer {
-      background: #070d1f;
-      color: rgba(255,255,255,0.5);
-      padding: 40px 20px;
-      text-align: center;
-      font-size: 0.85rem;
+      background: var(--main-dark); color: rgba(255,255,255,0.5);
+      padding: 24px 20px; text-align: center; font-size: 13px;
     }
     .footer strong { color: rgba(255,255,255,0.8); }
+    .footer a { color: rgba(255,255,255,0.7); transition: color 0.3s; }
+    .footer a:hover { color: var(--comic-yellow); }
 
-    /* ===== RESPONSIVE ===== */
+    /* ---- Back to Top ---- */
+    .back-to-top {
+      position: fixed; right: 20px; bottom: 20px;
+      width: 48px; height: 48px; border: 3px solid #000;
+      border-radius: 50%; background: var(--comic-yellow);
+      color: #000; font-size: 18px; font-weight: 900;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+      cursor: pointer; opacity: 0; visibility: hidden;
+      transform: translateY(10px); transition: all 0.3s; z-index: 120;
+    }
+    .back-to-top.is-show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { transform: translateY(-4px) scale(1.1); }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-copy { align-items: center; }
+      .hero-btn-row { justify-content: center; }
+      .hero-logos { justify-content: center; }
+      .hero-right { margin-top: 20px; }
+      .hero-representative { max-width: 240px; }
+      .burst-1 { right: 5%; font-size: clamp(20px,3vw,32px); }
+      .burst-2 { left: 5%; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .merit-grid { grid-template-columns: 1fr; }
+      .flow-cards { grid-template-columns: 1fr; }
+      .flow-cards::before { display: none; }
+      .menu-cards { grid-template-columns: 1fr; }
+    }
     @media (max-width: 600px) {
-      .hero-title { font-size: 2rem; }
+      .hero-title { font-size: clamp(22px,6vw,32px); }
       .wrap { padding: 0 16px; }
-      .solution-box { padding: 32px 24px; }
-      .merit-card, .menu-card { padding: 28px 24px; }
+      .section { padding: 56px 0; }
+      .burst-1, .burst-2 { font-size: 18px !important; }
     }
   </style>
 </head>
-<body class="loaded">
+<body>
 
   <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-      <div class="wrap">
-        <div class="reveal">
-          <div class="hero-badge">
-            <i class="fa-solid fa-handshake"></i>
-            PARTNER PROGRAM
-          </div>
-          <h1 class="hero-title">
-            <span id="company-name-display" class="company-name">貴社</span>の提案に、<br>
-            <span class="accent">「現場実装」</span>の力を。
-          </h1>
-          <p class="hero-subtitle">
-            Lark・AI・LINEを活用し、提案して終わりにしない。<br>
-            現場定着までの一気通貫サポートで、貴社の提案価値を最大化します。
-          </p>
-          <a href="#cta" class="hero-cta">
+  <section class="hero halftone">
+    <div class="hero-speed-lines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <i class="fa-solid fa-handshake"></i>
+          PARTNER PROGRAM
+        </div>
+        <h1 class="hero-title">
+          <span id="company-name-display" class="company-name">貴社</span>の提案に、<br>
+          <span class="accent">「現場実装」</span>の力を。
+        </h1>
+        <p class="hero-subtitle">
+          Lark・AI・LINEを活用し、提案して終わりにしない。<br>
+          現場定着までの一気通貫サポートで、貴社の提案価値を最大化します。
+        </p>
+        <div class="hero-logos">
+          <img src="./images/lark-logo.svg" alt="Lark" />
+          <span>×</span>
+          <img src="./images/line-logo.svg" alt="LINE" />
+          <span>×</span>
+          <span style="background:#fff;color:#333;padding:4px 12px;border-radius:8px;font-size:13px;font-weight:900;box-shadow:2px 2px 0 rgba(0,0,0,0.2);">AI</span>
+        </div>
+        <div class="hero-btn-row">
+          <a href="#cta" class="btn btn-primary">
             <i class="fa-solid fa-calendar-check"></i>
             協業について相談する
           </a>
+          <a href="https://officeplata.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            トップページに戻る
+          </a>
         </div>
+      </div>
+      <div class="hero-right">
+        <img class="hero-representative" src="./images/representative-sm.png" alt="代表 笹原彰朗" />
+        <div class="comic-burst burst-1 comic-font">COOL!</div>
+        <div class="comic-burst burst-2 comic-font">YEAH!</div>
       </div>
     </div>
     <div class="hero-scroll">
@@ -648,7 +617,7 @@
   </section>
 
   <!-- ===== PROBLEM ===== -->
-  <section class="problem-section">
+  <section class="section bg-white">
     <div class="wrap">
       <div class="reveal">
         <div class="section-label"><i class="fa-solid fa-triangle-exclamation"></i> PROBLEM</div>
@@ -657,30 +626,30 @@
       <div class="problem-grid">
         <div class="problem-list">
           <div class="problem-item reveal reveal-delay-1">
-            <div class="problem-item-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="problem-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
             <div>
-              <div class="problem-item-text">提案後の導入・教育まで手が回らない</div>
-              <div class="problem-item-sub">受注後のフォローに工数が取れず、定着しないまま終わってしまう</div>
+              <div class="problem-text">提案後の導入・教育まで手が回らない</div>
+              <div class="problem-sub">受注後のフォローに工数が取れず、定着しないまま終わってしまう</div>
             </div>
           </div>
           <div class="problem-item reveal reveal-delay-2">
-            <div class="problem-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="problem-icon"><i class="fa-solid fa-robot"></i></div>
             <div>
-              <div class="problem-item-text">AIやLarkを提案しても、現場で定着しない</div>
-              <div class="problem-item-sub">ツールを入れるだけでは変わらない。現場の習慣を変えるフォローが必要</div>
+              <div class="problem-text">AIやLarkを提案しても、現場で定着しない</div>
+              <div class="problem-sub">ツールを入れるだけでは変わらない。現場の習慣を変えるフォローが必要</div>
             </div>
           </div>
           <div class="problem-item reveal reveal-delay-3">
-            <div class="problem-item-icon"><i class="fa-brands fa-line"></i></div>
+            <div class="problem-icon"><i class="fa-brands fa-line"></i></div>
             <div>
-              <div class="problem-item-text">LINE導入後の細かい現場フォローまで届かない</div>
-              <div class="problem-item-sub">設定して終わりではなく、運用・改善まで伴走できるパートナーが必要</div>
+              <div class="problem-text">LINE導入後の細かい現場フォローまで届かない</div>
+              <div class="problem-sub">設定して終わりではなく、運用・改善まで伴走できるパートナーが必要</div>
             </div>
           </div>
         </div>
         <div class="solution-box reveal reveal-delay-2">
-          <div class="solution-box-label">SOLUTION</div>
-          <h3 class="solution-box-title">ささエールが<br><span>「現場実装」</span>で<br>補完します</h3>
+          <div class="solution-label">SOLUTION</div>
+          <h3 class="solution-title">ささエールが<br><span>「現場実装」</span>で<br>補完します</h3>
           <div class="solution-points">
             <div class="solution-point">
               <i class="fa-solid fa-circle-check"></i>
@@ -705,7 +674,7 @@
   </section>
 
   <!-- ===== MERIT ===== -->
-  <section class="merit-section">
+  <section class="section bg-soft">
     <div class="wrap">
       <div class="reveal">
         <div class="section-label"><i class="fa-solid fa-star"></i> MERIT</div>
@@ -742,10 +711,10 @@
   </section>
 
   <!-- ===== FLOW ===== -->
-  <section class="flow-section">
+  <section class="section bg-dark halftone">
     <div class="wrap">
       <div class="reveal">
-        <div class="section-label" style="background:rgba(0,196,224,0.1);color:var(--cyan);border-color:rgba(0,196,224,0.2);">
+        <div class="section-label">
           <i class="fa-solid fa-diagram-project"></i> HOW IT WORKS
         </div>
         <h2 class="section-title">協業の役割分担イメージ</h2>
@@ -776,7 +745,7 @@
           </ul>
         </div>
         <div class="flow-card reveal reveal-delay-3">
-          <div class="flow-card-icon blue-icon"><i class="fa-solid fa-users-gear"></i></div>
+          <div class="flow-card-icon green-icon"><i class="fa-solid fa-users-gear"></i></div>
           <div class="flow-card-title">クライアント現場</div>
           <div class="flow-card-sub">（最終目標）</div>
           <ul class="flow-card-list">
@@ -790,7 +759,7 @@
   </section>
 
   <!-- ===== MENU ===== -->
-  <section class="menu-section">
+  <section class="section bg-white">
     <div class="wrap">
       <div class="reveal">
         <div class="section-label"><i class="fa-solid fa-list-check"></i> SERVICE MENU</div>
@@ -798,68 +767,63 @@
         <p class="section-desc">相談しやすい「入口」から、成果を出す「本命」、手放しで任せる「継続」まで。元請け企業さまが提案しやすい全体構成をご用意しています。</p>
       </div>
       <div class="menu-cards">
-
-        <!-- 入口 -->
         <div class="menu-card entry reveal reveal-delay-1">
-          <span class="menu-card-tag tag-entry">入口</span>
-          <div class="menu-card-name">レンタルさっさー<br>/ LINE運用ライト</div>
-          <div class="menu-card-price">3,300円〜</div>
-          <div class="menu-card-unit">/ 30分〜 または 月額</div>
-          <div class="menu-card-divider"></div>
-          <p class="menu-card-desc">まずは気軽に相談したい案件に。壁打ち・課題整理・方向性確認から、LINE公式の配信添削・簡易改善まで対応します。</p>
-          <div class="menu-card-tags">
+          <span class="menu-tag tag-entry">入口</span>
+          <div class="menu-name">レンタルさっさー<br>/ LINE運用ライト</div>
+          <div class="menu-price">3,300円〜</div>
+          <div class="menu-unit">/ 30分〜 または 月額</div>
+          <div class="menu-divider"></div>
+          <p class="menu-desc">まずは気軽に相談したい案件に。壁打ち・課題整理・方向性確認から、LINE公式の配信添削・簡易改善まで対応します。</p>
+          <div class="menu-tags">
             <span class="mini-tag">壁打ち</span>
             <span class="mini-tag">課題整理</span>
             <span class="mini-tag">LINE配信添削</span>
           </div>
         </div>
-
-        <!-- 本命 -->
         <div class="menu-card main reveal reveal-delay-2">
           <div class="ribbon">おすすめ</div>
-          <span class="menu-card-tag tag-main">本命</span>
-          <div class="menu-card-name">導入伴走 / 実行定着<br>パッケージ</div>
-          <div class="menu-card-price highlight">50万〜120万円</div>
-          <div class="menu-card-unit">/ 3ヶ月〜6ヶ月</div>
-          <div class="menu-card-divider"></div>
-          <p class="menu-card-desc">短期間で土台をつくりたい・導入後の実行と定着まで進めたい案件向け。課題整理から業務棚卸し・全体設計・教育・定着まで一気通貫で対応します。</p>
-          <div class="menu-card-tags">
+          <span class="menu-tag tag-main">本命</span>
+          <div class="menu-name">導入伴走 / 実行定着<br>パッケージ</div>
+          <div class="menu-price highlight">50万〜120万円</div>
+          <div class="menu-unit">/ 3ヶ月〜6ヶ月</div>
+          <div class="menu-divider"></div>
+          <p class="menu-desc">短期間で土台をつくりたい・導入後の実行と定着まで進めたい案件向け。課題整理から業務棚卸し・全体設計・教育・定着まで一気通貫で対応します。</p>
+          <div class="menu-tags">
             <span class="mini-tag">業務棚卸し</span>
             <span class="mini-tag">初期設計</span>
             <span class="mini-tag">現場教育</span>
             <span class="mini-tag">定着支援</span>
           </div>
         </div>
-
-        <!-- 継続 -->
         <div class="menu-card cont reveal reveal-delay-3">
-          <span class="menu-card-tag tag-cont">継続</span>
-          <div class="menu-card-name">顧問サービス<br>（梅 / 竹 / 松）</div>
-          <div class="menu-card-price">5万〜30万円</div>
-          <div class="menu-card-unit">/ 月</div>
-          <div class="menu-card-divider"></div>
-          <p class="menu-card-desc">課題整理から外部DX担当レベルの全体設計まで、状況に合わせた継続伴走。長期的な関係構築と継続案件化に最適です。</p>
-          <div class="menu-card-tags">
+          <span class="menu-tag tag-cont">継続</span>
+          <div class="menu-name">顧問サービス<br>（梅 / 竹 / 松）</div>
+          <div class="menu-price">5万〜30万円</div>
+          <div class="menu-unit">/ 月</div>
+          <div class="menu-divider"></div>
+          <p class="menu-desc">課題整理から外部DX担当レベルの全体設計まで、状況に合わせた継続伴走。長期的な関係構築と継続案件化に最適です。</p>
+          <div class="menu-tags">
             <span class="mini-tag">外部DX担当</span>
             <span class="mini-tag">全体設計</span>
             <span class="mini-tag">継続伴走</span>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
   <!-- ===== CTA ===== -->
-  <section class="cta-section" id="cta">
+  <section class="cta-section halftone" id="cta">
     <div class="wrap">
       <div class="reveal">
+        <img class="cta-representative" src="./images/representative-sm.png" alt="代表 笹原彰朗" />
+        <div class="cta-comic comic-font">GOOOOD!</div>
         <h2 class="cta-title">まずは、<span>気軽に話しましょう。</span></h2>
         <p class="cta-desc">
           「こんな案件、任せられる？」という壁打ちから大歓迎です。<br>
           レンタルさっさー（30分 3,300円）でお気軽にどうぞ。
         </p>
-        <a href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" class="cta-btn">
+        <a href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" class="cta-btn" target="_blank" rel="noopener noreferrer">
           <i class="fa-solid fa-calendar-check"></i>
           協業について相談する（レンタルさっさー）
         </a>
@@ -871,8 +835,13 @@
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <strong>ささエール</strong> &nbsp;|&nbsp; Lark・AI・LINEを活用した業務改善 / 教育 / 運用支援<br>
-    <span style="margin-top:8px;display:block;">&copy; Sasayell All rights reserved.</span>
+    <span style="margin-top:6px;display:inline-block;">
+      <a href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">Office Plata トップページへ</a>
+    </span><br>
+    <span style="margin-top:6px;display:block;opacity:0.6;">&copy; Sasayell All rights reserved.</span>
   </footer>
+
+  <button id="backToTop" class="back-to-top" type="button" aria-label="ページ先頭へ戻る">↑</button>
 
   <!-- ===== JS ===== -->
   <script>
@@ -896,8 +865,23 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12 });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    });
+
+    // Back to top
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (btt) btt.classList.toggle('is-show', window.scrollY > 400);
+    });
+    if (btt) btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
     });
   </script>
 </body>
