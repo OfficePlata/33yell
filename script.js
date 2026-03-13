@@ -46,8 +46,6 @@ function initScrollAnimations() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        // Optionally unobserve after animation
-        // observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -56,101 +54,122 @@ function initScrollAnimations() {
 }
 
 /* =========================================================
-   3. Create Floating Particles in Hero
-   ヒーローセクションにフローティングパーティクルを追加
+   3. Digital Particle Network Animation (Canvas)
+   デジタルネットワークパーティクルアニメーション
    ========================================================= */
-function createFloatingParticles() {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
+function initDigitalParticles() {
+  const canvas = document.getElementById('digitalParticles');
+  if (!canvas) return;
 
-  // Create orbs container
-  const orbsContainer = document.createElement('div');
-  orbsContainer.className = 'floating-orbs-container';
-  orbsContainer.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-  `;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId;
+  let width, height;
 
-  // Create multiple orbs with different sizes and positions
-  const orbConfigs = [
-    { size: 12, left: '15%', top: '20%', color: 'var(--accent)', delay: 0, duration: 6 },
-    { size: 8, left: '80%', top: '40%', color: 'var(--yellow)', delay: 2, duration: 8 },
-    { size: 16, left: '30%', top: '70%', color: 'linear-gradient(135deg, var(--accent), var(--yellow))', delay: 1, duration: 7 },
-    { size: 6, left: '65%', top: '60%', color: 'var(--brown)', delay: 3, duration: 5 },
-    { size: 10, left: '50%', top: '30%', color: 'var(--accent)', delay: 1.5, duration: 9 },
-    { size: 14, left: '10%', top: '50%', color: 'var(--yellow)', delay: 2.5, duration: 6.5 },
-  ];
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
 
-  orbConfigs.forEach(config => {
-    const orb = document.createElement('div');
-    orb.style.cssText = `
-      position: absolute;
-      width: ${config.size}px;
-      height: ${config.size}px;
-      left: ${config.left};
-      top: ${config.top};
-      background: ${config.color};
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float ${config.duration}s ease-in-out infinite;
-      animation-delay: ${config.delay}s;
-    `;
-    orbsContainer.appendChild(orb);
-  });
+  resize();
+  window.addEventListener('resize', resize);
 
-  hero.insertBefore(orbsContainer, hero.firstChild);
-}
+  class Particle {
+    constructor() {
+      this.reset();
+    }
 
-/* =========================================================
-   4. Add Digital Grid Background
-   デジタルグリッドの背景を追加
-   ========================================================= */
-function createDigitalGrid() {
-  const grid = document.createElement('div');
-  grid.className = 'digital-grid';
-  document.body.insertBefore(grid, document.body.firstChild);
-}
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.radius = Math.random() * 1.5 + 0.5;
+      this.opacity = Math.random() * 0.3 + 0.1;
+      // Warm orange or cool cyan
+      this.isWarm = Math.random() > 0.3;
+    }
 
-/* =========================================================
-   5. Create Connection Lines Animation
-   セクション間の接続線アニメーション
-   ========================================================= */
-function createConnectionLines() {
-  const sections = document.querySelectorAll('.section');
-  
-  sections.forEach((section, index) => {
-    if (index % 2 === 0) {
-      const lines = document.createElement('div');
-      lines.className = 'connection-lines';
-      lines.innerHTML = `
-        <svg width="100" height="200" style="top: 20%; right: 5%;">
-          <path 
-            d="M0,0 Q50,100 0,200" 
-            stroke="var(--accent)" 
-            stroke-width="1" 
-            fill="none" 
-            stroke-dasharray="5,5"
-            opacity="0.2"
-          />
-        </svg>
-        <svg width="80" height="150" style="bottom: 10%; left: 8%;">
-          <circle cx="40" cy="75" r="30" stroke="var(--yellow)" stroke-width="1" fill="none" opacity="0.15"/>
-        </svg>
-      `;
-      section.style.position = 'relative';
-      section.insertBefore(lines, section.firstChild);
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      if (this.isWarm) {
+        ctx.fillStyle = `rgba(255, 109, 45, ${this.opacity})`;
+      } else {
+        ctx.fillStyle = `rgba(100, 210, 255, ${this.opacity * 0.8})`;
+      }
+      ctx.fill();
+    }
+  }
+
+  // Create particles
+  const particleCount = Math.min(Math.floor(width * height / 25000), 60);
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  function drawConnections() {
+    const maxDist = 150;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxDist) {
+          const opacity = (1 - dist / maxDist) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          if (particles[i].isWarm || particles[j].isWarm) {
+            ctx.strokeStyle = `rgba(255, 109, 45, ${opacity})`;
+          } else {
+            ctx.strokeStyle = `rgba(100, 210, 255, ${opacity})`;
+          }
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+
+    drawConnections();
+    animationId = requestAnimationFrame(animate);
+  }
+
+  // Only animate when page is visible
+  let isVisible = true;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      isVisible = false;
+      cancelAnimationFrame(animationId);
+    } else {
+      isVisible = true;
+      animate();
     }
   });
+
+  animate();
 }
 
 /* =========================================================
-   6. Parallax Effect on Scroll
+   4. Parallax Effect on Scroll
    スクロール時のパララックス効果
    ========================================================= */
 function initParallax() {
@@ -163,13 +182,12 @@ function initParallax() {
     const scrollY = window.scrollY;
     
     if (heroCard && scrollY < 600) {
-      const translateY = scrollY * 0.1;
-      const rotate = scrollY * 0.02;
-      heroCard.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
+      const translateY = scrollY * 0.08;
+      heroCard.style.transform = `translateY(${translateY}px)`;
     }
     
     if (heroBadge && scrollY < 400) {
-      const translateX = scrollY * 0.05;
+      const translateX = scrollY * 0.03;
       heroBadge.style.transform = `translateX(${translateX}px)`;
     }
     
@@ -185,7 +203,7 @@ function initParallax() {
 }
 
 /* =========================================================
-   7. Magnetic Button Effect
+   5. Magnetic Button Effect
    ボタンのマグネット効果
    ========================================================= */
 function initMagneticButtons() {
@@ -207,19 +225,17 @@ function initMagneticButtons() {
 }
 
 /* =========================================================
-   8. Typing Effect for Hero Title (Optional Enhancement)
+   6. Typing Effect for Hero Title
    ========================================================= */
 function initTypingEffect() {
   const heroTitle = document.querySelector('.hero-title');
   if (!heroTitle) return;
 
-  // Add cursor effect to strong element
   const strongElement = heroTitle.querySelector('strong');
   if (strongElement) {
     strongElement.style.borderRight = '3px solid var(--accent)';
     strongElement.style.paddingRight = '4px';
     
-    // Remove cursor after animation
     setTimeout(() => {
       strongElement.style.borderRight = 'none';
       strongElement.style.paddingRight = '0';
@@ -228,7 +244,7 @@ function initTypingEffect() {
 }
 
 /* =========================================================
-   9. Smooth Counter Animation for Prices
+   7. Smooth Counter Animation for Prices
    価格のカウントアップアニメーション
    ========================================================= */
 function animateCounters() {
@@ -242,8 +258,6 @@ function animateCounters() {
     entries.forEach(entry => {
       if (entry.isIntersecting && !entry.target.dataset.animated) {
         entry.target.dataset.animated = 'true';
-        
-        // Add pulse animation
         entry.target.style.animation = 'pulse-glow 0.6s ease-out';
         
         setTimeout(() => {
@@ -257,7 +271,7 @@ function animateCounters() {
 }
 
 /* =========================================================
-   10. FAQ開閉
+   8. FAQ開閉
    ========================================================= */
 function closeOtherFaqs(currentItem) {
   faqItems.forEach((item) => {
@@ -283,7 +297,7 @@ faqButtons.forEach((button) => {
 });
 
 /* =========================================================
-   11. ページ内リンクのスムーススクロール
+   9. ページ内リンクのスムーススクロール
    ========================================================= */
 pageLinks.forEach((link) => {
   link.addEventListener('click', (event) => {
@@ -309,7 +323,7 @@ pageLinks.forEach((link) => {
 });
 
 /* =========================================================
-   12. 先頭へ戻る固定ボタンの表示制御
+   10. 先頭へ戻る固定ボタンの表示制御
    ========================================================= */
 function toggleBackToTopButton() {
   if (!backToTopButton) {
@@ -335,6 +349,49 @@ if (backToTopButton) {
 }
 
 /* =========================================================
+   11. Digital Glow Effect on Section Headers
+   セクションヘッダーにデジタルグロー効果
+   ========================================================= */
+function initSectionGlow() {
+  const sectionTitles = document.querySelectorAll('.section-title');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.textShadow = '0 0 30px rgba(100, 210, 255, 0.08)';
+        setTimeout(() => {
+          entry.target.style.textShadow = 'none';
+          entry.target.style.transition = 'text-shadow 1s ease';
+        }, 1500);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sectionTitles.forEach(el => observer.observe(el));
+}
+
+/* =========================================================
+   12. Image Lazy Load with Fade Effect
+   画像の遅延読み込みとフェード効果
+   ========================================================= */
+function initImageEffects() {
+  const images = document.querySelectorAll('.role-card-image img, .hero-card-image img');
+  
+  images.forEach(img => {
+    img.style.opacity = '0';
+    img.style.transition = 'opacity 0.6s ease';
+    
+    if (img.complete) {
+      img.style.opacity = '1';
+    } else {
+      img.addEventListener('load', () => {
+        img.style.opacity = '1';
+      });
+    }
+  });
+}
+
+/* =========================================================
    13. Card Hover Sound Effect (Visual Feedback)
    カードホバー時の視覚的フィードバック強化
    ========================================================= */
@@ -343,48 +400,30 @@ function initCardHoverEffects() {
   
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
-      // Add subtle scale pulse
       card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     });
   });
 }
 
 /* =========================================================
-   14. Progressive Loading Effect
-   プログレッシブローディング効果
-   ========================================================= */
-function initProgressiveLoad() {
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.5s ease';
-  
-  window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
-  });
-}
-
-/* =========================================================
-   15. 初期表示時の実行
+   14. 初期表示時の実行
    ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize all features
-  createDigitalGrid();
-  createFloatingParticles();
+  initDigitalParticles();
   initScrollAnimations();
   initParallax();
   initMagneticButtons();
   initTypingEffect();
   animateCounters();
   initCardHoverEffects();
+  initSectionGlow();
+  initImageEffects();
   toggleBackToTopButton();
-  
-  // Create connection lines for visual interest
-  createConnectionLines();
 });
 
 // Fallback for load event
 window.addEventListener('load', () => {
   toggleBackToTopButton();
-  
-  // Ensure animations are ready
   document.body.classList.add('loaded');
 });
