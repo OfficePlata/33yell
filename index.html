@@ -60,11 +60,30 @@
          左に訴求、右に簡潔な要約カード
          ====================================================== -->
     <section class="hero">
-      <!-- Floating Orbs for digital feel -->
-      <div class="floating-orb orb-1" aria-hidden="true"></div>
-      <div class="floating-orb orb-2" aria-hidden="true"></div>
-      <div class="floating-orb orb-3" aria-hidden="true"></div>
-      <div class="floating-orb orb-4" aria-hidden="true"></div>
+      <!-- Digital Circuit Lines -->
+      <div class="circuit-lines" aria-hidden="true">
+        <svg class="circuit-svg" viewBox="0 0 1200 600" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:var(--accent);stop-opacity:0" />
+              <stop offset="50%" style="stop-color:var(--accent);stop-opacity:0.4" />
+              <stop offset="100%" style="stop-color:var(--accent);stop-opacity:0" />
+            </linearGradient>
+          </defs>
+          <path class="circuit-path path-1" d="M0,100 L200,100 L200,200 L400,200 L400,150 L600,150" />
+          <path class="circuit-path path-2" d="M1200,80 L1000,80 L1000,180 L800,180 L800,120 L600,120" />
+          <path class="circuit-path path-3" d="M0,400 L150,400 L150,300 L350,300 L350,350 L500,350" />
+          <path class="circuit-path path-4" d="M1200,450 L1050,450 L1050,350 L850,350 L850,400 L700,400" />
+          <circle class="circuit-node node-1" cx="200" cy="100" r="4" />
+          <circle class="circuit-node node-2" cx="400" cy="200" r="4" />
+          <circle class="circuit-node node-3" cx="1000" cy="80" r="4" />
+          <circle class="circuit-node node-4" cx="800" cy="180" r="4" />
+          <circle class="circuit-node node-5" cx="150" cy="400" r="4" />
+          <circle class="circuit-node node-6" cx="350" cy="300" r="4" />
+        </svg>
+      </div>
+      <!-- Data Flow Particles -->
+      <div class="data-particles" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="hero-badge">Lark・AI・LINEを、現場で使える形に。</div>
@@ -472,7 +491,7 @@
           <div class="faq-item">
             <button class="faq-q" type="button">LINE公式だけ相談したい場合でも依頼できますか？</button>
             <div class="faq-a">
-              <p>はい。LINE公式運用サポート ライトで、自社運用しながら相談できる形をご用意しています。</p>
+              <p>���い。LINE公式運用サポート ライトで、自社運用しながら相談できる形をご用意しています。</p>
             </div>
           </div>
           <div class="faq-item">
