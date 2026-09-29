@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笹原彰朗のAI社員組織図</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Bangers&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: 経営レイヤー(CEO+EA → COO/CFO) の下に、3部門が縦に並ぶ列ツリー。スマホでは1列に積む */
+:root{
+  --bg:#f6efe4; --panel:#fffdfa; --ink:#432b17; --ink-soft:#7b6048; --line:#dcc6ad;
+  --ceo:#432b17; --ceo-ink:#fff7ec;
+  --exec:#b8741a; --exec-soft:#fff3cc;
+  --grow:#f2571e; --grow-soft:#fff0e7;
+  --deliv:#1d7fa8; --deliv-soft:#e6f4fa;
+  --succ:#2a8a5f; --succ-soft:#e5f5ec;
+  --shadow:0 6px 18px rgba(79,54,34,.08);
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  --f-display:"Bangers","Zen Kaku Gothic New",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1d1611; --panel:#2a2019; --ink:#f7ecdf; --ink-soft:#c9b29a; --line:#4a3a2c;
+  --ceo:#f5b526; --ceo-ink:#2a1b0d;
+  --exec:#f5b526; --exec-soft:#3a2e16;
+  --grow:#ff8a55; --grow-soft:#3b2419;
+  --deliv:#5cc2ea; --deliv-soft:#17303b;
+  --succ:#5fd39c; --succ-soft:#173427;
+  --shadow:0 6px 18px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1d1611; --panel:#2a2019; --ink:#f7ecdf; --ink-soft:#c9b29a; --line:#4a3a2c;
+  --ceo:#f5b526; --ceo-ink:#2a1b0d;
+  --exec:#f5b526; --exec-soft:#3a2e16;
+  --grow:#ff8a55; --grow-soft:#3b2419;
+  --deliv:#5cc2ea; --deliv-soft:#17303b;
+  --succ:#5fd39c; --succ-soft:#173427;
+  --shadow:0 6px 18px rgba(0,0,0,.35); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.6;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:40px 64px}
+
+/* Header */
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:36px}
+.head h1{font-size:clamp(26px,4.4vw,42px);font-weight:900;margin:0;line-height:1.25;text-wrap:balance}
+.head p{margin:.4em 0 0;color:var(--ink-soft);font-size:15px}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--grow-soft);color:var(--grow);font-weight:700;font-size:14px;border-radius:999px;padding:6px 14px;margin-top:12px}
+.meta{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;color:var(--ink-soft);text-align:right}
+.meta b{display:block;font-family:var(--f-display);font-size:22px;letter-spacing:.06em;color:var(--grow);font-weight:400}
+
+/* Cards */
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--c,var(--line));border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);min-width:0}
+.card .top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.bot{width:22px;height:22px;color:var(--c)}
+.badge{font-size:11px;font-weight:700;color:#fff;background:var(--c);border-radius:999px;padding:1px 9px}
+.card .en{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:var(--c);text-transform:uppercase}
+.card h3{margin:0;font-size:19px;font-weight:700;line-height:1.35}
+.card p{margin:2px 0 0;font-size:13px;color:var(--ink-soft)}
+.card.soft{background:var(--cs)}
+
+.exec{--c:var(--exec);--cs:var(--exec-soft)}
+.grow{--c:var(--grow);--cs:var(--grow-soft)}
+.deliv{--c:var(--deliv);--cs:var(--deliv-soft)}
+.succ{--c:var(--succ);--cs:var(--succ-soft)}
+
+.ceo{background:var(--ceo);color:var(--ceo-ink);border:0;border-left:6px solid #f5b526;padding:18px 22px}
+.ceo .en{color:#f5b526;font-size:12px}
+.ceo h3{font-size:28px;font-weight:900;letter-spacing:.04em}
+.ceo p{color:var(--ceo-ink);opacity:.8}
+
+/* Exec layer */
+.tier1{display:grid;grid-template-columns:1fr minmax(0,380px) 1fr;align-items:center;gap:0}
+.tier1 .ceo{grid-column:2}
+.tier1 .ea{grid-column:3;margin-left:40px;border-style:dashed;border-left-style:solid}
+.tier1 .ea::before{content:"";position:absolute;left:-41px;top:50%;width:40px;border-top:2px dashed var(--line)}
+.stem{width:2px;height:28px;background:var(--line);margin:0 auto}
+.tier2{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:820px;margin:0 auto;padding-top:26px}
+.tier2::before{content:"";position:absolute;top:0;left:25%;right:25%;border-top:2px solid var(--line)}
+.tier2>.card::before{content:"";position:absolute;top:-27px;left:50%;height:26px;border-left:2px solid var(--line)}
+.from-coo{position:relative;height:30px;max-width:820px;margin:0 auto}
+.from-coo::before{content:"";position:absolute;left:25%;top:0;height:100%;border-left:2px solid var(--line)}
+
+/* Divisions */
+.divs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-top:28px}
+.divs::before{content:"";position:absolute;top:0;left:16.6%;right:16.6%;border-top:2px solid var(--line)}
+.col{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0}
+.col::before{content:"";position:absolute;top:-28px;left:50%;height:28px;border-left:2px solid var(--line)}
+.col .lead{border-width:1px 1px 1px 5px}
+.members{display:flex;flex-direction:column;gap:12px;margin-left:18px;padding-left:18px;border-left:2px solid var(--line)}
+.members .card{box-shadow:none}
+.members .card::before{content:"";position:absolute;left:-20px;top:26px;width:18px;border-top:2px solid var(--line)}
+.members h3{font-size:16.5px}
+.flow{font-family:var(--f-mono);font-size:11px;color:var(--c);margin-top:6px;letter-spacing:.04em}
+
+/* Bottom rule */
+.rule{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 18px;margin-top:40px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px;font-weight:700;font-size:16px}
+.rule span:nth-child(1){color:var(--deliv)}
+.rule span:nth-child(3){color:var(--succ)}
+.rule span:nth-child(5){color:var(--grow)}
+.rule i{font-style:normal;color:var(--ink-soft)}
+
+/* Details */
+h2{font-size:clamp(20px,3vw,26px);font-weight:900;margin:64px 0 6px;text-wrap:balance}
+h2+p.lede{margin:0 0 20px;color:var(--ink-soft);max-width:65ch}
+.human{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.human div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.human b{display:block;font-size:15px;margin-bottom:2px}
+.human span{font-size:13px;color:var(--ink-soft)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:11px 14px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.06em;color:var(--ink-soft);font-weight:700;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap;border-left:4px solid var(--c)}
+tr.sec td{background:var(--cs);font-weight:900;color:var(--c);font-size:12px;letter-spacing:.08em;border-left:4px solid var(--c)}
+td.esc{color:var(--grow)}
+
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ph{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ph .n{font-family:var(--f-display);font-size:28px;color:var(--grow);line-height:1;letter-spacing:.04em}
+.ph h4{margin:4px 0 6px;font-size:16px}
+.ph ul{margin:0;padding-left:1.1em;font-size:13.5px}
+.ph p{margin:8px 0 0;font-size:12.5px;color:var(--ink-soft)}
+
+.foot{margin-top:48px;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--ink-soft)}
+
+@media (max-width:860px){
+  .tier1{grid-template-columns:1fr;gap:14px}
+  .tier1 .ceo,.tier1 .ea{grid-column:1;margin-left:0}
+  .tier1 .ea::before{display:none}
+  .tier2,.divs,.phases{grid-template-columns:1fr}
+  .tier2::before,.divs::before,.tier2>.card::before,.col::before,.from-coo::before{display:none}
+  .from-coo{height:18px}
+  .divs{padding-top:0;gap:28px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="8" width="16" height="12" rx="4"/><path d="M12 8V4.5"/><circle cx="12" cy="3.5" r="1.2" fill="currentColor"/>
+    <circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="15" cy="14" r="1.2" fill="currentColor"/><path d="M2 13v3M22 13v3"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <h1>笹原彰朗のAI社員組織図</h1>
+      <p>ささエールを「代表1人 ＋ AI社員16人」で回すチーム設計</p>
+      <span class="tag"><svg class="bot" style="--c:currentColor"><use href="#bot"/></svg>代表以外はすべてAI社員</span>
+    </div>
+    <div class="meta"><b>SASAYELL AI TEAM</b>2026.09 / 鹿児島・宮崎</div>
+  </header>
+
+  <!-- 経営レイヤー -->
+  <section aria-label="経営レイヤー">
+    <div class="tier1">
+      <div class="card ceo">
+        <div class="en">CEO / 代表</div>
+        <h3>笹原 彰朗</h3>
+        <p>顔・関係づくり・最終判断・現場研修</p>
+      </div>
+      <div class="card exec soft ea">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">Executive Assistant</div>
+        <h3>EA 秘書</h3>
+        <p>予定調整・メール下書き・議事録・タスク化</p>
+      </div>
+    </div>
+    <div class="stem"></div>
+    <div class="tier2">
+      <div class="card exec soft">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">COO</div>
+        <h3>事業統括</h3>
+        <p>案件の優先順位・稼働配分・週次レビュー。代表の時間を守る</p>
+      </div>
+      <div class="card exec soft">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">CFO</div>
+        <h3>財務・見積</h3>
+        <p>見積作成・請求／入金管理・梅竹松の価格設計・月次収支</p>
+      </div>
+    </div>
+    <div class="from-coo"></div>
+  </section>
+
+  <!-- 3部門 -->
+  <section class="divs" aria-label="部門">
+    <div class="col grow">
+      <div class="card soft lead">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">Growth</div>
+        <h3>集客・営業統括</h3>
+        <p>「入口」から「本命」への導線設計</p>
+        <div class="flow">レンタルさっさー → パッケージ</div>
+      </div>
+      <div class="members">
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Marketing</div><h3>マーケター</h3><p>LINE公式配信・SNS・HP記事・セミナー告知</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Sales</div><h3>提案営業</h3><p>相談前リサーチ・ヒアリングシート・提案書</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Partner</div><h3>パートナー担当</h3><p>元請け企業との協業開拓・紹介案件の管理</p></div>
+      </div>
+    </div>
+
+    <div class="col deliv">
+      <div class="card soft lead">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">Delivery</div>
+        <h3>伴走デリバリー統括</h3>
+        <p>案件設計・品質管理・進行</p>
+        <div class="flow">整理 → 設計 → 実行 → 教育 → 定着</div>
+      </div>
+      <div class="members">
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Analyst</div><h3>業務アナリスト</h3><p>業務棚卸し・フロー図・課題の優先順位</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Lark</div><h3>Larkアーキテクト</h3><p>BASE・Wiki・承認フロー設計と構築手順書</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">AI</div><h3>AI活用コーチ</h3><p>業務別プロンプト・AI利用ルール・効果測定</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">LINE</div><h3>LINE導線デザイナー</h3><p>リッチメニュー・配信シナリオ・問い合わせ導線</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Enablement</div><h3>研修・マニュアル担当</h3><p>研修資料・操作マニュアル・定着チェック</p></div>
+      </div>
+    </div>
+
+    <div class="col succ">
+      <div class="card soft lead">
+        <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
+        <div class="en">Client Success</div>
+        <h3>顧客成功統括</h3>
+        <p>成果の見える化・継続・次の提案</p>
+        <div class="flow">パッケージ → 顧問 梅・竹・松</div>
+      </div>
+      <div class="members">
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Account</div><h3>顧客担当</h3><p>進捗確認・月次レポート・宿題フォロー</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Knowledge</div><h3>ナレッジ管理</h3><p>事例・テンプレ・FAQを蓄積し次の案件へ再利用</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule">
+    <span>各AI社員が下書き・実行</span><i>→</i><span>部門間でLarkに集約</span><i>→</i><span>必要な判断だけ笹原へ</span>
+  </div>
+
+  <h2>笹原さんが自分でやる4つのこと</h2>
+  <p class="lede">1人会社のいちばんの制約は代表の時間です。AIに任せられない「対面の信頼」と「最終判断」にだけ時間を使う設計にしています。</p>
+  <div class="human">
+    <div><b>顧客・パートナーと会う</b><span>初回相談、レンタルさっさー、協業の打ち合わせ</span></div>
+    <div><b>受注と価格を決める</b><span>見積の最終金額、梅竹松のどれを勧めるか</span></div>
+    <div><b>現場で教える</b><span>研修の登壇、現場での操作サポート</span></div>
+    <div><b>発信にOKを出す</b><span>最初は全件確認、慣れたら抜き打ちに切替</span></div>
+  </div>
+
+  <h2>AI社員の役割一覧</h2>
+  <p class="lede">一人ひとりの任務と成果物、使う道具、笹原さんに上げる判断を決めておくと、そのまま次のステップでAI社員の指示書に落とし込めます。</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>AI社員</th><th>任務</th><th>主な成果物</th><th>使う道具</th><th>笹原さんに上げる判断</th></tr></thead>
+      <tbody>
+        <tr class="sec exec"><td colspan="5">経営</td></tr>
+        <tr class="exec"><td>EA 秘書</td><td>代表の予定と連絡を回す</td><td>日次ブリーフ、議事録、返信下書き</td><td>Larkカレンダー・タスク、メール</td><td class="esc">断る・受ける判断が要る依頼</td></tr>
+        <tr class="exec"><td>COO 事業統括</td><td>全案件の優先順位と稼働を管理</td><td>週次レビュー、稼働表、今週やること3つ</td><td>Lark BASE（案件台帳）</td><td class="esc">稼働が溢れる時の後回し先</td></tr>
+        <tr class="exec"><td>CFO 財務・見積</td><td>見積と入金を正確に回す</td><td>見積書案、請求一覧、月次収支</td><td>Lark BASE、会計ソフト</td><td class="esc">値引き・標準外の見積</td></tr>
+        <tr class="sec grow"><td colspan="5">集客・営業</td></tr>
+        <tr class="grow"><td>集客・営業統括</td><td>相談件数と成約率を上げる</td><td>月次の集客計画、導線の改善案</td><td>LINE公式、HP</td><td class="esc">キャンペーン・価格訴求の変更</td></tr>
+        <tr class="grow"><td>マーケター</td><td>見込み客に届く発信を続ける</td><td>LINE配信文、SNS投稿、HP記事</td><td>LINE公式、WordPress、SNS</td><td class="esc">公開前の最終確認</td></tr>
+        <tr class="grow"><td>提案営業</td><td>初回相談を受注につなげる</td><td>事前リサーチ、ヒアリングシート、提案書</td><td>Lark Docs、Web検索</td><td class="esc">提案プランの最終決定</td></tr>
+        <tr class="grow"><td>パートナー担当</td><td>元請け企業からの紹介を増やす</td><td>協業先リスト、連絡文、紹介案件台帳</td><td>Lark BASE、メール</td><td class="esc">協業条件・取り分</td></tr>
+        <tr class="sec deliv"><td colspan="5">伴走デリバリー</td></tr>
+        <tr class="deliv"><td>伴走デリバリー統括</td><td>案件の品質と進行を守る</td><td>案件計画（3ヶ月／6ヶ月）、品質チェック</td><td>Lark BASE・Wiki</td><td class="esc">スコープ変更・納期遅れ</td></tr>
+        <tr class="deliv"><td>業務アナリスト</td><td>現状業務を見える化する</td><td>業務棚卸し表、フロー図、課題の優先順位</td><td>Lark Docs、Mermaid</td><td class="esc">優先課題の最終合意</td></tr>
+        <tr class="deliv"><td>Larkアーキテクト</td><td>現場で回るLarkを設計する</td><td>BASE設計書、権限設計、構築手順書</td><td>Lark</td><td class="esc">顧客環境での本番変更</td></tr>
+        <tr class="deliv"><td>AI活用コーチ</td><td>AIで業務時間を減らす</td><td>業務別プロンプト集、AI利用ルール</td><td>Claude・ChatGPT等</td><td class="esc">情報の取扱いルール</td></tr>
+        <tr class="deliv"><td>LINE導線デザイナー</td><td>顧客接点をLINEで整える</td><td>リッチメニュー案、配信シナリオ</td><td>LINE公式</td><td class="esc">顧客アカウントでの配信</td></tr>
+        <tr class="deliv"><td>研修・マニュアル担当</td><td>教えた内容を定着させる</td><td>研修スライド、操作マニュアル、定着チェック表</td><td>Lark Docs、スライド</td><td class="esc">研修の構成</td></tr>
+        <tr class="sec succ"><td colspan="5">顧客成功</td></tr>
+        <tr class="succ"><td>顧客成功統括</td><td>成果を出して継続につなげる</td><td>契約更新の見通し、次の提案案</td><td>Lark BASE</td><td class="esc">顧問プランへの切替提案</td></tr>
+        <tr class="succ"><td>顧客担当</td><td>顧客ごとの進捗を切らさない</td><td>月次レポート、宿題リスト、フォロー連絡</td><td>Lark、LINE</td><td class="esc">不満・解約の兆し</td></tr>
+        <tr class="succ"><td>ナレッジ管理</td><td>1回の仕事を資産にする</td><td>事例集、テンプレ集、FAQ</td><td>Lark Wiki</td><td class="esc">事例公開の可否</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>立ち上げる順番</h2>
+  <p class="lede">16人を一度に作ると管理しきれません。代表の時間がいちばん空く順に3段階で立ち上げます。</p>
+  <div class="phases">
+    <div class="ph"><div class="n">PHASE 1</div><h4>代表の時間を空ける</h4><ul><li>EA 秘書</li><li>提案営業</li><li>CFO 財務・見積</li><li>業務アナリスト</li></ul><p>相談前の準備と提案書・見積の作成を手放す</p></div>
+    <div class="ph"><div class="n">PHASE 2</div><h4>納品を型にする</h4><ul><li>Larkアーキテクト</li><li>AI活用コーチ</li><li>LINE導線デザイナー</li><li>研修・マニュアル担当</li><li>顧客担当</li></ul><p>パッケージ案件の成果物をテンプレ化する</p></div>
+    <div class="ph"><div class="n">PHASE 3</div><h4>集客と継続を自動で回す</h4><ul><li>COO・各部門の統括</li><li>マーケター</li><li>パートナー担当</li><li>ナレッジ管理</li></ul><p>統括役を置き、部門間の連携を任せる</p></div>
+  </div>
+
+  <div class="foot">SASAHARA / SASAYELL AI TEAM</div>
+</div>
+</body>
+</html>
