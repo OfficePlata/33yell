@@ -37,6 +37,43 @@ COO、今週なにを優先すべき？ 案件はこれ：…
 
 複数の部門にまたがる依頼は COO が仕切ります（例：「新規のLIFF予約案件、提案から計画までチームで進めて」）。
 
+## Lark に貯める
+
+成果物（議事録・提案書・見積・レポートなど）を、Lark BASE「ささエール AI社員ログ」に1件ずつ貯めます。同じzip1つで、保存できる場所では自動で保存し、できない場所では「Lark保存用」ブロックを出します。
+
+| 使う場所 | Lark への保存 | 必要な準備 |
+|---|---|---|
+| PC の Claude Code | 自動で保存 | 下の「PCの準備」を1回 |
+| スマホ・PC の Claude アプリ「Code」（クラウド） | 自動で保存 | 下の「スマホの準備」を1回 |
+| スマホ・PC の Claude アプリの普通のチャット | 保存しない（「Lark保存用」ブロックを表示） | なし。あとでPCかCodeに貼って「このログをLarkに保存して」 |
+
+### PCの準備（Mac・約5分）
+
+`lark-cli` に笹原さんのアカウントでログイン済みであることが前提です（ささエールの運営BASEと同じ方法）。
+
+1. zip を解凍してできた `sasayell-ai-team` フォルダを `~/.claude/skills/` に置く
+2. ターミナルで次を実行する（BASE とテーブルができ、URL が表示されます）
+
+```bash
+node ~/.claude/skills/sasayell-ai-team/scripts/lark-log.mjs setup
+node ~/.claude/skills/sasayell-ai-team/scripts/lark-log.mjs check   # 「接続OK」ならOK
+```
+
+保存先は `~/.sasayell-ai-team/lark.json` に記録されます。BASE は笹原さんがオーナーです。
+
+### スマホの準備（Claude アプリの「Code」から使う）
+
+Claude アプリの「Code」（Claude Code のクラウド版）は月額プランの範囲で動き、スマホから指示できます。ここからアプリ（ボット）として Lark に保存します。
+
+1. PC の準備を先に済ませ、`check` で表示された app_token と table_id を控える
+2. Lark 開発者コンソールで、使うカスタムアプリに `bitable:app` の権限を付け、Lark で「ささエール AI社員ログ」の BASE を開き、… → 「ドキュメントアプリを追加」でそのアプリを追加する
+3. Claude Code のクラウド環境の設定（セッションのタイトルバーの環境メニュー → Edit）で
+   - 環境変数に `LARK_APP_ID`・`LARK_APP_SECRET`・`LARK_AI_LOG_BASE`（app_token）・`LARK_AI_LOG_TABLE`（table_id）を入れる
+   - ネットワークで `open.larksuite.com` を許可する
+4. このスキルが入ったリポジトリを選んで Code のセッションを始め、「提案営業として…」と頼む
+
+App Secret はチャットに貼らず、必ず環境変数の欄に入れてください。
+
 ## マネーフォワードとつなぐ（CFO用）
 
 マネーフォワード クラウド会計は公式のMCPサーバーを全プランに提供しています。
@@ -52,6 +89,7 @@ CFOの指示書で「読むだけ・仕訳の登録はしない」と決めて�
 
 - 会社の前提（料金・サービス・トーン）：`sasayell-ai-team/company.md`
 - 各AI社員：`sasayell-ai-team/roles/*.md`
+- Lark への保存ルール：`sasayell-ai-team/lark.md`（保存スクリプトは `scripts/lark-log.mjs`）
 
 直したら zip を作り直して、claude.ai のスキルを入れ替えます。
 
