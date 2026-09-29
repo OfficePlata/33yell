@@ -137,6 +137,16 @@ td.esc{color:var(--grow)}
   .from-coo{height:18px}
   .divs{padding-top:0;gap:28px}
 }
+
+.verdict{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.v-ok{background:var(--succ-soft);color:var(--succ)}
+.v-low{background:var(--grow-soft);color:var(--grow)}
+.note{font-size:12.5px;color:var(--ink-soft);margin:12px 0 0;max-width:80ch}
+.note a{color:var(--deliv)}
+.mf{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.mf div{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--exec);border-radius:14px;padding:14px 16px}
+.mf b{display:block;font-size:15px;margin-bottom:4px}
+.mf ul{margin:0;padding-left:1.1em;font-size:13.5px}
 </style>
 </head>
 <body>
@@ -152,7 +162,7 @@ td.esc{color:var(--grow)}
   <header class="head">
     <div>
       <h1>笹原彰朗のAI社員組織図</h1>
-      <p>ささエールを「代表1人 ＋ AI社員16人」で回すチーム設計</p>
+      <p>ささエールを「代表1人 ＋ AI社員18人」で回すチーム設計</p>
       <span class="tag"><svg class="bot" style="--c:currentColor"><use href="#bot"/></svg>代表以外はすべてAI社員</span>
     </div>
     <div class="meta"><b>SASAYELL AI TEAM</b>2026.09 / 鹿児島・宮崎</div>
@@ -185,7 +195,7 @@ td.esc{color:var(--grow)}
         <div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div>
         <div class="en">CFO</div>
         <h3>財務・見積</h3>
-        <p>見積作成・請求／入金管理・梅竹松の価格設計・月次収支</p>
+        <p>マネーフォワード連携で月次収支・入金・資金繰りを把握。見積と価格設計</p>
       </div>
     </div>
     <div class="from-coo"></div>
@@ -204,6 +214,7 @@ td.esc{color:var(--grow)}
       <div class="members">
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Marketing</div><h3>マーケター</h3><p>LINE公式配信・SNS・HP記事・セミナー告知</p></div>
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Sales</div><h3>提案営業</h3><p>相談前リサーチ・ヒアリングシート・提案書</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Research</div><h3>市場リサーチャー</h3><p>価格相場・競合・補助金の調査。料金改定の根拠づくり</p></div>
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Partner</div><h3>パートナー担当</h3><p>元請け企業との協業開拓・紹介案件の管理</p></div>
       </div>
     </div>
@@ -221,6 +232,7 @@ td.esc{color:var(--grow)}
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Lark</div><h3>Larkアーキテクト</h3><p>BASE・Wiki・承認フロー設計と構築手順書</p></div>
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">AI</div><h3>AI活用コーチ</h3><p>業務別プロンプト・AI利用ルール・効果測定</p></div>
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">LINE</div><h3>LINE導線デザイナー</h3><p>リッチメニュー・配信シナリオ・問い合わせ導線</p></div>
+        <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Engineering</div><h3>システム開発エンジニア</h3><p>LIFF予約・管理画面・Lark連携サイトの実装</p></div>
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Enablement</div><h3>研修・マニュアル担当</h3><p>研修資料・操作マニュアル・定着チェック</p></div>
       </div>
     </div>
@@ -231,7 +243,7 @@ td.esc{color:var(--grow)}
         <div class="en">Client Success</div>
         <h3>顧客成功統括</h3>
         <p>成果の見える化・継続・次の提案</p>
-        <div class="flow">パッケージ → 顧問 梅・竹・松</div>
+        <div class="flow">パッケージ → 顧問 スタンダード・フルサポート</div>
       </div>
       <div class="members">
         <div class="card"><div class="top"><svg class="bot"><use href="#bot"/></svg><span class="badge">AI社員</span></div><div class="en">Account</div><h3>顧客担当</h3><p>進捗確認・月次レポート・宿題フォロー</p></div>
@@ -248,7 +260,7 @@ td.esc{color:var(--grow)}
   <p class="lede">1人会社のいちばんの制約は代表の時間です。AIに任せられない「対面の信頼」と「最終判断」にだけ時間を使う設計にしています。</p>
   <div class="human">
     <div><b>顧客・パートナーと会う</b><span>初回相談、レンタルさっさー、協業の打ち合わせ</span></div>
-    <div><b>受注と価格を決める</b><span>見積の最終金額、梅竹松のどれを勧めるか</span></div>
+    <div><b>受注と価格を決める</b><span>見積の最終金額、スタンダードかフルサポートか</span></div>
     <div><b>現場で教える</b><span>研修の登壇、現場での操作サポート</span></div>
     <div><b>発信にOKを出す</b><span>最初は全件確認、慣れたら抜き打ちに切替</span></div>
   </div>
@@ -262,11 +274,12 @@ td.esc{color:var(--grow)}
         <tr class="sec exec"><td colspan="5">経営</td></tr>
         <tr class="exec"><td>EA 秘書</td><td>代表の予定と連絡を回す</td><td>日次ブリーフ、議事録、返信下書き</td><td>Larkカレンダー・タスク、メール</td><td class="esc">断る・受ける判断が要る依頼</td></tr>
         <tr class="exec"><td>COO 事業統括</td><td>全案件の優先順位と稼働を管理</td><td>週次レビュー、稼働表、今週やること3つ</td><td>Lark BASE（案件台帳）</td><td class="esc">稼働が溢れる時の後回し先</td></tr>
-        <tr class="exec"><td>CFO 財務・見積</td><td>見積と入金を正確に回す</td><td>見積書案、請求一覧、月次収支</td><td>Lark BASE、会計ソフト</td><td class="esc">値引き・標準外の見積</td></tr>
+        <tr class="exec"><td>CFO 財務・見積</td><td>お金の状態を毎月つかむ</td><td>月次収支、入金・未回収一覧、資金繰り予測、見積書案</td><td>マネーフォワード クラウド会計（公式MCP）、Lark BASE</td><td class="esc">値引き・標準外の見積、仕訳の登録</td></tr>
         <tr class="sec grow"><td colspan="5">集客・営業</td></tr>
         <tr class="grow"><td>集客・営業統括</td><td>相談件数と成約率を上げる</td><td>月次の集客計画、導線の改善案</td><td>LINE公式、HP</td><td class="esc">キャンペーン・価格訴求の変更</td></tr>
         <tr class="grow"><td>マーケター</td><td>見込み客に届く発信を続ける</td><td>LINE配信文、SNS投稿、HP記事</td><td>LINE公式、WordPress、SNS</td><td class="esc">公開前の最終確認</td></tr>
         <tr class="grow"><td>提案営業</td><td>初回相談を受注につなげる</td><td>事前リサーチ、ヒアリングシート、提案書</td><td>Lark Docs、Web検索</td><td class="esc">提案プランの最終決定</td></tr>
+        <tr class="grow"><td>市場リサーチャー</td><td>価格と打ち出し方の根拠をつくる</td><td>相場比較表、競合一覧、補助金の対象確認</td><td>Web検索</td><td class="esc">料金改定の決定</td></tr>
         <tr class="grow"><td>パートナー担当</td><td>元請け企業からの紹介を増やす</td><td>協業先リスト、連絡文、紹介案件台帳</td><td>Lark BASE、メール</td><td class="esc">協業条件・取り分</td></tr>
         <tr class="sec deliv"><td colspan="5">伴走デリバリー</td></tr>
         <tr class="deliv"><td>伴走デリバリー統括</td><td>案件の品質と進行を守る</td><td>案件計画（3ヶ月／6ヶ月）、品質チェック</td><td>Lark BASE・Wiki</td><td class="esc">スコープ変更・納期遅れ</td></tr>
@@ -274,6 +287,7 @@ td.esc{color:var(--grow)}
         <tr class="deliv"><td>Larkアーキテクト</td><td>現場で回るLarkを設計する</td><td>BASE設計書、権限設計、構築手順書</td><td>Lark</td><td class="esc">顧客環境での本番変更</td></tr>
         <tr class="deliv"><td>AI活用コーチ</td><td>AIで業務時間を減らす</td><td>業務別プロンプト集、AI利用ルール</td><td>Claude・ChatGPT等</td><td class="esc">情報の取扱いルール</td></tr>
         <tr class="deliv"><td>LINE導線デザイナー</td><td>顧客接点をLINEで整える</td><td>リッチメニュー案、配信シナリオ</td><td>LINE公式</td><td class="esc">顧客アカウントでの配信</td></tr>
+        <tr class="deliv"><td>システム開発エンジニア</td><td>LINEとLarkをつなぐ仕組みを作る</td><td>LIFF予約、管理画面、Lark連携サイト</td><td>Claude Code、Cloudflare、Lark API</td><td class="esc">本番公開・顧客データの扱い</td></tr>
         <tr class="deliv"><td>研修・マニュアル担当</td><td>教えた内容を定着させる</td><td>研修スライド、操作マニュアル、定着チェック表</td><td>Lark Docs、スライド</td><td class="esc">研修の構成</td></tr>
         <tr class="sec succ"><td colspan="5">顧客成功</td></tr>
         <tr class="succ"><td>顧客成功統括</td><td>成果を出して継続につなげる</td><td>契約更新の見通し、次の提案案</td><td>Lark BASE</td><td class="esc">顧問プランへの切替提案</td></tr>
@@ -283,11 +297,38 @@ td.esc{color:var(--grow)}
     </table>
   </div>
 
+  <h2>リサーチャーの初仕事：価格チェック速報</h2>
+  <p class="lede">service.33l.jp の現在の料金を、Webで公開されている全国の相場と比べました。相場の数字は東京の会社が多めなので、鹿児島・宮崎ではこれより低めに出やすい点に注意してください。</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>サービス</th><th>いまの価格（仮）</th><th>世間の相場</th><th>判定</th><th>リサーチャーの提案</th></tr></thead>
+      <tbody>
+        <tr class="grow"><td>レンタルさっさー</td><td>3,300円（税込）／30分</td><td>地方のIT・経営相談で1時間5,000〜10,000円</td><td><span class="verdict v-ok">妥当（安め）</span></td><td>入口の商品なので据え置きでよい。成約時に相談料を充当する形にすると次へ進みやすい</td></tr>
+        <tr class="grow"><td>LINE公式運用サポート</td><td>10,000円（税別）／月</td><td>運用代行は小規模店向けで月1〜3万円、一般的には月5〜30万円</td><td><span class="verdict v-ok">妥当</span></td><td>相談と添削だけなら相場並み。配信代行まで含む上位プラン（月3万円前後）を足す余地あり</td></tr>
+        <tr class="exec"><td>顧問 スタンダード</td><td>100,000円（税別）／月</td><td>中小企業向けの顧問で月10〜30万円、実装込みの伴走で月10〜35万円</td><td><span class="verdict v-low">構築込みでは安い</span></td><td>初月にLINE受付・Lark BASE・管理画面まで作るのに相場の下限。最低契約期間（相場は3〜6ヶ月）か初期費用を設けないと、短期解約で構築費を回収できない</td></tr>
+        <tr class="exec"><td>顧問 フルサポート</td><td>250,000円（税別）／月</td><td>同上（月10〜35万円）</td><td><span class="verdict v-ok">妥当</span></td><td>相場の中〜上。業務全体の設計と引き継ぎまで含む内容と釣り合っている</td></tr>
+        <tr class="deliv"><td>導入伴走パッケージ</td><td>50万円〜（税別）／3ヶ月</td><td>プロジェクト型で50〜200万円、初期コンサルで40〜200万円</td><td><span class="verdict v-ok">妥当（下限）</span></td><td>地域価格としては適正。「〜」の上限の目安を示すと見積の説明がしやすい</td></tr>
+        <tr class="deliv"><td>実行定着パッケージ</td><td>120万円〜（税別）／6ヶ月</td><td>同上。月あたり20万円は伴走型の相場内</td><td><span class="verdict v-ok">妥当</span></td><td>デジタル化・AI導入補助金の対象になるか（ITツール登録が要る）を確認して、使えるなら提案に入れる</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">これはWeb検索で拾える公開情報だけの速報です。次の段階では、市場リサーチャーが鹿児島・宮崎のLark／LINE支援会社の料金を一覧にし、マーケターがLPの打ち出し方を提案します。なお officeplata.com/makaseru の内容はこの作業環境から開けなかったため、まだ反映していません。<br>
+  参考：<a href="https://uravation.com/media/dx-consulting-complete-guide-2026/">DXコンサルの費用相場（Uravation）</a>、<a href="https://aidd.jp/blog/knowledge/ai-consulting-cost-sme/">AIコンサルの費用相場（aidd）</a>、<a href="https://s--line.co.jp/line-official-agency-cost/">LINE運用代行の費用相場（S.Line）</a>、<a href="https://stock-sun.com/column/line_acting_manager/">LINE運用代行おすすめ比較（stock-sun）</a>、<a href="https://www.biz.ne.jp/list/management-consult/">経営コンサル一覧（ビズオーシャン）</a></p>
+
+  <h2>CFOとマネーフォワードをつなぐ</h2>
+  <p class="lede">マネーフォワード クラウド会計は2026年3月に公式のMCPサーバーを全プラン向けに公開しました。Claudeにつなぐと、CFOが仕訳・試算表・取引先を直接読めるようになります。</p>
+  <div class="mf">
+    <div><b>CFOに任せること</b><ul><li>毎月の損益と前年同月比</li><li>入金予定と未回収の一覧</li><li>3ヶ月先までの資金繰り予測</li><li>サービス別の売上構成</li></ul></div>
+    <div><b>最初はさせないこと</b><ul><li>仕訳の登録・修正（読むだけで始める）</li><li>税務の判断（税理士さんに確認）</li><li>振込などお金を動かす操作</li></ul></div>
+    <div><b>つなぐ手順</b><ul><li>claude.ai の設定 → コネクタでマネーフォワードのMCPを追加</li><li>マネーフォワードにログインして許可</li><li>CFOの指示書に「読むだけ」のルールを書く</li></ul></div>
+  </div>
+  <p class="note">参考：<a href="https://developers.biz.moneyforward.com/mcp/">マネーフォワード クラウド 開発者サイト（MCPサーバー）</a></p>
+
   <h2>立ち上げる順番</h2>
-  <p class="lede">16人を一度に作ると管理しきれません。代表の時間がいちばん空く順に3段階で立ち上げます。</p>
+  <p class="lede">18人を一度に作ると管理しきれません。代表の時間がいちばん空く順に3段階で立ち上げます。</p>
   <div class="phases">
-    <div class="ph"><div class="n">PHASE 1</div><h4>代表の時間を空ける</h4><ul><li>EA 秘書</li><li>提案営業</li><li>CFO 財務・見積</li><li>業務アナリスト</li></ul><p>相談前の準備と提案書・見積の作成を手放す</p></div>
-    <div class="ph"><div class="n">PHASE 2</div><h4>納品を型にする</h4><ul><li>Larkアーキテクト</li><li>AI活用コーチ</li><li>LINE導線デザイナー</li><li>研修・マニュアル担当</li><li>顧客担当</li></ul><p>パッケージ案件の成果物をテンプレ化する</p></div>
+    <div class="ph"><div class="n">PHASE 1</div><h4>代表の時間を空ける</h4><ul><li>EA 秘書</li><li>提案営業</li><li>CFO 財務・見積（マネーフォワード連携）</li><li>市場リサーチャー</li></ul><p>提案書・見積を手放し、価格とお金の状態を数字で見られるようにする</p></div>
+    <div class="ph"><div class="n">PHASE 2</div><h4>納品を型にする</h4><ul><li>業務アナリスト</li><li>Larkアーキテクト</li><li>システム開発エンジニア</li><li>AI活用コーチ</li><li>LINE導線デザイナー</li><li>研修・マニュアル担当</li><li>顧客担当</li></ul><p>パッケージ案件の成果物をテンプレ化する</p></div>
     <div class="ph"><div class="n">PHASE 3</div><h4>集客と継続を自動で回す</h4><ul><li>COO・各部門の統括</li><li>マーケター</li><li>パートナー担当</li><li>ナレッジ管理</li></ul><p>統括役を置き、部門間の連携を任せる</p></div>
   </div>
 
