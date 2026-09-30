@@ -207,10 +207,10 @@ document.addEventListener('click', (e) => {
 function renderShell() {
   const u = me();
   $app.innerHTML = `
-    <div class="demo-rib"><b>デモ環境</b>：表示中の会社名・人名・金額はすべて架空のサンプルです。操作内容はこのブラウザにのみ保存されます。</div>
+    <div class="demo-rib"><span>Demo</span>表示中の会社名・人名・金額はすべて架空のサンプルです。操作内容はこのブラウザにのみ保存されます。</div>
     <header class="bar">
       <div class="bar-in">
-        <a class="brand" href="#/"><span class="mark">F</span><span class="name">FIT CONSUL</span><span class="portal">業務ポータル</span></a>
+        <a class="brand" href="#/"><span class="mark" aria-hidden="true"><i></i></span><span class="name">FIT CONSUL</span><span class="portal">Operations Portal</span></a>
         <div class="right">
           <button class="sync" id="sync" title="Notion と同期"><span class="n-logo">N</span><span class="dot"></span><span id="sync-t">Notion 同期済み</span></button>
           <select class="role" id="role" aria-label="表示ロール">
@@ -222,7 +222,7 @@ function renderShell() {
       <nav class="nav" id="nav"></nav>
     </header>
     <main class="wrap" id="view"></main>
-    <footer class="foot">© FIT CONSUL 業務ポータル — Notion 連携デモ</footer>`;
+    <footer class="foot"><span class="foot-big">FIT CONSUL</span><span>業務ポータル — Notion 連携デモ</span></footer>`;
 
   document.getElementById('role').addEventListener('change', (e) => {
     S.role = e.target.value; save();
@@ -240,25 +240,45 @@ function renderShell() {
   });
 }
 
+const NAV = [
+  ['#/', 'home', 'ホーム', 'I', 'Overview'],
+  ['#/orders', 'order', '受発注', 'II', 'Orders'],
+  ['#/projects', 'folder', '案件管理', 'III', 'Projects'],
+  ['#/cost', 'yen', '原価・収支', 'IV', 'Cost & Margin'],
+  ['#/timesheet', 'clock', '工数入力', 'V', 'Timesheet'],
+  ['#/resource', 'users', '稼働・アサイン', 'VI', 'Resources'],
+  ['#/notion', 'db', 'Notion構成', 'VII', 'Architecture'],
+];
 function navItems() {
-  const items = [
-    ['#/', 'home', 'ホーム'],
-    ['#/orders', 'order', '受発注'],
-    ['#/projects', 'folder', '案件管理'],
-    ['#/cost', 'yen', '原価・収支'],
-    ['#/timesheet', 'clock', '工数入力'],
-    ['#/resource', 'users', '稼働・アサイン'],
-    ['#/notion', 'db', 'Notion構成'],
-  ];
+  const items = NAV;
   return items.filter(([h]) => canMoney() || !['#/orders', '#/cost'].includes(h));
 }
 
+// ページ遷移：いまの画面をふわっと沈めてから、次の画面を浮かび上がらせる
+let firstRoute = true;
 function route() {
+  const v = view();
+  if (firstRoute || FX.reduced) { firstRoute = false; return paint(); }
+  v.classList.add('leaving');
+  setTimeout(paint, 260);
+}
+function paint() {
   const hash = location.hash || '#/';
-  const nav = document.getElementById('nav');
   const key = '#/' + (hash.split('/')[1] || '');
-  nav.innerHTML = navItems().map(([h, ic, t]) => `<a href="${h}" class="${h === key ? 'on' : ''}">${svg(ic)}${t}</a>`).join('');
+  const nav = document.getElementById('nav');
+  nav.innerHTML = navItems().map(([h, ic, t, rn]) => `<a href="${h}" class="${h === key ? 'on' : ''}"><span class="rn">${rn}</span>${t}</a>`).join('');
   window.scrollTo(0, 0);
+  const v = view();
+  v.classList.remove('leaving');
+  dispatch(hash, key);
+  // 見出しの上に「番号 — 英字ラベル」を添える
+  const n = NAV.find(([h]) => h === key);
+  const head = v.querySelector('.head-row');
+  if (n && head) head.insertAdjacentHTML('beforebegin', `<div class="eyebrow"><span>${n[3]}</span>${n[4]}</div>`);
+  FX.reveal(v);
+  FX.orb(v.querySelector('.orb'));
+}
+function dispatch(hash, key) {
   if (!canMoney() && (key === '#/orders' || key === '#/cost')) return renderDenied();
   if (hash.startsWith('#/orders')) return renderOrders();
   if (hash.startsWith('#/projects/')) return renderProject(hash.split('/')[2]);
@@ -327,7 +347,9 @@ function renderHome() {
   view().innerHTML = `
     <div class="home-top">
       <section class="hero">
-        <div class="h-greet">${greeting()}、${esc(u.name)} さん</div>
+        <canvas class="orb" aria-hidden="true"></canvas>
+        <div class="h-eyebrow"><span>I</span>Overview</div>
+        <div class="h-greet">${greeting()}、<br>${esc(u.name)} さん</div>
         <div class="h-sub">${esc(longDateStr())} ／ ${esc(ROLES[S.role].title)}</div>
         <div class="h-stats">${heroStats.map(([k, v, s]) => `<div class="h-stat"><div class="k">${k}</div><div class="v num">${v}<small>${s}</small></div></div>`).join('')}</div>
         ${nextMs ? `<div class="h-next">次のマイルストーン：<b>${esc(nextMs.p.name)}</b> ／ ${esc(nextMs.t)}（${monthLabel(nextMs.m, true)}）</div>` : ''}
@@ -790,7 +812,7 @@ function renderTimesheet() {
 function renderResource() {
   const months = [0, 1, 2, 3, 4, 5];
   // 稼働率（sequential：単色の明→暗）
-  const ramp = ['#eef4fb', '#cfe0f5', '#a3c5ec', '#6ea3de', '#3a7fcc', '#1d5fa8'];
+  const ramp = ['#ebe7e0', '#dcd4c7', '#c3b7a4', '#9f917b', '#6f6353', '#3d362e'];
   const cell = (r) => {
     const i = r >= 1.05 ? 5 : r >= 0.9 ? 4 : r >= 0.75 ? 3 : r >= 0.5 ? 2 : r > 0 ? 1 : 0;
     return `background:${ramp[i]};color:${i >= 4 ? '#fff' : 'var(--ink)'}`;

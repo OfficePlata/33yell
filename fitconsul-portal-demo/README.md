@@ -5,6 +5,16 @@
 
 > 表示している会社名・人名・金額はすべて架空のデモデータです。操作内容はブラウザ（localStorage）にだけ保存されます。
 
+## デザイン・演出
+
+Immersive Garden（immersive-g.com）を参考にした、落ち着いた石色のミニマルなデザインです（サウンドなし）。
+
+- 起動時のイントロ：ロゴの文字が 1 文字ずつ浮かび上がり、幕が上がるように画面が現れる
+- 画面遷移やスクロールに合わせて、カード・表・見出しがぼかしから「ふわっ」と浮き出る（`public/fx.js`）
+- ヒーローに、ゆっくり浮遊・回転する 3D のドット球体（マウスに少し追従する）
+- 背景を漂う霧とフィルムグレイン、カーソルを追う光、数値のカウントアップ
+- 視差効果を減らす設定（prefers-reduced-motion）の端末では、演出を止めて即時表示
+
 ## 見せ方
 
 `public/index.html` をブラウザで開くだけで動きます（サーバー不要）。
@@ -48,5 +58,6 @@ pricom-portal と同じ構成で、`lib/lark.js` を `lib/notion.js`（Notion AP
 - `public/index.html` … 画面とスタイル
 - `public/data.js` … デモ用の架空データ（本番では Notion API から取得）
 - `public/app.js` … 画面の描画、集計、デモ用の状態保存
+- `public/fx.js` … 演出（イントロ・リビール・球体・背景）
 - `public/_headers` … 検索エンジンに載せない設定など
 - `wrangler.jsonc` … Cloudflare Workers の設定
