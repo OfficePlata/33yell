@@ -25,10 +25,10 @@ OFFICE PLATA の新サービス「ヤトエール（AI社員チームづくり�
 - 白文字をオレンジの上に小さく載せない。ボタンは `#F5A623`＋黒文字
 
 ## 公開
-- Cloudflare Pages プロジェクト `yatoeru`（https://yatoeru.pages.dev）
-- `.github/workflows/deploy-yatoeru.yml` が `yatoeru/` の変更を push したときに自動デプロイする
-- GitHub の Settings → Secrets and variables → Actions に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要
-- 手動なら：`npx wrangler pages deploy yatoeru --project-name yatoeru`
+- Cloudflare Workers（静的アセット）の Worker `yatoeru`。Pages はアカウントのプロジェクト数上限のため使っていない
+- `.github/workflows/deploy-yatoeru.yml` が `yatoeru/` の変更を push したときに自動デプロイする（GitHub Secrets の `CLOUDFLARE_API_TOKEN` を使用）
+- 手動なら：`npx wrangler deploy --assets yatoeru --name yatoeru --compatibility-date 2026-09-01`
+- `.assetsignore` で CLAUDE.md を公開対象から外している
 - 公開URL確定後、`og:image` を絶対URL（https://…/images/ogp.png）に書き換えること
 
 ## 注意
