@@ -14,7 +14,7 @@ const FX = (() => {
     const el = document.createElement('div');
     el.className = 'intro';
     el.setAttribute('aria-hidden', 'true');
-    const word = 'FIT CONSUL';
+    const word = 'F-IT CONSUL';
     el.innerHTML = `
       <div class="intro-in">
         <div class="intro-word">${[...word].map((c, i) => `<span style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('')}</div>

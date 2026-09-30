@@ -1,5 +1,5 @@
 // =============================================================
-// FIT CONSUL 業務ポータル（デモ）— フロント
+// F-IT CONSUL 業務ポータル（デモ）— フロント
 // プリコム社内ポータル（Lark 版）の構成をベースに、データ基盤を Notion に置き換えたデモ。
 // デモではデータを data.js の架空データ＋ブラウザ保存（localStorage）で再現している。
 // =============================================================
@@ -210,7 +210,7 @@ function renderShell() {
     <div class="demo-rib"><span>Demo</span>表示中の会社名・人名・金額はすべて架空のサンプルです。操作内容はこのブラウザにのみ保存されます。</div>
     <header class="bar">
       <div class="bar-in">
-        <a class="brand" href="#/"><span class="mark" aria-hidden="true"><i></i></span><span class="name">FIT CONSUL</span><span class="portal">Operations Portal</span></a>
+        <a class="brand" href="#/"><span class="mark" aria-hidden="true"><i></i></span><span class="name">F-IT CONSUL</span><span class="portal">Operations Portal</span></a>
         <div class="right">
           <button class="sync" id="sync" title="Notion と同期"><span class="n-logo">N</span><span class="dot"></span><span id="sync-t">Notion 同期済み</span></button>
           <select class="role" id="role" aria-label="表示ロール">
@@ -222,7 +222,7 @@ function renderShell() {
       <nav class="nav" id="nav"></nav>
     </header>
     <main class="wrap" id="view"></main>
-    <footer class="foot"><span class="foot-big">FIT CONSUL</span><span>業務ポータル — Notion 連携デモ</span></footer>`;
+    <footer class="foot"><span class="foot-big">F-IT CONSUL</span><span>業務ポータル — Notion 連携デモ</span></footer>`;
 
   document.getElementById('role').addEventListener('change', (e) => {
     S.role = e.target.value; save();
