@@ -210,7 +210,7 @@ function renderShell() {
     <div class="demo-rib"><span>Demo</span>表示中の会社名・人名・金額はすべて架空のサンプルです。操作内容はこのブラウザにのみ保存されます。</div>
     <header class="bar">
       <div class="bar-in">
-        <a class="brand" href="#/"><span class="mark" aria-hidden="true"><i></i></span><span class="name">F-IT CONSUL</span><span class="portal">Operations Portal</span></a>
+        <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="name">F-IT Consul</span><span class="portal">Operations Portal</span></a>
         <div class="right">
           <button class="sync" id="sync" title="Notion と同期"><span class="n-logo">N</span><span class="dot"></span><span id="sync-t">Notion 同期済み</span></button>
           <select class="role" id="role" aria-label="表示ロール">
@@ -222,7 +222,7 @@ function renderShell() {
       <nav class="nav" id="nav"></nav>
     </header>
     <main class="wrap" id="view"></main>
-    <footer class="foot"><span class="foot-big">F-IT CONSUL</span><span>業務ポータル — Notion 連携デモ</span></footer>`;
+    <footer class="foot"><span class="foot-big">F-IT Consul</span><span>業務ポータル — Notion 連携デモ</span></footer>`;
 
   document.getElementById('role').addEventListener('change', (e) => {
     S.role = e.target.value; save();
@@ -241,13 +241,13 @@ function renderShell() {
 }
 
 const NAV = [
-  ['#/', 'home', 'ホーム', 'I', 'Overview'],
-  ['#/orders', 'order', '受発注', 'II', 'Orders'],
-  ['#/projects', 'folder', '案件管理', 'III', 'Projects'],
-  ['#/cost', 'yen', '原価・収支', 'IV', 'Cost & Margin'],
-  ['#/timesheet', 'clock', '工数入力', 'V', 'Timesheet'],
-  ['#/resource', 'users', '稼働・アサイン', 'VI', 'Resources'],
-  ['#/notion', 'db', 'Notion構成', 'VII', 'Architecture'],
+  ['#/', 'home', 'ホーム', '01', 'Overview'],
+  ['#/orders', 'order', '受発注', '02', 'Orders'],
+  ['#/projects', 'folder', '案件管理', '03', 'Projects'],
+  ['#/cost', 'yen', '原価・収支', '04', 'Cost & Margin'],
+  ['#/timesheet', 'clock', '工数入力', '05', 'Timesheet'],
+  ['#/resource', 'users', '稼働・アサイン', '06', 'Resources'],
+  ['#/notion', 'db', 'Notion構成', '07', 'Architecture'],
 ];
 function navItems() {
   const items = NAV;
@@ -348,7 +348,7 @@ function renderHome() {
     <div class="home-top">
       <section class="hero">
         <canvas class="orb" aria-hidden="true"></canvas>
-        <div class="h-eyebrow"><span>I</span>Overview</div>
+        <div class="h-eyebrow"><span>01</span>Overview</div>
         <div class="h-greet">${greeting()}、<br>${esc(u.name)} さん</div>
         <div class="h-sub">${esc(longDateStr())} ／ ${esc(ROLES[S.role].title)}</div>
         <div class="h-stats">${heroStats.map(([k, v, s]) => `<div class="h-stat"><div class="k">${k}</div><div class="v num">${v}<small>${s}</small></div></div>`).join('')}</div>
@@ -812,7 +812,7 @@ function renderTimesheet() {
 function renderResource() {
   const months = [0, 1, 2, 3, 4, 5];
   // 稼働率（sequential：単色の明→暗）
-  const ramp = ['#ebe7e0', '#dcd4c7', '#c3b7a4', '#9f917b', '#6f6353', '#3d362e'];
+  const ramp = ['#eaf1f8', '#cfe2f3', '#9cc8ea', '#5aa7dc', '#1f82c8', '#0b5a98'];
   const cell = (r) => {
     const i = r >= 1.05 ? 5 : r >= 0.9 ? 4 : r >= 0.75 ? 3 : r >= 0.5 ? 2 : r > 0 ? 1 : 0;
     return `background:${ramp[i]};color:${i >= 4 ? '#fff' : 'var(--ink)'}`;
