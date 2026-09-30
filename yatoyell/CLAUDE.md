@@ -25,10 +25,10 @@ OFFICE PLATA の新サービス「ヤトエール（AI社員チームづくり�
 - 白文字をオレンジの上に小さく載せない。ボタンは `#F5A623`＋黒文字
 
 ## 公開
-- Cloudflare Workers（静的アセット）の Worker `yatoeru`。Pages はアカウントのプロジェクト数上限のため使っていない
-- `.github/workflows/deploy-yatoeru.yml` が `yatoeru/` の変更を push したときに自動デプロイする（GitHub Secrets の `CLOUDFLARE_API_TOKEN` を使用）
-- 手動なら：`npx wrangler deploy --assets yatoeru --name yatoeru --compatibility-date 2026-09-01`
-- 公開URL：https://yatoeru.a-sasahala.workers.dev（独自ドメインを付けたら og:image も書き換える）
+- URL：https://yatoyell.33l.jp（英字表記は「yatoyell」。ささエール＝sasayell と同じく「エール＝yell」）
+- Cloudflare Workers の静的アセット（Worker 名 `yatoyell`）。設定はリポジトリ直下の `wrangler.yatoyell.jsonc`。Pages はアカウントのプロジェクト数上限のため使っていない
+- `.github/workflows/deploy-yatoyell.yml` が `yatoyell/` の変更を push したときに自動デプロイする（GitHub Secrets の `CLOUDFLARE_API_TOKEN` を使用）
+- 手動なら：`npx wrangler deploy -c wrangler.yatoyell.jsonc`
 - `.assetsignore` で CLAUDE.md を公開対象から外している
 
 ## 注意
