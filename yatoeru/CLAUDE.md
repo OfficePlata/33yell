@@ -28,8 +28,8 @@ OFFICE PLATA の新サービス「ヤトエール（AI社員チームづくり�
 - Cloudflare Workers（静的アセット）の Worker `yatoeru`。Pages はアカウントのプロジェクト数上限のため使っていない
 - `.github/workflows/deploy-yatoeru.yml` が `yatoeru/` の変更を push したときに自動デプロイする（GitHub Secrets の `CLOUDFLARE_API_TOKEN` を使用）
 - 手動なら：`npx wrangler deploy --assets yatoeru --name yatoeru --compatibility-date 2026-09-01`
+- 公開URL：https://yatoeru.a-sasahala.workers.dev（独自ドメインを付けたら og:image も書き換える）
 - `.assetsignore` で CLAUDE.md を公開対象から外している
-- 公開URL確定後、`og:image` を絶対URL（https://…/images/ogp.png）に書き換えること
 
 ## 注意
 - 住所・個人の電話番号は載せない。実績の固有名詞は出さない
