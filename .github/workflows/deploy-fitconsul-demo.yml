@@ -1,0 +1,32 @@
+name: Deploy fitconsul-portal-demo to Cloudflare Workers
+
+# fitconsul-portal-demo/ に変更が push されたら Cloudflare Workers（静的アセット）へデプロイする。
+# 公開URL: https://fitconsul-portal-demo.<アカウントのサブドメイン>.workers.dev
+#
+# 事前に GitHub リポジトリの Settings → Secrets and variables → Actions で登録すること:
+#   CLOUDFLARE_API_TOKEN … Cloudflare の API トークン
+#     （My Profile → API Tokens → Create Token →「Edit Cloudflare Workers」テンプレート）
+# アカウントIDは fitconsul-portal-demo/wrangler.jsonc に記載済み。
+
+on:
+  push:
+    branches: [main, claude/youthful-archimedes-rmdbph]
+    paths:
+      - 'fitconsul-portal-demo/**'
+      - '.github/workflows/deploy-fitconsul-demo.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: fitconsul-portal-demo
+          command: deploy

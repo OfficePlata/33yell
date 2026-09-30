@@ -7,11 +7,16 @@
 
 ## 見せ方
 
-`index.html` をブラウザで開くだけで動きます（サーバー不要）。Cloudflare Pages に置く場合は次のとおりです。
+`public/index.html` をブラウザで開くだけで動きます（サーバー不要）。
 
-```
-npx wrangler pages deploy fitconsul-portal-demo --project-name fitconsul-portal-demo
-```
+### Cloudflare Workers へのデプロイ
+
+`public/` を Workers の静的アセットとして配信します（設定は `wrangler.jsonc`）。
+
+- **自動**：`fitconsul-portal-demo/` に変更を push すると GitHub Actions（`.github/workflows/deploy-fitconsul-demo.yml`）でデプロイされます。リポジトリの Actions シークレットに `CLOUDFLARE_API_TOKEN` の登録が必要です。
+- **手動**：`cd fitconsul-portal-demo && npx wrangler deploy`
+
+公開URLは `https://fitconsul-portal-demo.<アカウントのサブドメイン>.workers.dev` になります。
 
 ### デモで見せるポイント
 
@@ -40,6 +45,8 @@ pricom-portal と同じ構成で、`lib/lark.js` を `lib/notion.js`（Notion AP
 
 ## ファイル
 
-- `index.html` … 画面とスタイル
-- `data.js` … デモ用の架空データ（本番では Notion API から取得）
-- `app.js` … 画面の描画、集計、デモ用の状態保存
+- `public/index.html` … 画面とスタイル
+- `public/data.js` … デモ用の架空データ（本番では Notion API から取得）
+- `public/app.js` … 画面の描画、集計、デモ用の状態保存
+- `public/_headers` … 検索エンジンに載せない設定など
+- `wrangler.jsonc` … Cloudflare Workers の設定

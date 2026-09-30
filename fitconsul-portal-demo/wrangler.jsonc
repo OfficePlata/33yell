@@ -1,0 +1,13 @@
+// Cloudflare Workers（静的アセット）設定
+// public/ 配下をそのまま配信する。Worker スクリプトは不要。
+{
+  "name": "fitconsul-portal-demo",
+  // デプロイ先アカウントの固定（誤アカウントデプロイ防止。pricom-portal と同じアカウント）
+  "account_id": "d945eddc1446103b3696aa537e581563",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  }
+}
