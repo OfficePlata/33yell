@@ -1,0 +1,47 @@
+name: Fetch F-IT Consul brand assets (one-off)
+
+# デモのブランド反映用に、公式サイトのロゴ・配色情報を取得して _brand/ にコミットする一回限りのワークフロー。
+on:
+  push:
+    branches: [claude/youthful-archimedes-rmdbph]
+    paths: ['.github/workflows/fetch-fitconsul-brand.yml']
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch site
+        run: |
+          set -x
+          OUT=fitconsul-portal-demo/_brand
+          mkdir -p $OUT/img $OUT/css
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Safari/537.36'
+          for p in "" about/; do curl -sL -A "$UA" "https://fitconsul.jp/$p" -o "$OUT/page-${p%/}.html" || true; done
+          ls -la $OUT
+          # CSS
+          grep -hoE '(href|src)="[^"]+\.css[^"]*"' $OUT/*.html | sed -E 's/^(href|src)="//; s/"$//' | sort -u > $OUT/css-urls.txt || true
+          i=0; while read -r u; do case "$u" in http*) ;; //*) u="https:$u";; /*) u="https://fitconsul.jp$u";; *) u="https://fitconsul.jp/$u";; esac
+            i=$((i+1)); curl -sL -A "$UA" "$u" -o "$OUT/css/$i.css"; echo "$i $u" >> $OUT/css/index.txt; done < $OUT/css-urls.txt
+          # 画像（ロゴ・ファビコン・ヘッダー画像など）
+          grep -hoE '(src|href|content|data-src)="[^"]+\.(svg|png|jpe?g|webp|ico)[^"]*"' $OUT/*.html | sed -E 's/^[a-z-]+="//; s/"$//' | sort -u > $OUT/img-urls.txt || true
+          grep -hoE 'url\([^)]+\.(svg|png|jpe?g|webp)[^)]*\)' $OUT/*.html $OUT/css/*.css 2>/dev/null | sed -E 's/url\(["'\'']?//; s/["'\'']?\)$//' | sort -u >> $OUT/img-urls.txt || true
+          head -80 $OUT/img-urls.txt
+          n=0; while read -r u; do [ $n -ge 40 ] && break; case "$u" in http*) ;; //*) u="https:$u";; /*) u="https://fitconsul.jp$u";; *) u="https://fitconsul.jp/$u";; esac
+            case "$u" in *fitconsul*|*wp-content*) ;; *) continue;; esac
+            n=$((n+1)); f=$(basename "${u%%\?*}"); curl -sL -A "$UA" -m 30 "$u" -o "$OUT/img/$n-$f"; echo "$n $u" >> $OUT/img/index.txt; done < $OUT/img-urls.txt
+          # 大きすぎる写真は除外（ロゴ・アイコン確認が目的）
+          find $OUT/img -type f -size +600k -delete
+          # 配色：CSS/HTML 内のカラーコード出現頻度
+          cat $OUT/*.html $OUT/css/*.css 2>/dev/null | grep -hoiE '#[0-9a-f]{6}\b|#[0-9a-f]{3}\b|rgba?\([0-9 ,.%]+\)' | tr 'A-F' 'a-f' | sort | uniq -c | sort -rn | head -60 > $OUT/colors.txt || true
+          cat $OUT/colors.txt
+          du -sh $OUT
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add fitconsul-portal-demo/_brand
+          git commit -m "chore: F-ITコンサル公式サイトのロゴ・配色情報を取得（デモのブランド反映用）" || exit 0
+          git push
