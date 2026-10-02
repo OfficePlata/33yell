@@ -62,6 +62,15 @@ async function buildDeck(L) {
   const C = pres.SchemeColor;
   const footer = `マナベル　第${L.no}回　${L.title.replace("\n", "")}`;
 
+  // 講師台本（talk-XX.js）があれば、その回の発表者ノートは台本で置き換える
+  const talkFile = path.join(__dirname, `talk-${String(L.no).padStart(2, "0")}.js`);
+  const talk = fs.existsSync(talkFile) ? require(talkFile) : null;
+  let talkIdx = 0;
+  function notes(slide, fallback) {
+    const t = talk && talk[talkIdx++];
+    slide.addNotes(t ? `【${t.block}／このスライド ${t.minutes}分】\n${t.talk}` : fallback);
+  }
+
   // ---- レイアウト ----
   pres.defineSlideMaster({
     title: "MANA_TITLE",
@@ -118,11 +127,11 @@ async function buildDeck(L) {
     slide.addImage({ data: await icon("bulb", HEX.orange), x: 0.75, y: y + 0.14, w: 0.27, h: 0.27, objectName: "foot-icon" });
     slide.addText(text, { x: 1.15, y, w: 8.1, h: 0.55, fontSize: 11.5, color: C.text1, valign: "middle", margin: 0, isTextBox: true, objectName: "foot-text" });
   }
-  function contentSlide(section, s) {
+  function contentSlide(section, s, withNotes = true) {
     const slide = pres.addSlide({ masterName: "MANA_CONTENT", sectionTitle: section });
     slide.addText(s.title, { placeholder: "title" });
     if (s.chip) chip(slide, s.chip, chipKind(s));
-    if (s.note) slide.addNotes(s.note);
+    if (withNotes && (s.note || talk)) notes(slide, s.note || "");
     return slide;
   }
 
@@ -201,6 +210,24 @@ async function buildDeck(L) {
       }
       if (s.foot) await foot(slide, s.foot, 4.15);
     },
+    async phones(slide, s) {
+      // スマホ画面のスクリーンショット（780x1640px）を並べ、右に説明を置く
+      const h = 3.3, w = h * 780 / 1640, pad = 0.07, top = 1.55;
+      let x = 0.6;
+      for (let i = 0; i < s.images.length; i++) {
+        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: top, w: w + pad * 2, h: h + pad * 2, rectRadius: 0.14, fill: { color: HEX.ink }, line: { color: HEX.ink }, shadow: comicShadow(), objectName: "phone-frame" });
+        slide.addImage({ path: path.join(__dirname, "img", s.images[i]), x: x + pad, y: top + pad, w, h, objectName: "phone-screen", altText: s.alts?.[i] || "デモ画面" });
+        slide.addShape(pres.shapes.OVAL, { x: x - 0.12, y: top - 0.12, w: 0.4, h: 0.4, fill: { color: C.accent1 }, line: { color: HEX.ink, width: 1.25 }, objectName: "phone-num" });
+        slide.addText(String(i + 1), { x: x - 0.12, y: top - 0.12, w: 0.4, h: 0.4, fontSize: 13, bold: true, color: C.text1, align: "center", valign: "middle", margin: 0, isTextBox: true });
+        x += w + pad * 2 + 0.3;
+      }
+      const px = x + 0.1, pw = 9.4 - px, n = s.points.length, rowH = 3.3 / n;
+      for (let i = 0; i < n; i++) {
+        const y = top + i * rowH;
+        slide.addText(s.points[i].h, { x: px, y, w: pw, h: 0.4, fontSize: 15, bold: true, color: C.text1, valign: "top", margin: 0, isTextBox: true, objectName: "point-head" });
+        slide.addText(s.points[i].b, { x: px, y: y + 0.42, w: pw, h: rowH - 0.5, fontSize: 12.5, color: C.text1, valign: "top", margin: 0, isTextBox: true, objectName: "point-body" });
+      }
+    },
     async bigtext(slide, s) {
       card(slide, 0.6, 1.65, 8.8, 2.1, { fill: C.accent1 });
       await iconCircle(slide, 0.9, 1.95, 0.6, "target", C.background1);
@@ -219,10 +246,10 @@ async function buildDeck(L) {
   slide.addShape(pres.shapes.OVAL, { x: 7.15, y: 1.3, w: 2.3, h: 2.3, fill: { color: C.background1 }, line: { color: HEX.ink, width: 2 }, shadow: comicShadow(), objectName: "title-circle" });
   const mainIcon = L.no <= 3 ? "target" : L.no <= 6 ? "lark" : L.no <= 9 ? "ai" : "flag";
   slide.addImage({ data: await icon(mainIcon, HEX.ink), x: 7.75, y: 1.9, w: 1.1, h: 1.1, objectName: "title-icon" });
-  slide.addNotes(`第${L.no}回「${L.title.replace("\n", "")}」。前回の宿題の提出状況を確認してから始める。`);
+  notes(slide, `第${L.no}回「${L.title.replace("\n", "")}」。前回の宿題の提出状況を確認してから始める。`);
 
   // ---- 2. 今日のゴールと流れ ----
-  slide = contentSlide("導入", { title: "今日のゴールと流れ", chip: "はじめに" });
+  slide = contentSlide("導入", { title: "今日のゴールと流れ", chip: "はじめに" }, false);
   const gN = L.goals.length, gGap = 0.25, gW = (8.8 - (gN - 1) * gGap) / gN;
   for (let i = 0; i < gN; i++) {
     const x = 0.6 + i * (gW + gGap);
@@ -242,7 +269,7 @@ async function buildDeck(L) {
   }
   slide.addText([{ text: "■ ", options: { color: HEX.ink } }, { text: "聞く　", options: {} }, { text: "■ ", options: { color: HEX.orange } }, { text: "手を動かす", options: {} }],
     { x: 0.6, y: 4.55, w: 4, h: 0.3, fontSize: 10, color: C.text2, margin: 0, isTextBox: true });
-  slide.addNotes("ゴールを読み上げ、今日は「聞く」と「手を動かす」を交互に進めることを伝える。");
+  notes(slide, "ゴールを読み上げ、今日は「聞く」と「手を動かす」を交互に進めることを伝える。");
 
   // ---- 3. 本編 ----
   pres.addSection({ title: "本編" });
@@ -253,7 +280,7 @@ async function buildDeck(L) {
 
   // ---- 4. 宿題とチェック ----
   pres.addSection({ title: "まとめ" });
-  slide = contentSlide("まとめ", { title: "宿題と、今日のチェック", chip: "まとめ" });
+  slide = contentSlide("まとめ", { title: "宿題と、今日のチェック", chip: "まとめ" }, false);
   card(slide, 0.6, 1.6, 4.25, 3.3, { fill: C.background2 });
   await iconCircle(slide, 0.85, 1.8, 0.5, "pen");
   slide.addText("宿題", { x: 1.5, y: 1.8, w: 3, h: 0.5, fontSize: 17, bold: true, color: C.text1, valign: "middle", margin: 0, isTextBox: true });
@@ -264,7 +291,7 @@ async function buildDeck(L) {
   slide.addText("できたらチェック", { x: 6.05, y: 1.8, w: 3, h: 0.5, fontSize: 17, bold: true, color: C.text1, valign: "middle", margin: 0, isTextBox: true });
   slide.addText(L.checks.map((t, i) => ({ text: "☐ " + t, options: { breakLine: i < L.checks.length - 1 } })),
     { x: 5.4, y: 2.5, w: 3.8, h: 2.25, fontSize: 13.5, color: C.text1, valign: "top", margin: 0, paraSpaceAfter: 8, isTextBox: true });
-  slide.addNotes("宿題の目安時間を伝える。質問は講座グループへ（24時間以内に返信・土日祝を除く）。");
+  notes(slide, "宿題の目安時間を伝える。質問は講座グループへ（24時間以内に返信・土日祝を除く）。");
 
   // ---- 5. 次回 ----
   slide = pres.addSlide({ masterName: "MANA_DARK", sectionTitle: "まとめ" });
@@ -275,7 +302,7 @@ async function buildDeck(L) {
     slide.addText("修了おめでとうございます", { placeholder: "title" });
     slide.addText("あなたはもう、自社のしくみを作れる「構築者」です。\n作ったしくみを、使われながら育てていきましょう。", { placeholder: "body" });
   }
-  slide.addNotes("次回までの宿題をもう一度確認して終了。");
+  notes(slide, "次回までの宿題をもう一度確認して終了。");
 
   const file = path.join(OUT, `manaberu-${L.file}.pptx`);
   await pres.writeFile({ fileName: file });
