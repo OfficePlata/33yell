@@ -103,6 +103,7 @@ AI研修、ノーコード研修、プログラミングスクールは、ふつ
 | [curriculum.md](curriculum.md) | 8週間・全12回のカリキュラム表 |
 | [sample-project.md](sample-project.md) | 講師デモ用の共通サンプル「まなべ食堂」 |
 | [lessons/](lessons/) | 各回のテキスト（説明・ハンズオン手順・AIへの頼み方・宿題） |
+| [slides/](slides/) | 講義スライド全12回（PowerPoint） |
 | [worksheets/](worksheets/) | 準備チェック、設計シート、プロンプト集、運用ルール表、構築者チェック、定着チェック表 |
 | [instructor-guide.md](instructor-guide.md) | 講師用の進行メモ・つまずきポイント・決めること |
 | [market-research.md](market-research.md) | 相場調査と料金案 |
