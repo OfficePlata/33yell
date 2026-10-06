@@ -1,0 +1,25 @@
+name = "atsumeru"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+# ダッシュボードで足した変数を、wrangler deploy で消さない
+keep_vars = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 毎朝 9:00（日本時間）に案内・リマインド・締切の処理
+[triggers]
+crons = ["0 0 * * *"]
+
+[vars]
+CHAPTER_NAME = "BNI ○○チャプター"
+LARK_DOMAIN = "open.larksuite.com"
+PUBLIC_URL = "https://atsumeru.example.workers.dev"
+# Peatix の申込フォームで、メンバー番号を聞く質問の見出し（CSV の列名に含まれる文字）
+MEMBER_NO_LABEL = "メンバー番号"
+# 以下はチャプターごとに設定（setup-lark.mjs の出力・LINE Developers の値）
+#   LARK_BASE_TOKEN, LARK_ADMIN_CHAT_ID, LIFF_ID, LINE_LOGIN_CHANNEL_ID
+
+# 秘密情報は `wrangler secret put` で登録する（コードに書かない）
+#   LARK_APP_ID, LARK_APP_SECRET, LINE_CHANNEL_ACCESS_TOKEN, ADMIN_PASSWORD

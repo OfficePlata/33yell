@@ -1,0 +1,15 @@
+{
+  "name": "atsumeru",
+  "private": true,
+  "type": "module",
+  "description": "あつめール：Peatix × LINE × Lark で BNI チャプターの会費を集める仕組み（ささエール）",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.mjs",
+    "setup:lark": "node scripts/setup-lark.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}

@@ -1,0 +1,46 @@
+/* あつめール：ささエールのトンマナ（黄色ベース × 黒文字 × 白カード） */
+:root {
+  --yellow: #ffd600;
+  --orange: #f5a623;
+  --accent: #dd6420;
+  --ink: #1a1a1a;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: "Noto Sans JP", system-ui, sans-serif;
+  font-weight: 500;
+  line-height: 1.7;
+}
+header { padding: 20px 16px 8px; max-width: 880px; margin: 0 auto; }
+header h1 { margin: 0; font-size: 22px; font-weight: 900; }
+header p { margin: 4px 0 0; font-size: 14px; }
+main { max-width: 880px; margin: 0 auto; padding: 8px 16px 40px; }
+.card { background: var(--card); border: 3px solid var(--ink); border-radius: 14px; padding: 18px; margin: 14px 0; box-shadow: 5px 5px 0 var(--ink); }
+.card h2 { margin: 0 0 10px; font-size: 18px; font-weight: 900; }
+label { display: block; font-weight: 700; margin: 12px 0 4px; }
+input, select { width: 100%; font: inherit; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; }
+button, .btn { display: inline-block; font: inherit; font-weight: 900; padding: 10px 18px; margin: 6px 6px 0 0; border: 3px solid var(--ink); border-radius: 999px; background: var(--yellow); color: var(--ink); cursor: pointer; text-decoration: none; }
+button.sub { background: #fff; }
+button.warn, .btn.warn { background: var(--accent); color: #fff; }
+button:disabled { opacity: .5; cursor: wait; }
+.msg { margin-top: 10px; font-weight: 700; }
+.msg.err { color: var(--accent); }
+.hidden { display: none !important; }
+.stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.stat { flex: 1 1 120px; background: var(--yellow); border: 2px solid var(--ink); border-radius: 12px; padding: 10px; text-align: center; }
+.stat b { display: block; font-size: 26px; font-weight: 900; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { border-bottom: 1px solid #ddd; padding: 8px 6px; text-align: left; white-space: nowrap; }
+th { font-weight: 900; }
+.tag { display: inline-block; padding: 0 10px; border-radius: 999px; border: 2px solid var(--ink); font-weight: 900; font-size: 13px; }
+.tag.paid { background: var(--yellow); }
+.tag.unpaid { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tag.free { background: #fff; }
+.item { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding: 10px 0; flex-wrap: wrap; }
+.small { font-size: 13px; }
+pre { white-space: pre-wrap; background: #fffbe0; border-radius: 10px; padding: 10px; font-size: 13px; }

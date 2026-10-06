@@ -1,0 +1,72 @@
+# あつめール【仮】（BNI チャプターの会費集金）
+
+支払いは **Peatix**、案内とリマインドは **LINE**、入金表と通知は **Lark** に任せる会費集金の仕組みです。会計担当がやるのは「月に1回、集金回を1行足す」「ときどき Peatix の CSV を管理画面に入れる」の2つだけです。
+
+> BNI 本部に払う年会費ではなく、チャプター単位で集める会費（会場費・朝食代・懇親会費など）を想定しています。
+
+## 構成（ささエールのいつもの型）
+
+```
+会計担当 ─ Lark BASE「集金回」に1行（回名・金額・PeatixURL・案内日・締切日）
+              │
+毎朝9時の定期処理（Cloudflare Workers）
+  ├ 案内日   → LINE で在籍メンバーに「Peatixで支払う」ボタンつき案内
+  ├ 締切前日 → 未入金の人だけにリマインド
+  └ 締切翌日 → Lark Bot で会計担当に「入金済○人／未入金○人：名前」
+              │
+メンバー ─ Peatix で支払う（カード・コンビニ・銀行振込など。決済と入金は Peatix）
+              │
+会計担当 ─ Peatix の参加者 CSV を管理画面へ → 申込フォームの「メンバー番号」で自動照合 → BASE「入金」が入金済に
+```
+
+| 画面 | パス | 使う人 |
+|---|---|---|
+| 支払い状況・LINE 登録 | `/r/`（LIFF のエンドポイントもここ） | メンバー |
+| 管理画面 | `/admin/` | 会計担当 |
+
+## Lark BASE（4テーブル）
+メンバー／集金回／入金／照合ログ。`node scripts/setup-lark.mjs` で作成し、作成直後にオーナーを移します（アプリはフルアクセスで残る）。
+
+```bash
+# ささエールの Lark で作るとき
+node scripts/setup-lark.mjs --name "BNI ○○チャプター 会費" --owner a-sasahala@officeplata.com --demo
+# チャプターの Lark で作るとき（チャプターのアプリの ID/Secret で実行。名簿は「メンバー番号,名前」の CSV）
+node scripts/setup-lark.mjs --name "BNI ○○チャプター 会費" --owner 会計担当@example.com --members members.csv
+```
+
+## Peatix 側の決まりごと
+- 集金回ごとに有料イベントを1つ（例「11月度 チャプター会費」）。公開範囲は限定公開にする
+- 申込フォームに質問「メンバー番号」（必須）を足す。列名に `MEMBER_NO_LABEL` の文字が入っていれば照合できる
+- 番号が空・違うときは、名前が名簿の1人だけに一致すれば拾う。それでも決まらない申込は「要確認」として管理画面と照合ログに出す
+- 同じ CSV を何回入れても二重には付かない（入金済の人は飛ばす）
+- Peatix の売上はイベント終了後に振り込まれるので、イベントの日時は締切日にしておく
+
+## 設定
+
+| 種類 | 名前 | 中身 |
+|---|---|---|
+| vars | `CHAPTER_NAME` `PUBLIC_URL` `MEMBER_NO_LABEL` | 表示名・公開 URL・Peatix の質問の見出し |
+| vars | `LARK_BASE_TOKEN` | setup-lark.mjs が出力する app_token |
+| vars | `LARK_ADMIN_CHAT_ID` | 会計担当がいる Lark グループ（通知先） |
+| vars | `LIFF_ID` `LINE_LOGIN_CHANNEL_ID` | LIFF（エンドポイント = `PUBLIC_URL/r/`、scope は openid と profile） |
+| secret | `LARK_APP_ID` `LARK_APP_SECRET` | Lark アプリ（権限：bitable:app、im:message。BASE 作成時は drive:drive も） |
+| secret | `LINE_CHANNEL_ACCESS_TOKEN` | チャプターの LINE 公式アカウント（Messaging API） |
+| secret | `ADMIN_PASSWORD` | 管理画面のパスワード（長いランダムな文字列） |
+
+秘密情報は `npx wrangler secret put 名前` で登録し、コードやリポジトリには書きません。管理画面の前に Cloudflare Access（50人まで無料）を置くと、さらに安全です。
+
+## 開発
+
+```bash
+npm install
+npm test                         # CSV 照合・日程判定・通しの流れのテスト
+cp .dev.vars.example .dev.vars   # 値を入れる
+npx wrangler dev
+npx wrangler deploy              # 公開（確認後）
+```
+
+## 月額費用の目安【仮・要確認】
+- Cloudflare Workers：無料枠内（1日1回の定期処理＋数十人の利用）
+- LINE 公式アカウント：無料のコミュニケーションプランは月200通まで。40人チャプターで「案内1通＋未入金リマインド」なら月50〜80通程度
+- Lark：チャプターの既存契約、または無料プラン
+- Peatix：主催者側の販売手数料が売上から差し引かれる（料率は Peatix の最新の料金ページで確認）

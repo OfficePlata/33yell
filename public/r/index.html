@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会費の支払い状況</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<header>
+  <h1 id="chapter">会費の支払い状況</h1>
+  <p>LINE とメンバー名簿をつなぐと、会費のご案内と支払い状況がここで見られます。</p>
+</header>
+<main>
+  <div id="loading" class="card">読み込み中です…</div>
+
+  <section id="register" class="card hidden">
+    <h2>はじめに：メンバー登録（1回だけ）</h2>
+    <p class="small">会計担当から伝えられたメンバー番号と、名簿どおりのお名前を入れてください。</p>
+    <label for="memberNo">メンバー番号</label>
+    <input id="memberNo" inputmode="numeric" autocomplete="off" placeholder="例：0001">
+    <label for="name">お名前（名簿と同じ表記）</label>
+    <input id="name" autocomplete="name" placeholder="例：鹿児島 太郎">
+    <button id="registerBtn">登録する</button>
+    <div id="registerMsg" class="msg"></div>
+  </section>
+
+  <section id="status" class="card hidden">
+    <h2 id="hello"></h2>
+    <div id="items"></div>
+    <p class="small">Peatix でお支払いいただいた分は、会計担当が照合したあとに「入金済」になります（数日かかることがあります）。</p>
+  </section>
+
+  <div id="error" class="card hidden msg err"></div>
+</main>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="register.js"></script>
+</body>
+</html>

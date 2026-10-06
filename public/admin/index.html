@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会費の管理画面</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<header>
+  <h1>あつめール 会費の管理画面</h1>
+  <p>会計担当の方向け。Peatix の参加者 CSV を入れると、入金済が自動でつきます。</p>
+</header>
+<main>
+  <section id="login" class="card">
+    <h2>パスワード</h2>
+    <input id="password" type="password" autocomplete="current-password">
+    <button id="loginBtn">開く</button>
+    <div id="loginMsg" class="msg err"></div>
+  </section>
+
+  <div id="app" class="hidden">
+    <section class="card">
+      <h2>集金回</h2>
+      <select id="round"></select>
+      <div class="stats" style="margin-top:12px">
+        <div class="stat">入金済<b id="sPaid">-</b></div>
+        <div class="stat">未入金<b id="sUnpaid">-</b></div>
+        <div class="stat">免除<b id="sFree">-</b></div>
+        <div class="stat">LINE未登録<b id="sNoLine">-</b></div>
+      </div>
+      <p class="small" id="roundInfo"></p>
+    </section>
+
+    <section class="card">
+      <h2>① Peatix の入金を取り込む</h2>
+      <p class="small">Peatix → イベント → 参加者 → 「参加者リスト CSV」をダウンロードして、そのまま選んでください。同じ CSV を何回入れても二重にはなりません。</p>
+      <input id="csv" type="file" accept=".csv,text/csv">
+      <button id="importBtn">取り込む</button>
+      <div id="importMsg" class="msg"></div>
+      <pre id="importDetail" class="hidden"></pre>
+    </section>
+
+    <section class="card">
+      <h2>② 入金表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>番号</th><th>名前</th><th>状態</th><th>方法</th><th>LINE</th><th>手で記録</th></tr></thead>
+          <tbody id="dues"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>③ LINE で送る（ふだんは毎朝の自動処理で送られます）</h2>
+      <button id="noticeBtn" class="sub">案内を今すぐ送る</button>
+      <button id="remindBtn" class="sub">未入金の人にリマインド</button>
+      <button id="closeBtn" class="warn">締め切る</button>
+      <div id="sendMsg" class="msg"></div>
+    </section>
+  </div>
+</main>
+<script src="admin.js"></script>
+</body>
+</html>
