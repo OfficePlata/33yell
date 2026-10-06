@@ -5,6 +5,7 @@ export const TABLES = {
   rounds: "集金回",
   dues: "入金",
   imports: "照合ログ",
+  visitors: "ビジター",
 };
 
 export class Lark {

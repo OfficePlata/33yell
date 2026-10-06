@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { matchPayments, normalizeKey, parseCsv, readPeatixRows } from "../src/csv.js";
-import { jstDate, markDue, myStatus, planDaily, reconcile, registerLine, runDaily } from "../src/dues.js";
+import { addVisitor, jstDate, loadVisitors, markDue, markVisitor, myStatus, noticeMessage, planDaily, reconcile, registerLine, runDaily } from "../src/dues.js";
 
 // Peatix の参加者リスト CSV に近い形（申込フォームの質問「メンバー番号」つき）
 const PEATIX_CSV =
@@ -36,7 +36,7 @@ test("normalizeKey：全角・空白をそろえる", () => {
 test("readPeatixRows：列名からメンバー番号の列を見つける", () => {
   const rows = readPeatixRows(PEATIX_CSV);
   assert.equal(rows.length, 5);
-  assert.deepEqual(rows[1], { saleId: "S-1002", memberNo: "０００２", name: "宮崎　花子", ticket: "11月度 会費", status: "支払済" });
+  assert.deepEqual(rows[1], { saleId: "S-1002", memberNo: "０００２", name: "宮崎　花子", ticket: "11月度 会費", status: "支払済", company: "", category: "", referrer: "" });
   assert.throws(() => readPeatixRows("名前,金額\nA,1"), /販売ID/);
 });
 
@@ -95,7 +95,7 @@ test("jstDate：日本時間の日付", () => {
 
 class FakeLark {
   constructor(seed) {
-    this.tables = { members: [], rounds: [], dues: [], imports: [], ...structuredClone(seed) };
+    this.tables = { members: [], rounds: [], dues: [], imports: [], visitors: [], ...structuredClone(seed) };
     this.seq = 0;
     for (const rows of Object.values(this.tables)) for (const r of rows) r.id ??= `rec${++this.seq}`;
     this.cards = [];
@@ -183,4 +183,72 @@ test("LINE 登録：番号と名前が両方合ったときだけ。支払い状
   assert.equal(me.name, "霧島 さくら");
   assert.deepEqual(me.items[0], { round: "11月度", amount: 3000, due: "2026-11-10", open: true, peatixUrl: "https://peatix.com/event/123", status: "未入金" });
   assert.deepEqual(await myStatus(lark, "Unknown"), { registered: false });
+});
+
+test("LINE なし：LINE には送らず、そのまま貼れる文面が Lark に届く", () =>
+  withFetch(async (calls) => {
+    const lark = new FakeLark(SEED);
+    const env = { LARK_ADMIN_CHAT_ID: "oc_1", PUBLIC_URL: "https://example.test" }; // LINE の設定なし
+    await runDaily(env, lark, "2026-11-01");
+    assert.equal(calls.length, 0, "LINE には何も送らない");
+    assert.equal(lark.tables.dues.length, 5);
+    assert.match(lark.cards[0].text, /そのまま貼れる文面\n【11月度 会費のご案内】\n金額：3,000円\n締切：11\/10\nお支払いはこちら（Peatix）：https:\/\/peatix.com\/event\/123/);
+
+    await reconcile(env, lark, "11月度", PEATIX_CSV);
+    await runDaily(env, lark, "2026-11-09");
+    const remind = lark.cards.find((c) => c.title.includes("締切前日"));
+    assert.match(remind.text, /未入金の方：桜島 健/);
+    assert.match(remind.text, /【11月度 会費のお願い】/);
+    assert.equal(calls.length, 0);
+  }));
+
+const VISITOR_CSV =
+  "販売ID,参加者名,注文日時,チケット名,ステータス,会社名,業種,ご紹介者のお名前\n" +
+  "V-1,桜井 一,2026/11/01,ビジター参加,支払済,桜井工務店,工務店,鹿児島 太郎\n" +
+  "V-2,大隅 花,2026/11/02,ビジター参加,未払い,大隅デザイン,デザイン,宮崎 花子\n" +
+  "V-3,指宿 健,2026/11/02,ビジター参加,キャンセル,,,\n";
+
+test("ビジター：CSV から受付リスト → 何回入れても二重にならない → 当日現金・飛び込み → 前日一覧 → 締め", () =>
+  withFetch(async (calls) => {
+    const seed = structuredClone(SEED);
+    seed.rounds = [
+      { 回名: "11/12 例会", 種別: "ビジター", 金額: 2000, PeatixURL: "https://peatix.com/event/999", 案内日: Date.parse("2026-11-01T00:00:00+09:00"), 締切日: Date.parse("2026-11-12T00:00:00+09:00"), 状態: "予定" },
+    ];
+    const lark = new FakeLark(seed);
+    const env = { LARK_ADMIN_CHAT_ID: "oc_1", PUBLIC_URL: "https://example.test", VISITOR_REFERRER_LABEL: "紹介者" };
+
+    await runDaily(env, lark, "2026-11-01");
+    assert.equal(lark.tables.dues.length, 0, "ビジターの回ではメンバーの入金表を作らない");
+    assert.match(lark.cards[0].text, /【11\/12 例会 ビジター参加のご案内】\n参加費：2,000円\n例会日：11\/12/);
+
+    const first = await reconcile(env, lark, "11/12 例会", VISITOR_CSV);
+    assert.deepEqual([first.added, first.total, first.paid, first.unpaid], [2, 2, 1, 1]);
+    const again = await reconcile(env, lark, "11/12 例会", VISITOR_CSV);
+    assert.deepEqual([again.added, again.updated], [0, 0]);
+    const v = await loadVisitors(lark, "11/12 例会");
+    assert.deepEqual(v.map((x) => [x.name, x.company, x.referrer, x.status]), [
+      ["桜井 一", "桜井工務店", "鹿児島 太郎", "入金済"],
+      ["大隅 花", "大隅デザイン", "宮崎 花子", "未入金"],
+    ]);
+
+    // コンビニ払いが済んだ CSV を入れ直すと入金済になる
+    const later = await reconcile(env, lark, "11/12 例会", VISITOR_CSV.replace("未払い", "支払済"));
+    assert.equal(later.updated, 1);
+    await markVisitor(lark, { round: "11/12 例会", id: v[1].id, status: "キャンセル" });
+    await addVisitor(lark, { round: "11/12 例会", name: "飛込 太", company: "飛込商店", referrer: "薩摩 一郎" });
+
+    await runDaily(env, lark, "2026-11-11");
+    const dayBefore = lark.cards.at(-1);
+    assert.equal(dayBefore.title, "明日（11/12）のビジター 2 名");
+    assert.match(dayBefore.text, /・桜井 一（桜井工務店／工務店） 紹介：鹿児島 太郎　入金済/);
+    assert.doesNotMatch(dayBefore.text, /大隅/);
+
+    await runDaily(env, lark, "2026-11-13");
+    assert.equal(lark.tables.rounds[0]["状態"], "締切");
+    assert.match(lark.cards.at(-1).text, /ビジター 2 名：Peatix 1 名／当日現金 1 名／未入金 0 名（4,000円）/);
+    assert.equal(calls.length, 0);
+  }));
+
+test("文面：PeatixURL がないときは未設定と出す", () => {
+  assert.match(noticeMessage({ name: "12月度", kind: "会費", amount: 3000, due: "", peatixUrl: "" }), /（URL 未設定）/);
 });

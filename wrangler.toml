@@ -18,10 +18,15 @@ LARK_DOMAIN = "open.larksuite.com"
 PUBLIC_URL = "https://atsumeru.a-sasahala.workers.dev"
 # Peatix の申込フォームで、メンバー番号を聞く質問の見出し（CSV の列名に含まれる文字）
 MEMBER_NO_LABEL = "メンバー番号"
+# ビジター用の Peatix イベントの申込フォームの質問の見出し
+VISITOR_COMPANY_LABEL = "会社名"
+VISITOR_CATEGORY_LABEL = "業種"
+VISITOR_REFERRER_LABEL = "紹介者"
 # デモ BASE（ささエールの Lark）と通知先（テストAI グループ）。導入先では setup-lark.mjs / list-chats.mjs の値に置き換える
 LARK_BASE_TOKEN = "QQXCbiPSharfZxsplJhj1Qwvpje"
 LARK_ADMIN_CHAT_ID = "oc_b0c14765803deee0ee3af73204a56646"
-# LIFF_ID / LINE_LOGIN_CHANNEL_ID は導入先ごとに設定
+# LINE を使うときだけ設定（LIFF_ID / LINE_LOGIN_CHANNEL_ID と secret の LINE_CHANNEL_ACCESS_TOKEN）。
+# 設定しなければ LINE なし版として動き、案内・リマインドの文面を Lark で会計担当に渡す
 
 # 秘密情報は `wrangler secret put` で登録する（コードに書かない）
-#   LARK_APP_ID, LARK_APP_SECRET, LINE_CHANNEL_ACCESS_TOKEN, ADMIN_PASSWORD
+#   LARK_APP_ID, LARK_APP_SECRET, ADMIN_PASSWORD（LINE を使うときは LINE_CHANNEL_ACCESS_TOKEN も）

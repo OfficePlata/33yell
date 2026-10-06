@@ -1,6 +1,25 @@
 // あつめール Worker：画面（public/）と API の入口
 
-import { closeRound, loadDues, loadMembers, loadRounds, markDue, myStatus, reconcile, registerLine, runDaily, sendNotice, sendReminder } from "./dues.js";
+import {
+  addVisitor,
+  closeRound,
+  lineEnabled,
+  loadDues,
+  loadMembers,
+  loadRounds,
+  loadVisitors,
+  markDue,
+  markVisitor,
+  myStatus,
+  noticeMessage,
+  reconcile,
+  registerLine,
+  reminderMessage,
+  runDaily,
+  sendNotice,
+  sendReminder,
+  visitorSummary,
+} from "./dues.js";
 import { Lark } from "./lark.js";
 import { verifyLiffIdToken } from "./line.js";
 import { safeEqual } from "./token.js";
@@ -41,12 +60,22 @@ async function handleApi(request, env, url) {
   // ── 管理画面（会計担当）向け ──
   if (path.startsWith("/api/admin/")) {
     if (!isAdmin(env, request)) return json({ error: "パスワードが違います" }, 401);
-    if (path === "/api/admin/rounds") return json({ rounds: await loadRounds(lark) });
+    if (path === "/api/admin/rounds") return json({ rounds: await loadRounds(lark), line: lineEnabled(env) });
     if (path === "/api/admin/round") {
-      const name = url.searchParams.get("r");
-      const [dues, members] = await Promise.all([loadDues(lark, name), loadMembers(lark)]);
+      const r = (await loadRounds(lark)).find((x) => x.name === url.searchParams.get("r"));
+      if (!r) return json({ error: "集金回が見つかりません" }, 404);
+      if (r.kind === "ビジター") {
+        const visitors = await loadVisitors(lark, r.name);
+        return json({ kind: r.kind, visitors, summary: visitorSummary(visitors, r.amount), messages: { notice: noticeMessage(r) } });
+      }
+      const [dues, members] = await Promise.all([loadDues(lark, r.name), loadMembers(lark)]);
       const line = new Set(members.filter((m) => m.lineUserId).map((m) => m.memberNo));
-      return json({ dues: dues.map((d) => ({ ...d, line: line.has(d.memberNo) })) });
+      const unpaid = dues.filter((d) => d.status === "未入金").map((d) => d.name);
+      return json({
+        kind: r.kind,
+        dues: dues.map((d) => ({ ...d, line: line.has(d.memberNo) })),
+        messages: { notice: noticeMessage(r), remind: reminderMessage(r, unpaid) },
+      });
     }
     if (request.method !== "POST") return json({ error: "Method Not Allowed" }, 405);
     const body = await readJson(request);
@@ -54,6 +83,14 @@ async function handleApi(request, env, url) {
     if (path === "/api/admin/import") return json(await reconcile(env, lark, body.round, body.csv || ""));
     if (path === "/api/admin/mark") {
       await markDue(lark, body);
+      return json({ ok: true });
+    }
+    if (path === "/api/admin/visitor") {
+      await markVisitor(lark, body);
+      return json({ ok: true });
+    }
+    if (path === "/api/admin/visitor/add") {
+      await addVisitor(lark, body);
       return json({ ok: true });
     }
     if (!round) return json({ error: "集金回が見つかりません" }, 404);

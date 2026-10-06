@@ -3,8 +3,9 @@
  * あつめールの Lark BASE を作る。
  *
  *   node scripts/setup-lark.mjs --name "BNI ○○チャプター 会費" --owner treasurer@example.com [--members members.csv] [--demo]
+ *   node scripts/setup-lark.mjs --upgrade <app_token>   # 前の版で作った BASE に、足りないテーブル・列を足す
  *
- * - BASE と 4 つのテーブル（メンバー／集金回／入金／照合ログ）を作る
+ * - BASE と 5 つのテーブル（メンバー／集金回／入金／照合ログ／ビジター）を作る
  * - --members に「メンバー番号,名前」の CSV を渡すと名簿を入れる
  * - --demo を付けると、架空のメンバー5人と集金回1件を入れる（動作確認用）
  * - 最後にオーナーを --owner のメールアドレスへ移す（アプリはフルアクセスで残る）
@@ -18,6 +19,7 @@ const { values: args } = parseArgs({
   options: {
     name: { type: "string", default: "あつめール（会費）" },
     owner: { type: "string" },
+    upgrade: { type: "string" },
     members: { type: "string" },
     demo: { type: "boolean", default: false },
   },
@@ -55,12 +57,16 @@ const url = (name) => ({ field_name: name, type: 15 });
 
 const SCHEMA = [
   ["メンバー", [text("メンバー番号"), text("名前"), text("カテゴリー"), check("在籍"), text("LINEユーザーID"), date("LINE登録日時", true), text("メモ")]],
-  ["集金回", [text("回名"), num("金額"), url("PeatixURL"), date("案内日"), date("締切日"), select("状態", ["予定", "案内中", "締切"]), check("前日リマインド済"), text("メモ")]],
+  ["集金回", [text("回名"), select("種別", ["会費", "ビジター"]), num("金額"), url("PeatixURL"), date("案内日"), date("締切日"), select("状態", ["予定", "案内中", "締切"]), check("前日リマインド済"), text("メモ")]],
   [
     "入金",
     [text("集金回"), text("メンバー番号"), text("名前"), select("状態", ["未入金", "入金済", "免除"]), select("方法", ["Peatix", "現金", "振込", "その他"]), text("Peatix販売ID"), date("入金確認日時", true), num("リマインド回数"), text("メモ")],
   ],
   ["照合ログ", [text("集金回"), date("取込日時", true), num("CSV行数"), num("一致"), num("新しく入金済"), num("要確認"), text("要確認の内容")]],
+  [
+    "ビジター",
+    [text("名前"), text("集金回"), text("会社名"), text("業種"), text("紹介者"), select("状態", ["入金済", "未入金", "当日現金", "キャンセル"]), select("方法", ["Peatix", "現金"]), text("Peatix販売ID"), date("取込日時", true), text("メモ")],
+  ],
 ];
 
 async function addRecords(app, table, rows) {
@@ -80,12 +86,37 @@ function demoData() {
     ["0005", "桜島 健"],
   ].map(([no, name]) => ({ メンバー番号: no, 名前: name, 在籍: true }));
   const today = Date.parse(`${new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10)}T00:00:00+09:00`);
-  const rounds = [{ 回名: "デモ月度", 金額: 3000, 案内日: today + DAY, 締切日: today + 10 * DAY, 状態: "予定", メモ: "動作確認用。Peatix のイベント URL を入れてください" }];
+  const rounds = [
+    { 回名: "デモ月度", 種別: "会費", 金額: 3000, 案内日: today + DAY, 締切日: today + 10 * DAY, 状態: "予定", メモ: "動作確認用。Peatix のイベント URL を入れてください" },
+    { 回名: "デモ例会", 種別: "ビジター", 金額: 2000, 案内日: today + DAY, 締切日: today + 7 * DAY, 状態: "予定", メモ: "締切日＝例会日。ビジター用の Peatix イベント URL を入れてください" },
+  ];
   return { members, rounds };
+}
+
+/** 前の版の BASE に、足りないテーブルと列だけを足す（既存のデータには触らない） */
+async function upgrade(appToken) {
+  const { items } = await api("GET", `/open-apis/bitable/v1/apps/${appToken}/tables?page_size=100`);
+  const tables = Object.fromEntries(items.map((t) => [t.name, t.table_id]));
+  for (const [name, fields] of SCHEMA) {
+    if (!tables[name]) {
+      await api("POST", `/open-apis/bitable/v1/apps/${appToken}/tables`, { table: { name, default_view_name: "すべて", fields } });
+      console.log(`  テーブル「${name}」を足しました`);
+      continue;
+    }
+    const data = await api("GET", `/open-apis/bitable/v1/apps/${appToken}/tables/${tables[name]}/fields?page_size=100`);
+    const have = new Set(data.items.map((f) => f.field_name));
+    for (const f of fields) {
+      if (have.has(f.field_name)) continue;
+      await api("POST", `/open-apis/bitable/v1/apps/${appToken}/tables/${tables[name]}/fields`, f);
+      console.log(`  「${name}」に列「${f.field_name}」を足しました`);
+    }
+  }
+  console.log("更新しました（種別が空の集金回は「会費」として扱います）");
 }
 
 async function main() {
   if (!process.env.LARK_APP_ID || !process.env.LARK_APP_SECRET) throw new Error("LARK_APP_ID / LARK_APP_SECRET を設定してください");
+  if (args.upgrade) return upgrade(args.upgrade);
   if (!args.owner) throw new Error("--owner（オーナーにする人のメールアドレス）を指定してください");
 
   const { app } = await api("POST", "/open-apis/bitable/v1/apps", { name: args.name, time_zone: "Asia/Tokyo" });
@@ -123,7 +154,7 @@ async function main() {
     const demo = demoData();
     await addRecords(appToken, tableIds["メンバー"], demo.members);
     await addRecords(appToken, tableIds["集金回"], demo.rounds);
-    console.log(`  デモデータ：メンバー ${demo.members.length} 人・集金回 1 件`);
+    console.log(`  デモデータ：メンバー ${demo.members.length} 人・集金回 ${demo.rounds.length} 件（会費・ビジター）`);
   }
 
   console.log(`\nwrangler.toml の LARK_BASE_TOKEN に設定: ${appToken}`);

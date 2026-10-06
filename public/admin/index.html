@@ -9,7 +9,7 @@
 <body>
 <header>
   <h1>あつめール 会費の管理画面</h1>
-  <p>会計担当の方向け。Peatix の参加者 CSV を入れると、入金済が自動でつきます。</p>
+  <p>会計担当・ビジターホストの方向け。Peatix の参加者 CSV を入れると、入金済が自動でつきます。</p>
 </header>
 <main>
   <section id="login" class="card">
@@ -23,18 +23,13 @@
     <section class="card">
       <h2>集金回</h2>
       <select id="round"></select>
-      <div class="stats" style="margin-top:12px">
-        <div class="stat">入金済<b id="sPaid">-</b></div>
-        <div class="stat">未入金<b id="sUnpaid">-</b></div>
-        <div class="stat">免除<b id="sFree">-</b></div>
-        <div class="stat">LINE未登録<b id="sNoLine">-</b></div>
-      </div>
+      <div class="stats" style="margin-top:12px" id="stats"></div>
       <p class="small" id="roundInfo"></p>
     </section>
 
     <section class="card">
       <h2>① Peatix の入金を取り込む</h2>
-      <p class="small">Peatix → イベント → 参加者 → 「参加者リスト CSV」をダウンロードして、そのまま選んでください。同じ CSV を何回入れても二重にはなりません。</p>
+      <p class="small">Peatix → イベント → 参加者 → 「参加者リスト CSV」をダウンロードして、そのまま選んでください。同じ CSV を何回入れても二重にはなりません。ビジターの回では、申込がそのまま受付リストに並びます。</p>
       <input id="csv" type="file" accept=".csv,text/csv">
       <button id="importBtn">取り込む</button>
       <div id="importMsg" class="msg"></div>
@@ -42,19 +37,34 @@
     </section>
 
     <section class="card">
-      <h2>② 入金表</h2>
+      <h2 id="listTitle">② 入金表</h2>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>番号</th><th>名前</th><th>状態</th><th>方法</th><th>LINE</th><th>手で記録</th></tr></thead>
+          <thead id="listHead"></thead>
           <tbody id="dues"></tbody>
         </table>
+      </div>
+      <div id="walkin" class="hidden">
+        <h2 style="margin-top:16px">当日来たビジターを足す</h2>
+        <label for="wName">お名前</label><input id="wName">
+        <label for="wCompany">会社名</label><input id="wCompany">
+        <label for="wCategory">業種</label><input id="wCategory">
+        <label for="wReferrer">紹介者</label><input id="wReferrer">
+        <button id="walkinBtn">当日現金で追加</button>
+        <div id="walkinMsg" class="msg"></div>
       </div>
     </section>
 
     <section class="card">
-      <h2>③ LINE で送る（ふだんは毎朝の自動処理で送られます）</h2>
-      <button id="noticeBtn" class="sub">案内を今すぐ送る</button>
-      <button id="remindBtn" class="sub">未入金の人にリマインド</button>
+      <h2>③ そのまま貼れる文面</h2>
+      <p class="small">LINE を使わない場合や、LINE 未登録の方・ビジターの紹介者に送るときに使います。チャプターのグループやメールに貼ってください。</p>
+      <div id="messages"></div>
+    </section>
+
+    <section class="card">
+      <h2 id="sendTitle">④ 案内・リマインド・締切（ふだんは毎朝の自動処理で行います）</h2>
+      <button id="noticeBtn" class="sub">案内を始める</button>
+      <button id="remindBtn" class="sub">前日の処理をする</button>
       <button id="closeBtn" class="warn">締め切る</button>
       <div id="sendMsg" class="msg"></div>
     </section>
