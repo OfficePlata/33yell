@@ -1,0 +1,23 @@
+name = "shiraberu"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 毎朝 9:00（日本時間）に配信・締切処理
+[triggers]
+crons = ["0 0 * * *"]
+
+[vars]
+COMPANY_NAME = "ささエール（デモ）"
+LARK_DOMAIN = "open.larksuite.com"
+PUBLIC_URL = "https://shiraberu.example.workers.dev"
+DEMO_MODE = "true"
+# LARK_BASE_TOKEN / LARK_SURVEY_CHAT_ID / LARK_ADMIN_CHAT_ID / LIFF_ID / LINE_LOGIN_CHANNEL_ID は導入先ごとに設定
+
+# 秘密情報は `wrangler secret put` で登録する（コードに書かない）
+#   LARK_APP_ID, LARK_APP_SECRET, LINE_CHANNEL_ACCESS_TOKEN,
+#   ANTHROPIC_API_KEY, ADMIN_PASSWORD, LINK_SECRET, ANON_SALT
