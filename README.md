@@ -47,9 +47,9 @@ node scripts/setup-lark.mjs --name "BNI ○○チャプター 会費" --owner �
 |---|---|---|
 | vars | `CHAPTER_NAME` `PUBLIC_URL` `MEMBER_NO_LABEL` | 表示名・公開 URL・Peatix の質問の見出し |
 | vars | `LARK_BASE_TOKEN` | setup-lark.mjs が出力する app_token |
-| vars | `LARK_ADMIN_CHAT_ID` | 会計担当がいる Lark グループ（通知先） |
+| vars | `LARK_ADMIN_CHAT_ID` | 会計担当がいる Lark グループ（通知先）。`node scripts/list-chats.mjs` で調べられる |
 | vars | `LIFF_ID` `LINE_LOGIN_CHANNEL_ID` | LIFF（エンドポイント = `PUBLIC_URL/r/`、scope は openid と profile） |
-| secret | `LARK_APP_ID` `LARK_APP_SECRET` | Lark アプリ（権限：bitable:app、im:message。BASE 作成時は drive:drive も） |
+| secret | `LARK_APP_ID` `LARK_APP_SECRET` | Lark アプリ（権限：bitable:app、im:message、im:chat:readonly。BASE 作成時は drive:drive も） |
 | secret | `LINE_CHANNEL_ACCESS_TOKEN` | チャプターの LINE 公式アカウント（Messaging API） |
 | secret | `ADMIN_PASSWORD` | 管理画面のパスワード（長いランダムな文字列） |
 
