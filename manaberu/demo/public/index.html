@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>まなべ食堂 ご予約</title>
+  <style>
+    :root { --main: #c8551b; --main-dark: #a64412; --bg: #fff8ef; --text: #333; --soft: #6b6b6b; --error: #c62828; --ok: #2e7d32; }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body { margin: 0; min-height: 100vh; font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    header { background: var(--main); color: #fff; padding: 20px 16px; text-align: center; }
+    header h1 { margin: 0; font-size: 22px; }
+    header p { margin: 4px 0 0; font-size: 14px; opacity: .9; }
+    main { max-width: 520px; margin: 0 auto; padding: 20px 16px 40px; }
+    .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+    label { display: block; font-weight: bold; margin: 16px 0 6px; }
+    label .req { color: var(--error); font-size: 12px; margin-left: 6px; }
+    input, select, textarea { width: 100%; font-size: 17px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; }
+    textarea { min-height: 90px; }
+    button { width: 100%; margin-top: 24px; padding: 16px; font-size: 18px; font-weight: bold; color: #fff; background: var(--main); border: 0; border-radius: 10px; cursor: pointer; }
+    button:disabled { background: #bbb; cursor: wait; }
+    .note { font-size: 13px; color: var(--soft); margin-top: 16px; }
+    .message { margin-top: 16px; padding: 12px; border-radius: 8px; display: none; }
+    .message.error { display: block; background: #fdecea; color: var(--error); }
+    .message.ok { display: block; background: #e8f5e9; color: var(--ok); }
+    .line-badge { display: none; font-size: 13px; color: #06c755; font-weight: bold; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>まなべ食堂 ご予約</h1>
+    <p>※講座「マナベル」のデモ用の架空のお店です</p>
+  </header>
+  <main>
+    <div class="card">
+      <div class="line-badge" id="lineBadge">LINEから予約しています</div>
+      <form id="form" novalidate>
+        <label for="name">お名前<span class="req">必須</span></label>
+        <input id="name" name="name" maxlength="50" autocomplete="name" required>
+
+        <label for="datetime">ご来店日時<span class="req">必須</span></label>
+        <input id="datetime" name="datetime" type="datetime-local" step="900" required>
+
+        <label for="people">人数<span class="req">必須</span></label>
+        <select id="people" name="people" required></select>
+
+        <label for="note">ご要望（アレルギーなど）</label>
+        <textarea id="note" name="note" maxlength="200"></textarea>
+
+        <button id="submit" type="submit">予約を送信する</button>
+        <div class="message" id="message" role="status"></div>
+        <p class="note">いただいた情報は、ご予約の管理とご連絡のためだけに使います。</p>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    const form = document.getElementById("form");
+    const submitBtn = document.getElementById("submit");
+    const message = document.getElementById("message");
+    let idToken = null;
+
+    for (let i = 1; i <= 20; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = i + "名";
+      document.getElementById("people").appendChild(opt);
+    }
+
+    function showMessage(type, lines) {
+      message.className = "message " + type;
+      message.textContent = "";
+      lines.forEach((line) => {
+        const p = document.createElement("div");
+        p.textContent = line; // textContent を使い、入力内容がHTMLとして動かないようにする
+        message.appendChild(p);
+      });
+    }
+
+    // LINE の中で開かれたときだけ LIFF を使う。ブラウザで開いたときは普通のフォームとして動く。
+    async function setupLiff() {
+      try {
+        const config = await fetch("/api/config").then((r) => r.json());
+        if (!config.liffId || typeof liff === "undefined") return;
+        await liff.init({ liffId: config.liffId });
+        if (!liff.isInClient()) return;
+        if (!liff.isLoggedIn()) { liff.login(); return; }
+        idToken = liff.getIDToken();
+        const decoded = liff.getDecodedIDToken();
+        if (decoded && decoded.name && !form.name.value) form.name.value = decoded.name;
+        document.getElementById("lineBadge").style.display = "block";
+      } catch (err) {
+        console.warn("LIFF の準備に失敗したため、通常のフォームとして使います", err);
+      }
+    }
+    setupLiff();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const errors = [];
+      if (!form.name.value.trim()) errors.push("お名前を入力してください");
+      if (!form.datetime.value) errors.push("ご来店日時を入力してください");
+      if (errors.length) { showMessage("error", errors); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "送信しています…";
+      try {
+        const res = await fetch("/api/reserve", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name.value,
+            datetime: form.datetime.value,
+            people: Number(form.people.value),
+            note: form.note.value,
+            idToken,
+          }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          form.reset();
+          showMessage("ok", ["ご予約を受け付けました。ありがとうございます。", "確定のご連絡をお待ちください。"]);
+        } else {
+          showMessage("error", data.errors || ["送信に失敗しました"]);
+        }
+      } catch {
+        showMessage("error", ["通信に失敗しました。電波の良いところでもう一度お試しください"]);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "予約を送信する";
+      }
+    });
+  </script>
+</body>
+</html>
