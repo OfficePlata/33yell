@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>さっさー × AI でできること | ささエール</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ささエール ブランドカラー（この5色だけ） */
+  :root {
+    --main: #FFD600;
+    --sub: #F5A623;
+    --accent: #DD6420;
+    --ink: #1A1A1A;
+    --card: #FFFFFF;
+    --title-font: "けいふぉんと", "Keifont", "Dela Gothic One", sans-serif;
+    --en-font: "Dela Gothic One", sans-serif;
+    --body-font: "Noto Sans JP", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--ink); font-family: var(--body-font); color: var(--ink); word-break: auto-phrase; }
+
+  .page {
+    width: 1920px; height: 1080px; margin: 0 auto;
+    background: var(--main);
+    position: relative; overflow: hidden;
+    padding: 36px 64px 30px;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 18px;
+  }
+
+  /* ---- ヘッダー ---- */
+  .head { display: flex; align-items: center; gap: 32px; }
+  .head-text { flex: 1; }
+  .kicker {
+    display: inline-block; background: var(--ink); color: var(--main);
+    font-family: var(--en-font); font-size: 22px; letter-spacing: 2px;
+    padding: 6px 18px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .title {
+    font-family: var(--title-font); font-size: 60px; line-height: 1.2; letter-spacing: 1px; white-space: nowrap;
+  }
+  .title em { font-style: normal; color: var(--accent); }
+  .lead { font-size: 22px; font-weight: 700; margin-top: 8px; }
+  .profile {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--card); border: 4px solid var(--ink); border-radius: 24px;
+    padding: 14px 26px 14px 14px; box-shadow: 6px 6px 0 var(--ink);
+  }
+  .profile img {
+    width: 112px; height: 112px; border-radius: 50%; object-fit: cover; object-position: top;
+    background: var(--main); border: 3px solid var(--ink);
+  }
+  .profile .x { font-family: var(--en-font); font-size: 22px; color: var(--accent); }
+  .profile .name { font-weight: 900; font-size: 28px; line-height: 1.25; }
+  .profile .role { font-size: 17px; font-weight: 700; margin-top: 4px; }
+
+  /* ---- 本体（できること / 見える未来） ---- */
+  .body { display: grid; grid-template-columns: 1.62fr 1fr; gap: 28px; min-height: 0; }
+  .body > div { min-height: 0; }
+  .sec-label {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--title-font); font-size: 30px; margin-bottom: 10px;
+  }
+  .sec-label .en {
+    font-family: var(--en-font); font-size: 18px; background: var(--ink); color: var(--main);
+    padding: 4px 12px; border-radius: 8px; letter-spacing: 1px;
+  }
+  .grid6 { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 16px; height: calc(100% - 54px); }
+  .card {
+    background: var(--card); border: 3px solid var(--ink); border-radius: 20px;
+    padding: 14px 18px; box-shadow: 5px 5px 0 var(--ink);
+    display: flex; flex-direction: column;
+  }
+  .card .no {
+    font-family: var(--en-font); font-size: 18px; color: var(--card); background: var(--accent);
+    width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+    border: 3px solid var(--ink); flex-shrink: 0;
+  }
+  .card .top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .card h3 { font-weight: 900; font-size: 25px; line-height: 1.3; }
+  .card p { font-size: 18.5px; font-weight: 500; line-height: 1.6; }
+  .card .proof {
+    margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 700;
+    border-top: 2px dashed var(--sub); color: var(--accent);
+  }
+
+  .future { display: flex; flex-direction: column; min-height: 0; }
+  .future-box {
+    flex: 1; background: var(--card); border: 3px solid var(--ink); border-radius: 20px;
+    box-shadow: 5px 5px 0 var(--ink); padding: 16px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+  }
+  .ba { display: grid; grid-template-columns: 1fr 36px 1fr; align-items: center; gap: 8px; }
+  .ba .before {
+    font-size: 18px; font-weight: 700; line-height: 1.4; padding: 10px 14px;
+    border: 2px solid var(--ink); border-radius: 12px; background: var(--card);
+  }
+  .ba .arrow { font-family: var(--en-font); font-size: 30px; color: var(--accent); text-align: center; }
+  .ba .after {
+    font-size: 19px; font-weight: 900; line-height: 1.4; padding: 10px 14px;
+    border-radius: 12px; background: var(--main); border: 2px solid var(--ink);
+  }
+  .ba-head { display: grid; grid-template-columns: 1fr 36px 1fr; gap: 8px; font-family: var(--en-font); font-size: 15px; letter-spacing: 1px; }
+  .ba-head span:last-child { color: var(--accent); }
+  .vision {
+    background: var(--ink); color: var(--main); border-radius: 14px;
+    padding: 10px 16px; text-align: center;
+    font-family: var(--title-font); font-size: 26px; line-height: 1.35;
+  }
+  .vision small { display: block; font-family: var(--body-font); font-weight: 700; font-size: 16px; color: var(--card); margin-top: 4px; }
+
+  /* ---- 注意点 ---- */
+  .caution {
+    background: var(--card); border: 3px solid var(--ink); border-radius: 20px; box-shadow: 5px 5px 0 var(--ink);
+    padding: 14px 22px; display: grid; grid-template-columns: 200px repeat(4, 1fr); gap: 18px; align-items: stretch;
+  }
+  .caution .label {
+    background: var(--accent); color: var(--card); border-radius: 14px; border: 3px solid var(--ink);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    font-family: var(--title-font); font-size: 26px; line-height: 1.25; padding: 8px 0;
+  }
+  .caution .label small { font-family: var(--body-font); font-size: 15px; font-weight: 700; margin-top: 4px; }
+  .tip { border-left: 5px solid var(--sub); padding-left: 14px; }
+  .tip h4 { font-weight: 900; font-size: 20px; line-height: 1.3; margin-bottom: 4px; }
+  .tip p { font-size: 16.5px; font-weight: 500; line-height: 1.55; }
+
+  /* ---- フッター ---- */
+  .foot { display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 700; }
+  .foot .brand { font-weight: 900; font-size: 24px; }
+  .foot .cta { background: var(--ink); color: var(--main); padding: 8px 22px; border-radius: 999px; }
+</style>
+</head>
+<body>
+<section class="page" data-document-role="page" data-label="さっさー × AI でできること">
+
+  <header class="head">
+    <div class="head-text">
+      <span class="kicker">SASSA × AI</span>
+      <h1 class="title">AIを相棒に。<em>小さな会社</em>でもここまでできる。</h1>
+      <p class="lead">ささエール代表・笹原が、AI（Claude）と二人三脚で実際に作ってきたものをまとめました。</p>
+    </div>
+    <div class="profile">
+      <img src="images/representative-sm.png" alt="笹原 彰朗">
+      <div>
+        <div class="name">笹原 彰朗<br>（さっさー）</div>
+        <div class="x">× Claude</div>
+        <div class="role">ささエール 代表／Office Plata</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="body">
+    <div>
+      <h2 class="sec-label"><span class="en">CAN DO</span>できること</h2>
+      <div class="grid6">
+        <article class="card">
+          <div class="top"><span class="no">01</span><h3>Webページを<br>会話でつくる</h3></div>
+          <p>伝えたいことを話すだけで、LP・サービス紹介ページを作成し公開まで。</p>
+          <div class="proof">実例：サービスサイト／協業ページ</div>
+        </article>
+        <article class="card">
+          <div class="top"><span class="no">02</span><h3>業務アプリを<br>自分たちでつくる</h3></div>
+          <p>外注せずに、現場で使うしくみを形にして、直しながら育てる。</p>
+          <div class="proof">実例：組織サーベイ「しらベール」</div>
+        </article>
+        <article class="card">
+          <div class="top"><span class="no">03</span><h3>Lark・LINEと<br>つなげる</h3></div>
+          <p>予約・受注・スタッフ管理・工程管理を、ひとつの流れにまとめる。</p>
+          <div class="proof">実例：13社以上に業務のしくみを提供</div>
+        </article>
+        <article class="card">
+          <div class="top"><span class="no">04</span><h3>新サービスを<br>企画・言語化</h3></div>
+          <p>アイデアの整理から、料金・FAQ・ページ構成まで一緒に考える。</p>
+          <div class="proof">実例：採用支援「ヤトエール」</div>
+        </article>
+        <article class="card">
+          <div class="top"><span class="no">05</span><h3>AI社員チームで<br>仕事を分担</h3></div>
+          <p>秘書・財務・マーケターなど19の役割をAIに持たせ、下書きを任せる。</p>
+          <div class="proof">実例：ささエール「AI社員」19名</div>
+        </article>
+        <article class="card">
+          <div class="top"><span class="no">06</span><h3>「作れる人」を<br>育てる</h3></div>
+          <p>自分でできるようになったやり方を、講座や伴走でそのまま伝える。</p>
+          <div class="proof">実例：講座「マナベル」／伴走「マカセル」</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="future">
+      <h2 class="sec-label"><span class="en">FUTURE</span>AIで見える未来</h2>
+      <div class="future-box">
+        <div class="ba-head"><span>いままで</span><span></span><span>これから</span></div>
+        <div class="ba">
+          <div class="before">ちょっとした変更も外注して、見積もりを待つ</div>
+          <div class="arrow">▶</div>
+          <div class="after">自分たちで作って、直せる</div>
+        </div>
+        <div class="ba">
+          <div class="before">紙・LINE・メモに情報が散らばる</div>
+          <div class="arrow">▶</div>
+          <div class="after">情報がまとまり、AIが要点を整理</div>
+        </div>
+        <div class="ba">
+          <div class="before">文章づくりや集計に追われる</div>
+          <div class="arrow">▶</div>
+          <div class="after">下書きはAI。人は判断と対話に集中</div>
+        </div>
+        <div class="ba">
+          <div class="before">人手が足りず、新しいことに踏み出せない</div>
+          <div class="arrow">▶</div>
+          <div class="after">少人数でも、試して形にできる</div>
+        </div>
+        <div class="vision">
+          人は、人にしかできない仕事へ。
+          <small>AIは仕事を奪う道具ではなく、小さな会社の「応援団」です。</small>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="caution">
+    <div class="label">使うときの<br>注意点<small>ここを守って安心に</small></div>
+    <div class="tip">
+      <h4>① 最後は人が確かめる</h4>
+      <p>AIはまちがえることがあります。数字・事実・公開前の内容は、人の目で確認。</p>
+    </div>
+    <div class="tip">
+      <h4>② 大事な情報を守る</h4>
+      <p>個人情報やパスワード・APIキーは入れない。扱うルールを先に決める。</p>
+    </div>
+    <div class="tip">
+      <h4>③ 丸投げしない</h4>
+      <p>「何に困っているか」の整理が先。AIは道具で、決めるのは人です。</p>
+    </div>
+    <div class="tip">
+      <h4>④ 小さく始めて育てる</h4>
+      <p>いきなり全部は変えない。ひとつ作って、使いながら直していく。</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span class="brand">ささエール ｜ Lark・AI・LINEで "難しい"を"できる"へ。</span>
+    <span class="cta">まずは相談から ▶ レンタルさっさー 30分 3,300円（税込）</span>
+  </footer>
+</section>
+</body>
+</html>
