@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ささエール 商談用PV</title>
+<link rel="stylesheet" href="node_modules/@fontsource/mochiy-pop-one/index.css">
+<link rel="stylesheet" href="node_modules/@fontsource/dela-gothic-one/index.css">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-jp/500.css">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-jp/700.css">
+<style>
+:root{
+  --yellow:#FFD600; --sub:#F5A623; --accent:#D14A00; --ink:#1A1A1A; --card:#FFFFFF;
+  --pop:cubic-bezier(.3,1.6,.5,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--yellow)}
+body{font-family:'Noto Sans JP',sans-serif;font-weight:700;color:var(--ink)}
+.head{font-family:'Mochiy Pop One',sans-serif;font-weight:400;line-height:1.15}
+.en{font-family:'Dela Gothic One','Mochiy Pop One',sans-serif}
+
+/* ---------- 背景 ---------- */
+#bg{position:absolute;inset:0;overflow:hidden}
+#rays{position:absolute;left:50%;top:50%;width:3200px;height:3200px;margin:-1600px 0 0 -1600px;
+  background:repeating-conic-gradient(from 0deg,var(--yellow) 0 7.5deg,var(--sub) 7.5deg 15deg);
+  opacity:.55;animation:spin 60s linear infinite both}
+#dots{position:absolute;inset:0;
+  background-image:radial-gradient(circle,var(--card) 3.2px,transparent 3.6px);
+  background-size:34px 34px;opacity:.75}
+@keyframes spin{to{transform:rotate(90deg)}}
+
+/* ---------- シーン ---------- */
+.scene{position:absolute;inset:0;opacity:0;
+  animation:sIn .35s ease-out both,sOut .3s ease-in forwards;
+  animation-delay:var(--s),calc(var(--e) - .3s)}
+@keyframes sIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+@keyframes sOut{from{opacity:1}to{opacity:0;transform:scale(.97)}}
+.a{position:absolute;animation-duration:.55s;animation-fill-mode:both;animation-timing-function:var(--pop);
+  animation-delay:calc(var(--s) + var(--o,0s))}
+.pop{animation-name:pop}
+.rise{animation-name:rise}
+.slideL{animation-name:slideL;animation-timing-function:cubic-bezier(.2,.9,.3,1)}
+.slideR{animation-name:slideR;animation-timing-function:cubic-bezier(.2,.9,.3,1)}
+.zoom{animation-name:zoom}
+@keyframes pop{0%{opacity:0;transform:scale(.3) rotate(var(--r,0deg))}100%{opacity:1;transform:scale(1) rotate(var(--r,0deg))}}
+@keyframes rise{0%{opacity:0;transform:translateY(120px)}100%{opacity:1;transform:none}}
+@keyframes slideL{0%{opacity:0;transform:translateX(-140%) rotate(var(--r,0deg))}100%{opacity:1;transform:rotate(var(--r,0deg))}}
+@keyframes slideR{0%{opacity:0;transform:translateX(60%)}100%{opacity:1;transform:none}}
+@keyframes zoom{0%{opacity:0;transform:scale(2.4) rotate(var(--r,0deg))}100%{opacity:1;transform:scale(1) rotate(var(--r,0deg))}}
+
+/* ゆれ・浮遊（キャラ内側の要素にかける） */
+.sway{animation:sway 2.4s ease-in-out infinite both;transform-origin:50% 100%}
+.bob{animation:bob 1.6s ease-in-out infinite both}
+.wave{animation:wave .9s ease-in-out infinite alternate both;transform-origin:50% 100%}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes wave{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.chara img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 0 rgba(26,26,26,.18))}
+
+/* ---------- 部品 ---------- */
+.card{background:var(--card);border:6px solid var(--ink);border-radius:36px;box-shadow:16px 18px 0 var(--ink)}
+.band{background:var(--accent);color:var(--card);border:6px solid var(--ink);box-shadow:14px 14px 0 var(--ink);
+  padding:22px 54px;font-family:'Mochiy Pop One',sans-serif;text-align:center;line-height:1.35}
+.tag{display:inline-block;background:var(--accent);color:var(--card);border:4px solid var(--ink);border-radius:99px;
+  padding:6px 30px;font-size:38px;font-family:'Mochiy Pop One',sans-serif}
+.bubble{width:520px;height:440px;display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:'Mochiy Pop One',sans-serif;color:var(--accent);font-size:42px;line-height:1.35}
+.bubble svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.bubble>span{position:relative;padding:0 40px 30px}
+.footer{position:absolute;right:34px;bottom:22px;background:var(--ink);color:var(--card);border-radius:99px;
+  padding:8px 34px;font-size:26px;letter-spacing:.04em}
+.check{width:70px;height:70px;border-radius:50%;background:var(--accent);border:5px solid var(--ink);
+  display:flex;align-items:center;justify-content:center}
+.num{width:130px;height:130px;border-radius:50%;background:var(--accent);border:6px solid var(--ink);color:var(--card);
+  display:flex;align-items:center;justify-content:center;font-size:78px}
+.spark{width:70px;height:70px;animation:twinkle 1.2s ease-in-out infinite both}
+@keyframes twinkle{0%,100%{transform:scale(.6) rotate(0);opacity:.6}50%{transform:scale(1.15) rotate(20deg);opacity:1}}
+#wipe{position:absolute;inset:-200px;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="bg"><div id="rays"></div><div id="dots"></div></div>
+
+<!-- 再利用する吹き出しの形 -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <path id="burst" d="M260 18 L300 70 L362 34 L374 104 L446 92 L428 160 L500 186 L448 236 L504 290 L432 312 L452 382 L380 376 L362 438 L306 400 L248 430 L222 368 L150 392 L150 324 L74 318 L108 262 L40 222 L104 186 L72 120 L146 124 L160 54 L218 84 Z"/>
+  </defs>
+</svg>
+
+<!-- ===== シーン1 つかみ 0-6s ===== -->
+<section class="scene" style="--s:0s;--e:6s">
+  <div class="a pop head" style="--o:.25s;--r:-3deg;left:80px;top:70px;font-size:170px">デジタル化、</div>
+  <div class="a zoom head" style="--o:.7s;--r:-3deg;left:60px;top:250px;font-size:280px;color:var(--accent)">気になる</div>
+  <div class="a slideL band" style="--o:1.5s;--r:-1.5deg;left:60px;top:650px;width:1150px;font-size:66px">けど…<br>何から始めればいいの？</div>
+  <div class="a rise chara" style="--o:.45s;left:1250px;top:330px;width:480px"><div class="sway"><img src="assets/A.png" alt=""></div></div>
+  <div class="a pop bubble" style="--o:2.3s;left:1390px;top:10px"><svg viewBox="0 0 540 450"><use href="#burst" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="7"/></svg><span>うーん…<br>どこから<br>手をつけよう？</span></div>
+  <div class="a pop head" style="--o:3.0s;left:1180px;top:300px;font-size:120px;color:var(--ink)"><div class="bob">？</div></div>
+  <div class="footer">ささエール｜OFFICE PLATA</div>
+</section>
+
+<!-- ===== シーン2 悩み 6-14s ===== -->
+<section class="scene" style="--s:6s;--e:14s">
+  <div class="a pop head" style="--o:.15s;--r:-2.5deg;left:70px;top:30px;font-size:132px">こんなお悩み、</div>
+  <div class="a pop head" style="--o:.5s;--r:-2.5deg;left:50px;top:180px;font-size:150px;color:var(--accent)">ありませんか？</div>
+  <div class="a pop card" style="--o:.9s;left:70px;top:400px;width:1220px;height:560px"></div>
+  <div class="a slideR" style="--o:1.6s;left:120px;top:450px;display:flex;gap:34px;align-items:center;font-size:52px;line-height:1.3">
+    <div class="check"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div>情報がバラバラで<br>どこに何があるかわからない</div></div>
+  <div class="a slideR" style="--o:3.4s;left:120px;top:620px;display:flex;gap:34px;align-items:center;font-size:52px;line-height:1.3">
+    <div class="check"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><span class="en">AI</span>、気になるけど<br>何から始めればいいの？</div></div>
+  <div class="a slideR" style="--o:5.2s;left:120px;top:790px;display:flex;gap:34px;align-items:center;font-size:52px;line-height:1.3">
+    <div class="check"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><span class="en">LINE</span>公式をつくったけど<br>活かしきれていない</div></div>
+  <div class="a rise chara" style="--o:.5s;left:1400px;top:420px;width:430px"><div class="sway"><img src="assets/B.png" alt=""></div></div>
+  <div class="a pop bubble" style="--o:6.4s;left:1370px;top:10px"><svg viewBox="0 0 540 450"><use href="#burst" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="7"/></svg><span>ひとつでも<br>あてはまったら、<br>ここからです!</span></div>
+  <div class="footer">ささエール｜OFFICE PLATA</div>
+</section>
+
+<!-- ===== シーン3 答え 14-20s ===== -->
+<section class="scene" style="--s:14s;--e:20s">
+  <div class="a zoom" style="--o:0s;left:-640px;top:-1060px;width:3200px;height:3200px;border-radius:50%;
+       background:radial-gradient(circle,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,0) 26%);animation-duration:.9s"></div>
+  <div class="a pop head" style="--o:.3s;--r:-2.5deg;left:110px;top:40px;font-size:150px">“難しい”を</div>
+  <div class="a zoom head" style="--o:.85s;--r:-2.5deg;left:60px;top:220px;font-size:190px;color:var(--accent)">“できる”へ。</div>
+  <div class="a slideL band" style="--o:1.7s;--r:-1.5deg;left:80px;top:500px;width:1100px;font-size:62px">企業のデジタル応援団員</div>
+  <div class="a pop card" style="--o:2.3s;left:100px;top:720px;width:1060px;height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="head" style="font-size:96px;color:var(--accent)">ささエール</div>
+    <div style="font-size:36px;margin-top:4px">運営：<span class="en">OFFICE PLATA</span>／代表 笹原 彰朗（さっさー）</div></div>
+  <div class="a rise chara" style="--o:.5s;left:1310px;top:420px;width:440px"><div class="bob"><img src="assets/C.png" alt=""></div></div>
+  <div class="a pop bubble" style="--o:2.9s;left:1380px;top:10px"><svg viewBox="0 0 540 450"><use href="#burst" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="7"/></svg><span>Lark・AI・<br>LINEを現場で<br>使える形に<br>します!</span></div>
+  <div class="a pop" style="--o:1.2s;left:1210px;top:520px"><svg class="spark" viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.2"/></svg></div>
+  <div class="a pop" style="--o:1.5s;left:1830px;top:470px"><svg class="spark" viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.2"/></svg></div>
+</section>
+
+<!-- ===== シーン4 3つの道具 20-32s ===== -->
+<section class="scene" style="--s:20s;--e:32s">
+  <div class="a pop head" style="--o:.15s;--r:-1.5deg;left:0;width:1920px;top:40px;text-align:center;font-size:120px">使うのは<span style="color:var(--accent)">3つの道具</span></div>
+  <div class="a pop" style="--o:1.0s;left:90px;top:290px;width:470px">
+    <div class="card" style="height:560px;padding:120px 24px 0;text-align:center">
+      <div class="en" style="font-size:118px;color:var(--accent)">Lark</div>
+      <div class="head" style="font-size:52px;margin-top:20px">社内を<br>整理する</div>
+      <div style="font-size:32px;margin-top:22px;line-height:1.5">情報共有・業務管理<br>進捗確認をひとつに</div></div>
+    <div class="num en" style="position:absolute;left:-36px;top:-46px">1</div></div>
+  <div class="a pop" style="--o:3.6s;left:620px;top:290px;width:470px">
+    <div class="card" style="height:560px;padding:120px 24px 0;text-align:center">
+      <div class="en" style="font-size:118px;color:var(--accent)">AI</div>
+      <div class="head" style="font-size:52px;margin-top:20px">作業を<br>軽くする</div>
+      <div style="font-size:32px;margin-top:22px;line-height:1.5">文章づくり・整理<br>チェックを手伝う</div></div>
+    <div class="num en" style="position:absolute;left:-36px;top:-46px">2</div></div>
+  <div class="a pop" style="--o:6.2s;left:1150px;top:290px;width:470px">
+    <div class="card" style="height:560px;padding:120px 24px 0;text-align:center">
+      <div class="en" style="font-size:118px;color:var(--accent)">LINE</div>
+      <div class="head" style="font-size:52px;margin-top:20px">お客さまと<br>つながる</div>
+      <div style="font-size:32px;margin-top:22px;line-height:1.5">案内・配信<br>予約や問い合わせの入口に</div></div>
+    <div class="num en" style="position:absolute;left:-36px;top:-46px">3</div></div>
+  <div class="a slideL band" style="--o:8.8s;--r:-1deg;left:180px;top:905px;width:1400px;font-size:58px;padding:16px 40px">3つを組み合わせて、現場で使える形に</div>
+  <div class="a slideR chara" style="--o:.6s;left:1640px;top:470px;width:300px"><div class="sway"><img src="assets/D.png" alt=""></div></div>
+  <div class="footer">ささエール｜OFFICE PLATA</div>
+</section>
+
+<!-- ===== シーン5 伴走の流れ 32-44s ===== -->
+<section class="scene" style="--s:32s;--e:44s">
+  <div class="a pop head" style="--o:.15s;--r:-1.5deg;left:0;width:1920px;top:40px;text-align:center;font-size:110px">最後まで、<span style="color:var(--accent)">となりで伴走</span>します!</div>
+  <div style="position:absolute;left:70px;top:300px;width:1780px;display:flex;gap:30px">
+    <div class="a pop" style="--o:1.0s;position:relative;flex:1"><div class="card step" style="height:300px;padding:26px 0;text-align:center"><span class="tag en">STEP1</span><div class="head" style="font-size:86px;margin-top:22px">整理</div><div style="font-size:30px">業務を棚卸し</div></div></div>
+    <div class="a pop" style="--o:2.6s;position:relative;flex:1"><div class="card step" style="height:300px;padding:26px 0;text-align:center"><span class="tag en">STEP2</span><div class="head" style="font-size:86px;margin-top:22px">設計</div><div style="font-size:30px">仕組みを描く</div></div></div>
+    <div class="a pop" style="--o:4.2s;position:relative;flex:1"><div class="card step" style="height:300px;padding:26px 0;text-align:center"><span class="tag en">STEP3</span><div class="head" style="font-size:86px;margin-top:22px">実行</div><div style="font-size:30px">つくって動かす</div></div></div>
+    <div class="a pop" style="--o:5.8s;position:relative;flex:1"><div class="card step" style="height:300px;padding:26px 0;text-align:center"><span class="tag en">STEP4</span><div class="head" style="font-size:86px;margin-top:22px">教育</div><div style="font-size:30px">使い方を伝える</div></div></div>
+    <div class="a pop" style="--o:7.4s;position:relative;flex:1"><div class="card step" style="height:300px;padding:26px 0;text-align:center;background:var(--accent);color:var(--card)"><span class="tag en" style="background:var(--ink)">STEP5</span><div class="head" style="font-size:86px;margin-top:22px">定着</div><div style="font-size:30px">現場に根づく</div></div></div>
+  </div>
+  <!-- 道 -->
+  <div class="a slideL" style="--o:.6s;left:60px;top:880px;width:1800px;height:14px;border-radius:99px;background:var(--ink);opacity:.85"></div>
+  <div class="chara walker" style="position:absolute;left:0;top:640px;width:230px;animation:walk 10.5s linear both;animation-delay:calc(var(--s) + .6s)"><div class="bob" style="animation-duration:.5s"><img src="assets/E.png" alt=""></div></div>
+  <div class="a slideL band" style="--o:9.0s;--r:-1deg;left:250px;top:930px;width:1420px;font-size:46px;padding:12px 30px">つくって終わりじゃない。使いこなせるまで、ずっと。</div>
+  <div class="footer">ささエール｜OFFICE PLATA</div>
+</section>
+
+<!-- ===== シーン6 実績 44-52s ===== -->
+<section class="scene" style="--s:44s;--e:52s">
+  <div class="a pop head" style="--o:.1s;--r:-4deg;left:60px;top:50px;background:var(--ink);color:var(--yellow);border-radius:24px;padding:6px 40px;font-size:72px">実績</div>
+  <div class="a pop head" style="--o:.35s;--r:-2deg;left:370px;top:50px;font-size:86px"><span style="color:var(--accent)">13社以上</span>の現場で、動いています</div>
+  <div class="a pop card" style="--o:.7s;left:70px;top:270px;width:860px;height:700px;padding:40px 46px">
+    <span class="tag">これまでの実績</span>
+    <div style="font-size:46px;margin-top:26px;line-height:1.35"><span class="en">LINE</span>・<span class="en">Lark</span>・<span class="en">AI</span>で<br>業務の仕組みづくり</div>
+    <div style="display:flex;align-items:baseline;justify-content:center;margin-top:30px;color:var(--accent)">
+      <span id="count" class="en" style="font-size:250px;line-height:1">0</span><span class="head" style="font-size:96px">社以上</span></div>
+    <div style="font-size:34px;margin-top:20px;line-height:1.45">鹿児島・宮崎を中心に、<br>地域の企業に伴走しています</div></div>
+  <div class="a slideR card" style="--o:2.8s;left:990px;top:270px;width:860px;height:700px;padding:40px 46px">
+    <span class="tag">つくってきた仕組み</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px;font-size:40px">
+      <div class="a pop" style="--o:3.3s;position:relative;border:5px solid var(--ink);border-radius:20px;padding:18px;text-align:center">予約・受注</div>
+      <div class="a pop" style="--o:3.6s;position:relative;border:5px solid var(--ink);border-radius:20px;padding:18px;text-align:center">業務基盤</div>
+      <div class="a pop" style="--o:3.9s;position:relative;border:5px solid var(--ink);border-radius:20px;padding:18px;text-align:center">工程管理</div>
+      <div class="a pop" style="--o:4.2s;position:relative;border:5px solid var(--ink);border-radius:20px;padding:18px;text-align:center"><span class="en">Web</span>制作</div>
+    </div>
+    <div class="a zoom head" style="--o:5.2s;--r:-6deg;position:relative;margin:56px 0 0 30px;display:inline-block;border:8px solid var(--accent);color:var(--accent);border-radius:20px;padding:6px 26px;font-size:52px">どれも現場で稼働中</div></div>
+  <div class="a pop chara" style="--o:2.6s;left:1630px;top:650px;width:210px"><div class="bob"><img src="assets/F.png" alt=""></div></div>
+  <div class="footer">ささエール｜OFFICE PLATA</div>
+</section>
+
+<!-- ===== シーン7 次の一歩 52-60s ===== -->
+<section class="scene" style="--s:52s;--e:60.4s">
+  <div class="a pop head" style="--o:.2s;--r:-2.5deg;left:90px;top:40px;font-size:124px">まずは相談から、</div>
+  <div class="a zoom head" style="--o:.65s;--r:-2.5deg;left:60px;top:200px;font-size:140px;color:var(--accent)">無理なくスタート</div>
+  <div class="a slideL band" style="--o:1.5s;--r:-1.5deg;left:70px;top:440px;width:1100px;font-size:60px">詳しくはこちら<br><span class="en" style="font-size:64px">officeplata.com/sasayell/</span></div>
+  <div class="a pop card" style="--o:2.3s;left:100px;top:740px;width:1060px;height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="head" style="font-size:52px">企業のデジタル応援団員</div>
+    <div class="head" style="font-size:84px;color:var(--accent)">ささエール</div></div>
+  <div class="a rise chara" style="--o:.5s;left:1320px;top:430px;width:430px"><div class="wave"><img src="assets/G.png" alt=""></div></div>
+  <div class="a pop bubble" style="--o:3.0s;left:1380px;top:10px"><svg viewBox="0 0 540 450"><use href="#burst" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="7"/></svg><span>“今のやり方”を<br>責めるのではなく、<br>“次の一歩”を<br>一緒に考えます!</span></div>
+</section>
+
+<style>
+@keyframes walk{
+  0%{opacity:0;transform:translateX(-260px)}
+  4%{opacity:1}
+  100%{opacity:1;transform:translateX(1650px)}
+}
+</style>
+
+<script>
+// 0→13 のカウントアップ（シーン6：44s+1.0s から 1.4秒）
+function updateCount(t){
+  const p = Math.min(1, Math.max(0, (t - 45.0) / 1.4));
+  const eased = 1 - Math.pow(1 - p, 3);
+  document.getElementById('count').textContent = Math.round(13 * eased);
+}
+// 録画用：指定秒の状態にそろえる
+window.seek = t => {
+  document.getAnimations().forEach(a => { a.pause(); a.currentTime = t * 1000; });
+  updateCount(t);
+};
+// 通常再生（ブラウザで開いたとき）
+window.ready = document.fonts.ready.then(() => {
+  if (!location.hash.includes('record')) {
+    const start = performance.now();
+    const loop = () => { updateCount((performance.now() - start) / 1000 % 60.4); requestAnimationFrame(loop); };
+    loop();
+  }
+});
+</script>
+</body>
+</html>
