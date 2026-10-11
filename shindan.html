@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>さっさー相性診断 | ささエール</title>
+  <meta name="description" content="8つの質問に答えると、ささエールのサービスの中から、いまのあなたにいちばん合うものを笹原がご案内します。所要時間は約1分です。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       さっさー相性診断
+       色はこの5色だけ：#FFD600 / #F5A623 / #DD6420 / #1A1A1A / #FFFFFF
+       ========================================================= */
+    :root {
+      --yellow: #FFD600;
+      --orange: #F5A623;
+      --accent: #DD6420;
+      --black: #1A1A1A;
+      --white: #FFFFFF;
+      --ink-soft: rgba(26,26,26,0.68);
+      --line: rgba(26,26,26,0.14);
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      font-weight: 500; color: var(--black); line-height: 1.8;
+      background: var(--yellow);
+      background-image: radial-gradient(circle, rgba(255,255,255,0.45) 1.6px, transparent 1.7px);
+      background-size: 14px 14px;
+      min-height: 100vh; overflow-x: hidden;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; color: inherit; }
+    .dela { font-family: "Dela Gothic One", "Noto Sans JP", sans-serif; font-weight: 400; letter-spacing: 0.02em; }
+    .wrap { width: min(760px, calc(100% - 32px)); margin: 0 auto; }
+
+    /* ---- Header ---- */
+    .site-header { background: var(--black); border-bottom: 4px solid var(--yellow); }
+    .site-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+    .site-logo { font-size: 22px; color: var(--yellow); text-decoration: none; }
+    .site-header a.back { color: var(--white); font-size: 13px; font-weight: 700; text-decoration: none; }
+    .site-header a.back:hover { color: var(--yellow); }
+
+    /* ---- Screens ---- */
+    .screen { display: none; padding: 32px 0 64px; }
+    .screen.is-active { display: block; animation: pop 0.45s cubic-bezier(.2,.9,.3,1.2); }
+    @keyframes pop { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+    .card {
+      background: var(--white); border: 3px solid var(--black); border-radius: var(--radius);
+      box-shadow: 6px 6px 0 var(--black); padding: 28px 24px;
+    }
+
+    /* ---- Start ---- */
+    .start-badge {
+      display: inline-block; background: var(--black); color: var(--yellow);
+      padding: 4px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+      transform: rotate(-2deg);
+    }
+    .start-title { font-size: clamp(34px, 9vw, 60px); line-height: 1.2; margin: 14px 0 6px; }
+    .start-title small { display: block; font-size: 0.42em; margin-bottom: 4px; }
+    .start-lead { font-size: 16px; font-weight: 700; margin: 0 0 22px; }
+    .start-grid { display: grid; grid-template-columns: 1fr 180px; gap: 20px; align-items: end; }
+    .sassa-photo {
+      position: relative; background: var(--orange); border: 3px solid var(--black);
+      border-radius: 50% 50% 18px 18px; overflow: hidden; aspect-ratio: 600 / 641;
+    }
+    .sassa-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .bubble {
+      position: relative; background: var(--white); border: 3px solid var(--black);
+      border-radius: 16px; padding: 14px 16px; font-weight: 700; font-size: 15px;
+    }
+    .bubble::after {
+      content: ""; position: absolute; right: -14px; bottom: 22px;
+      border: 10px solid transparent; border-left: 14px solid var(--black);
+    }
+    .bubble::before {
+      content: ""; position: absolute; right: -9px; bottom: 24px; z-index: 1;
+      border: 8px solid transparent; border-left: 11px solid var(--white);
+    }
+    .start-notes { margin: 18px 0 0; padding: 0; list-style: none; font-size: 14px; }
+    .start-notes li { padding-left: 1.4em; position: relative; }
+    .start-notes li::before { content: "✔"; position: absolute; left: 0; color: var(--accent); font-weight: 900; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 54px; padding: 0 28px; border-radius: 999px; border: 3px solid var(--black);
+      font-weight: 900; font-size: 17px; cursor: pointer; text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-main { background: var(--accent); color: var(--white); box-shadow: 4px 4px 0 var(--black); }
+    .btn-main:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+    .btn-main:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--black); }
+    .btn-sub { background: var(--white); color: var(--black); box-shadow: 3px 3px 0 var(--black); }
+    .btn-sub:hover { background: var(--yellow); }
+    .btn-wide { width: 100%; }
+    .tiny { font-size: 12px; color: var(--ink-soft); }
+
+    /* ---- Question ---- */
+    .progress { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .progress-bar { flex: 1; height: 16px; background: var(--white); border: 3px solid var(--black); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: var(--accent); transition: width .4s; }
+    .progress-num { font-size: 18px; white-space: nowrap; }
+    .q-label { display: inline-block; background: var(--yellow); border: 2px solid var(--black); border-radius: 8px; padding: 0 10px; font-size: 14px; }
+    .q-title { font-size: clamp(21px, 5.2vw, 28px); line-height: 1.45; margin: 12px 0 6px; font-weight: 900; }
+    .q-aside { font-size: 13px; color: var(--ink-soft); margin: 0 0 18px; }
+    .choices { display: grid; gap: 12px; }
+    .choice {
+      display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+      background: var(--white); border: 3px solid var(--black); border-radius: 14px;
+      padding: 14px 16px; font-size: 16px; font-weight: 700; cursor: pointer;
+      box-shadow: 3px 3px 0 var(--black); transition: transform .12s, box-shadow .12s, background .12s;
+    }
+    .choice:hover { background: var(--yellow); transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+    .choice.is-picked { background: var(--orange); }
+    .choice-mark {
+      flex: 0 0 34px; height: 34px; border-radius: 50%; border: 2px solid var(--black);
+      display: grid; place-items: center; background: var(--yellow); font-family: "Dela Gothic One", sans-serif; font-size: 15px;
+    }
+    .choice small { display: block; font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+    .q-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 10px; }
+    .link-btn { background: none; border: none; padding: 6px 0; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: underline; }
+    .link-btn[disabled] { visibility: hidden; }
+    .reaction {
+      min-height: 1.6em; font-size: 14px; font-weight: 700; color: var(--accent); text-align: right;
+    }
+
+    /* ---- Loading ---- */
+    .loading { text-align: center; }
+    .loading-face {
+      width: 150px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden;
+      border: 4px solid var(--black); background: var(--orange); aspect-ratio: 1;
+      animation: think 1.1s ease-in-out infinite;
+    }
+    .loading-face img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    @keyframes think { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+    .loading-text { font-size: 18px; font-weight: 900; min-height: 3.4em; }
+
+    /* ---- Result ---- */
+    .result-head { text-align: center; margin-bottom: 18px; }
+    .result-head .start-badge { font-size: 14px; }
+    .type-name { font-size: clamp(24px, 6.4vw, 38px); line-height: 1.35; margin: 12px 0 0; }
+    .type-sub { font-weight: 700; margin: 6px 0 0; }
+
+    .certificate { position: relative; padding-top: 34px; }
+    .cert-ribbon {
+      position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+      background: var(--black); color: var(--yellow); padding: 6px 22px; border-radius: 10px;
+      font-size: 15px; white-space: nowrap;
+    }
+    .cert-service { text-align: center; }
+    .cert-service .name { font-size: clamp(30px, 8vw, 46px); line-height: 1.2; margin: 4px 0; }
+    .cert-service .catch { font-weight: 900; margin: 0; }
+    .meter { margin: 22px 0 6px; }
+    .meter-row { display: flex; justify-content: space-between; font-weight: 900; font-size: 14px; }
+    .meter-bar { height: 22px; border: 3px solid var(--black); border-radius: 999px; background: var(--white); overflow: hidden; margin-top: 4px; }
+    .meter-fill { height: 100%; width: 0; background: repeating-linear-gradient(-45deg, var(--accent) 0 10px, var(--orange) 10px 20px); transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+    .stamp {
+      position: absolute; right: -12px; top: -40px; width: 84px; height: 84px; border-radius: 50%;
+      border: 4px double var(--accent); color: var(--accent); background: var(--white); display: grid; place-items: center;
+      text-align: center; font-size: 13px; line-height: 1.2; transform: rotate(-14deg);
+      cursor: pointer; user-select: none; z-index: 2;
+      opacity: 0; animation: stamp-in .35s 1.1s forwards cubic-bezier(.3,1.6,.5,1);
+    }
+    @keyframes stamp-in { from { opacity: 0; transform: rotate(-14deg) scale(2.2); } to { opacity: 1; transform: rotate(-14deg) scale(1); } }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .info-box { border: 2px solid var(--black); border-radius: 12px; padding: 12px 14px; }
+    .info-box h3 { margin: 0 0 4px; font-size: 13px; }
+    .info-box p { margin: 0; font-weight: 700; font-size: 15px; }
+    .info-box ul { margin: 0; padding-left: 1.2em; font-size: 14px; }
+    .price-box { background: var(--yellow); }
+    .price-box p { font-size: 18px; }
+    .price-box .tiny { color: var(--black); }
+
+    .memo {
+      position: relative; background: var(--yellow); border: 2px solid var(--black);
+      padding: 22px 18px 18px; margin: 26px 6px 4px; transform: rotate(-1.2deg);
+      box-shadow: 4px 5px 0 rgba(26,26,26,0.25);
+    }
+    .memo::before {
+      content: ""; position: absolute; top: -12px; left: 50%; width: 96px; height: 24px;
+      transform: translateX(-50%) rotate(3deg); background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+    }
+    .memo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .memo-head img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--black); object-fit: cover; object-position: top; background: var(--orange); }
+    .memo-head strong { font-size: 15px; }
+    .memo p { margin: 0; font-weight: 700; white-space: pre-line; }
+    .memo .sign { text-align: right; margin-top: 8px; font-size: 14px; }
+
+    .side-effect {
+      margin-top: 18px; border: 2px dashed var(--black); border-radius: 12px; padding: 12px 14px; font-size: 14px;
+    }
+    .side-effect b { color: var(--accent); }
+
+    .runners { margin-top: 26px; }
+    .runners h3 { font-size: 18px; margin: 0 0 10px; }
+    .runner {
+      display: flex; align-items: center; gap: 12px; background: var(--white); border: 3px solid var(--black);
+      border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; text-decoration: none;
+      box-shadow: 3px 3px 0 var(--black);
+    }
+    .runner:hover { background: var(--yellow); }
+    .runner-rank { flex: 0 0 40px; height: 40px; border-radius: 50%; background: var(--black); color: var(--yellow); display: grid; place-items: center; font-size: 15px; }
+    .runner-body { flex: 1; min-width: 0; }
+    .runner-body strong { display: block; font-size: 16px; }
+    .runner-body span { font-size: 13px; color: var(--ink-soft); }
+    .runner-pct { font-size: 18px; color: var(--accent); }
+
+    .cta { margin-top: 28px; text-align: center; }
+    .cta h3 { font-size: clamp(20px, 5vw, 26px); margin: 0 0 6px; line-height: 1.4; }
+    .cta p { margin: 0 0 16px; font-weight: 700; }
+    .cta-buttons { display: grid; gap: 12px; }
+    .result-tools { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+    .result-tools .btn { min-height: 46px; font-size: 15px; padding: 0 20px; }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(120px);
+      background: var(--black); color: var(--yellow); padding: 12px 20px; border-radius: 999px;
+      font-weight: 700; font-size: 14px; transition: transform .3s, visibility .3s; z-index: 50; visibility: hidden; max-width: calc(100% - 32px); text-align: center;
+    }
+    .toast.is-show { transform: translateX(-50%) translateY(0); visibility: visible; }
+
+    .site-footer { background: var(--black); color: var(--white); text-align: center; padding: 22px 16px; font-size: 13px; }
+    .site-footer a { color: var(--yellow); }
+
+    @media (max-width: 600px) {
+      .card { padding: 22px 16px; box-shadow: 4px 4px 0 var(--black); }
+      .start-grid { grid-template-columns: 1fr 112px; gap: 12px; }
+      .bubble { font-size: 14px; padding: 10px 12px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .stamp { width: 66px; height: 66px; font-size: 11px; right: -6px; top: -34px; }
+      .site-header a.back { font-size: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .stamp { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap site-header-inner">
+      <a href="./index.html" class="site-logo dela">ささエール</a>
+      <a href="./index.html" class="back">サービス一覧を見る →</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ======== スタート ======== -->
+    <section class="screen is-active" id="screen-start" aria-labelledby="start-title">
+      <div class="card">
+        <span class="start-badge">所要時間 だいたい1分</span>
+        <h1 class="start-title dela" id="start-title"><small>ささエールの</small>さっさー<br>相性診断</h1>
+        <p class="start-lead">ささエールのサービス、正直ちょっと多いです。<br>なので、8つの質問で、いまのあなたに合うものを一緒に探します。</p>
+        <div class="start-grid">
+          <div class="bubble">こんにちは、笹原です。<br>むずかしか質問はしませんが。<br>直感で、ポチポチっと選んでくいやい。</div>
+          <div class="sassa-photo"><img src="./images/representative-sm.png" alt="ささエール代表 笹原彰朗（さっさー）"></div>
+        </div>
+        <ul class="start-notes">
+          <li>名前もメールアドレスも聞きません</li>
+          <li>結果を見たあとに売り込みの電話がかかってくることもありません（電話番号を知らないので）</li>
+          <li>「ぜんぶ当てはまる」と思ったら、いちばん近いものを選んでください</li>
+        </ul>
+        <p style="margin:24px 0 0;"><button class="btn btn-main btn-wide" id="start-btn" type="button">診断をはじめる</button></p>
+      </div>
+    </section>
+
+    <!-- ======== 質問 ======== -->
+    <section class="screen" id="screen-question" aria-live="polite">
+      <div class="progress">
+        <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="progress-num dela" id="progress-num">1 / 8</span>
+      </div>
+      <div class="card">
+        <span class="q-label dela" id="q-label">Q1</span>
+        <h2 class="q-title" id="q-title"></h2>
+        <p class="q-aside" id="q-aside"></p>
+        <div class="choices" id="choices"></div>
+        <div class="q-foot">
+          <button class="link-btn" id="back-btn" type="button">← ひとつ戻る</button>
+          <div class="reaction" id="reaction"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== 集計中 ======== -->
+    <section class="screen" id="screen-loading">
+      <div class="card loading">
+        <div class="loading-face"><img src="./images/representative-sm.png" alt=""></div>
+        <p class="loading-text" id="loading-text">集計しています…</p>
+        <p class="tiny">※ 実際の計算は0.01秒で終わっています。雰囲気です。</p>
+      </div>
+    </section>
+
+    <!-- ======== 結果 ======== -->
+    <section class="screen" id="screen-result">
+      <div class="result-head">
+        <span class="start-badge">診断結果</span>
+        <h2 class="type-name dela" id="type-name"></h2>
+        <p class="type-sub" id="type-sub"></p>
+      </div>
+
+      <div class="card certificate">
+        <div class="cert-ribbon dela">いまのあなたに合いそうなのは</div>
+        <button class="stamp dela" id="stamp" type="button" aria-label="さっさー印">さっさー<br>認定</button>
+        <div class="cert-service">
+          <p class="name dela" id="svc-name"></p>
+          <p class="catch" id="svc-catch"></p>
+        </div>
+        <div class="meter">
+          <div class="meter-row"><span>さっさーとの相性</span><span id="meter-num">0%</span></div>
+          <div class="meter-bar"><div class="meter-fill" id="meter-fill"></div></div>
+        </div>
+        <div class="info-grid">
+          <div class="info-box">
+            <h3>こんな方に</h3>
+            <ul id="svc-for"></ul>
+          </div>
+          <div class="info-box price-box">
+            <h3>料金の目安</h3>
+            <p id="svc-price"></p>
+            <span class="tiny" id="svc-price-note"></span>
+          </div>
+        </div>
+
+        <div class="memo">
+          <div class="memo-head">
+            <img src="./images/representative-sm.png" alt="">
+            <strong>笹原からひとこと</strong>
+          </div>
+          <p id="svc-memo"></p>
+          <p class="sign">― さっさー</p>
+        </div>
+
+        <div class="side-effect"><b>【副作用】</b><span id="svc-side"></span></div>
+
+        <p style="margin:18px 0 0; text-align:center;">
+          <a class="btn btn-sub" id="svc-link" href="./index.html">このサービスをくわしく見る →</a>
+        </p>
+      </div>
+
+      <div class="runners">
+        <h3 class="dela">次点はこちら</h3>
+        <div id="runners"></div>
+      </div>
+
+      <div class="card cta">
+        <h3 class="dela">結果はあくまで、きっかけです。</h3>
+        <p>本当にぴったりかどうかは、話してみないとわかりません。<br>30分のレンタルさっさーで、いまの状況をそのまま聞かせてくいやい。</p>
+        <div class="cta-buttons">
+          <a class="btn btn-main" id="cta-schedule" href="https://yjpw4ydvu698.jp.larksuite.com/scheduler/embed/d4238e24cad71047" target="_blank" rel="noopener noreferrer">レンタルさっさーを予約する</a>
+          <a class="btn btn-sub" href="https://yjpw4ydvu698.jp.larksuite.com/share/base/form/shrjpk1nUQ2hyQaJpu8Ydh4Pipe" target="_blank" rel="noopener noreferrer">フォームで相談する</a>
+        </div>
+        <p class="tiny" style="margin-top:12px;">予約のときに「診断結果：<span id="cta-type"></span>」と書いてもらえると、話が早かです。</p>
+      </div>
+
+      <div class="result-tools">
+        <button class="btn btn-sub" id="copy-btn" type="button">結果をコピーする</button>
+        <a class="btn btn-sub" id="line-share" href="#" target="_blank" rel="noopener noreferrer">LINEで送る</a>
+        <button class="btn btn-sub" id="retry-btn" type="button">もう一回やる</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    ささエール ／ <a href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">Office Plata</a><br>
+    <span style="opacity:.75;">この診断は笹原の経験とカンで作っています。科学的な根拠はありません。</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    /* =========================================================
+       サービス一覧（料金は各紹介ページの掲載内容に合わせる）
+       ========================================================= */
+    const SERVICES = {
+      rental: {
+        name: 'レンタルさっさー',
+        type: 'とりあえず話を聞いてほしい\n迷子の旅人タイプ',
+        sub: '地図はなくても大丈夫。まず現在地を一緒に確かめましょう。',
+        catch: '30分、笹原を借りられます。',
+        for: ['何から始めればいいかわからない', 'Lark・AI・LINE、どれが自分に要るのか知りたい', 'まず人となりを見てから決めたい'],
+        price: '3,300円（税込）／30分',
+        note: 'オンライン・対面どちらも相談できます',
+        memo: '「こげなこと聞いてよかとかな」って内容ほど、実は大事やったりします。\n話しよるうちに、やることが3つくらいに絞れてくっはずです。\n手ぶらで来っくいやい。お茶は各自でお願いします。',
+        side: '話し終わったあと、なぜか机の上を片付けたくなります。',
+        link: './index.html#services'
+      },
+      line: {
+        name: 'LINE公式運用サポート',
+        type: '配信ボタンの前で\n30分固まるタイプ',
+        sub: '「送信」を押す勇気、いっしょに持ちます。',
+        catch: 'LINE公式の運用を、月1回の相談と添削でサポート。',
+        for: ['LINE公式はあるけど、何を送ればいいか迷う', '配信文を誰かにチェックしてほしい', '自分で運用しながら、ちょうどいい相談相手がほしい'],
+        price: '10,000円（税別）／月',
+        note: '月1回の相談＋配信の添削・改善の助言',
+        memo: 'LINE配信って、送る前がいちばんしんどかとですよね。\n文章をちょっと整えるだけで、反応が変わることもあっど。\n一緒に「これなら送れる」を作りましょう。',
+        side: 'お店の外でも、つい「この看板、LINEで送るなら…」と考えはじめます。',
+        link: './index.html#services'
+      },
+      dounyu: {
+        name: '導入伴走パッケージ',
+        type: '散らかった机から\n全部わかる名探偵タイプ',
+        sub: 'どこに何があるかは、あなたしか知らない。それを、みんなが知っている状態に。',
+        catch: '3ヶ月で、業務改善の土台を整えます。',
+        for: ['連絡や管理が、LINE・紙・メモにバラバラ', '業務を一度ぜんぶ書き出して整理したい', 'Lark・AI・LINEの使い分けを決めたい'],
+        price: '50万円〜（税別）／3ヶ月',
+        note: '標準構成の目安。ヒアリング後に個別にお見積り',
+        memo: '業務がバラバラなのは、みなさんがその場その場でがんばってきた証拠じゃっど。\nまずは今のやり方を、全部書き出すところから。\n捨てるものと残すものを、一緒に決めていきましょう。',
+        side: '「それ、どこに書いてあります？」が口ぐせになります。',
+        link: './index.html#packages'
+      },
+      teichaku: {
+        name: '実行定着パッケージ',
+        type: 'ツールは入れた、\nでも誰も開いてないタイプ',
+        sub: '入れたことは、ちゃんと一歩目です。あとは「使われる」まで。',
+        catch: '導入で終わらせず、6ヶ月で現場に定着する仕組みへ。',
+        for: ['ツールを入れたけど、定着していない', '教育や運用ルールづくりまで手が回らない', '設計から実行、引き継ぎまでまとめて進めたい'],
+        price: '120万円〜（税別）／6ヶ月',
+        note: '標準構成の目安。ヒアリング後に個別にお見積り',
+        memo: '仕組みは、作るより「使い続けてもらう」ほうが難しかです。\n現場の人が「これ、楽じゃね」と言うてくれるまで付き合います。\nマニュアルも、読まれる長さで作っど。',
+        side: '社内で「あれLarkに入ってるよ」が普通の会話になります。',
+        link: './index.html#packages'
+      },
+      komon: {
+        name: '顧問サービス',
+        type: '右腕がもう一本\nほしい社長タイプ',
+        sub: '手が足りないのは、やりたいことが多いから。',
+        catch: '継続して、仕組みづくりから教育・定着まで伴走します。',
+        for: ['デジタルまわりを継続して相談できる人がほしい', '仕組みを作ったあとも、改善を続けたい', '社内教育や運用ルールまで任せたい'],
+        price: '月額 100,000円〜（税別）',
+        note: 'スタンダード 月10万円／フルサポート 月25万円（いずれも税別）',
+        memo: '「これ誰に聞けばよかとじゃろ」を、全部こっちに投げっくいやい。\n社内にデジタル担当がおらん会社の、外におる担当者みたいなもんです。\nLINEで気軽に呼んでもらえれば。',
+        side: '困ったときに、つい「さっさーに聞いてみるか」とつぶやくようになります。',
+        link: './index.html#services'
+      },
+      manaberu: {
+        name: '講座 マナベル',
+        type: '社内の「作れる人」\n候補生タイプ',
+        sub: 'あなたが覚えると、会社に「作れる人」が一人増えます。',
+        catch: '2ヶ月で、自社のしくみを作れる人に。',
+        for: ['社内のしくみづくりを任されている', '外注せず、自分たちで直せるようになりたい', '仲間と一緒に学びたい（4〜6名の少人数）'],
+        price: '298,000円（税別）／1名',
+        note: '8週間・全12回のオンライン講座。2人目以降・モニター価格あり',
+        memo: '最初はみんな「自分にできっとかな」と言います。\nじゃっどん修了するころには、自社で使うしくみが1つ動いちょっど。\n題材は、あなたの会社の本物の業務です。',
+        side: '他社のWebサイトを見て「これ、Larkで作れるな」と思いはじめます。',
+        link: './manaberu.html'
+      },
+      makaseru: {
+        name: 'マカセル',
+        type: '説明書を読まずに\n組み立てはじめるタイプ',
+        sub: 'その勢い、大事です。つまずいたときだけ、横にいます。',
+        catch: 'Claude Code で、作りたいものを自分の手で。マンツーマン伴走。',
+        for: ['作りたいものがもう決まっている', 'Claude Code を独学してみて止まった', '完成品だけじゃなく、自分で作れる力がほしい'],
+        price: '単発レッスン 30,000円（税別）／90分',
+        note: '月額プランは20,000円〜（税別）。最低3ヶ月',
+        memo: '作るのは、あなたです。僕は方針とヒントとレビューを出します。\n詰まったところで「ここ、こうしてみたら？」と言う役じゃっど。\n一回動いたときの「おおっ」は、ぜひ自分で味わってくいやい。',
+        side: '寝る前に「あ、あそこ直せる」とひらめいて、PCを開きたくなります。',
+        link: 'https://officeplata.com/makaseru/'
+      },
+      shiraberu: {
+        name: 'しらベール',
+        type: '社員の本音が\n気になって眠れない社長タイプ',
+        sub: '気にしている時点で、もういい職場の入り口です。',
+        catch: '職場の"今"を、毎月すこしずつ。匿名の組織サーベイ。',
+        for: ['社員が本当はどう思っているか知りたい', '辞める理由を、辞める前に知りたい', '取り組みの効果を数字で確かめたい'],
+        price: '初期 50,000円＋月額 15,000円〜（税別）',
+        note: '〜30名の場合。顧問プランのお客さまは追加費用なし',
+        memo: '小さな会社ほど、言いにくかことは表に出にくかもんです。\n毎月1〜3分のアンケートで、空気の変化に早めに気づけます。\n結果を見て落ち込まんでよかです。次の一手を一緒に考えましょう。',
+        side: '月初になると、結果のお知らせがちょっと楽しみになります。',
+        link: './shiraberu.html'
+      },
+      yatoeiru: {
+        name: 'ヤトエール',
+        type: '求人票とにらめっこ\nしているタイプ',
+        sub: '人を雇いたいと思えるのは、会社が前に進んでいるからです。',
+        catch: '"人を雇う"を、もっとやさしく。募集から定着まで。',
+        for: ['求人の文章がうまく書けない', '応募の連絡が電話・メール・紙でバラバラ', '入社後に教える余裕がなく、なじむ前に辞めてしまう'],
+        price: '導入 600,000円（税別）',
+        note: '3ヶ月の伴走つき。モニター価格の枠あり（3社限定）',
+        memo: '採用は「募集して終わり」じゃなくて、入ってからが本番じゃと思っちょります。\n応募の受付から入社後の教え方まで、一本の流れにします。\nよか人が来たときに、ちゃんと迎えられる会社にしましょう。',
+        side: '面接で「うちのいいところ」をスラスラ言えるようになります。',
+        link: './yatoeiru.html'
+      }
+    };
+
+    /* =========================================================
+       質問（p: 加点するサービスと点数 / r: 選んだときのひとこと）
+       ========================================================= */
+    const QUESTIONS = [
+      {
+        title: 'いまの気持ちに、いちばん近いのは？',
+        aside: '深く考えずに。第一印象でどうぞ。',
+        choices: [
+          { t: '何から始めればいいか、正直わからない', p: { rental: 3, dounyu: 2 }, r: 'その正直さ、大事ですが。' },
+          { t: '作りたいものはある。自分で手を動かしたい', p: { makaseru: 3, manaberu: 2 }, r: 'よかですね、もう半分できちょっど。' },
+          { t: 'ぜんぶまとめて、誰かに任せたい', p: { komon: 3, teichaku: 2 }, r: '任せてもらえるのは、わっぜ嬉しかです。' },
+          { t: '冷やかしです', s: '（正直に言ってくれてありがとうございます）', p: { rental: 2 }, r: 'よかよか、最後まで冷やかしてくいやい。' }
+        ]
+      },
+      {
+        title: '社内の連絡、主に何で回っていますか？',
+        aside: '一番多いものをひとつ。',
+        choices: [
+          { t: 'LINEグループ', s: '通知のバッジが3ケタ', p: { dounyu: 2, komon: 1 }, r: '既読の数、数えたことあっですか？' },
+          { t: '紙とホワイトボード', s: '「書いといたよ」が合言葉', p: { dounyu: 2, teichaku: 1 }, r: 'ホワイトボード、いつの間にか消されちょっとですよね。' },
+          { t: '口頭と気合い', s: '「言ったよね？」「聞いてないです」', p: { teichaku: 2, rental: 1 }, r: '気合いは大事。じゃっどん、記録も大事です。' },
+          { t: 'Larkを入れた。でも誰も開いていない', p: { teichaku: 3, manaberu: 1 }, r: 'あるあるじゃっど。ここから巻き返せます。' }
+        ]
+      },
+      {
+        title: 'いま、いちばん頭を抱えていることは？',
+        aside: '全部かもしれませんが、あえてひとつ。',
+        choices: [
+          { t: 'お客さんにLINEで何を送ればいいかわからない', p: { line: 6 }, r: '送る前がいちばん悩むとですよね。' },
+          { t: '人が採れない。採れても続かない', p: { yatoeiru: 6 }, r: 'どこの会社でも聞く悩みです。ひとりで抱えんでよかですよ。' },
+          { t: '社員が何を考えているか、いまいちわからない', p: { shiraberu: 6 }, r: '気にしちょっ時点で、よか社長さんじゃっど。' },
+          { t: '業務がバラバラで、あの人しか知らない仕事がある', p: { dounyu: 4, teichaku: 3 }, r: '「あの人」が休んだ日、わっぜ大変ですよね。' },
+          { t: '外注すると高い。自分たちで作れたらいいのに', p: { manaberu: 4, makaseru: 4 }, r: 'その気持ち、そのまま形にできっど。' }
+        ]
+      },
+      {
+        title: 'パソコンで新しいことを覚えるのは？',
+        aside: '得意・不得意に、いい悪いはありません。',
+        choices: [
+          { t: '大好き。説明書は読まずに始める派', p: { makaseru: 3, manaberu: 1 }, r: '笹原も同じタイプじゃっど。' },
+          { t: '仲間と一緒なら、がんばれる', p: { manaberu: 3 }, r: 'ひとりより、続きやすかです。' },
+          { t: 'できれば、見守る側でいたい', p: { komon: 2, teichaku: 2 }, r: '見守る人がおるで、現場が回っとです。' },
+          { t: 'キーボードより、スマホのフリックが速い', p: { rental: 1, line: 2, dounyu: 1 }, r: 'それも立派なスキルじゃっど。' }
+        ]
+      },
+      {
+        title: '予算のイメージは？',
+        aside: 'ここは正直にお願いします。笹原は見ちょらんです。',
+        choices: [
+          { t: 'まずはランチ数回分くらいで様子を見たい', p: { rental: 3, line: 2 }, r: '小さく始めるのが、いちばんおすすめですが。' },
+          { t: '月々なら、無理なく続けられる', p: { komon: 2, line: 1, shiraberu: 1, makaseru: 1 }, r: '続けられる金額が、いちばんよかです。' },
+          { t: 'ここは腰を据えて、投資したい', p: { teichaku: 3, dounyu: 2, yatoeiru: 1 }, r: 'その覚悟、ちゃんと形にすっど。' },
+          { t: '人を育てるのにお金を使いたい', p: { manaberu: 3, makaseru: 1 }, r: '人への投資は、会社に残っですが。' }
+        ]
+      },
+      {
+        title: '会社の人数は？',
+        aside: 'パート・アルバイトさんも含めて、だいたいで。',
+        choices: [
+          { t: 'ひとり', s: '社長も経理も営業も、わたし', p: { makaseru: 2, rental: 1, line: 1 }, r: 'ほんのこて、おつかれさまです。' },
+          { t: '2〜10名くらい', p: { dounyu: 1, line: 1, rental: 1 }, r: '顔が見える人数、よかですね。' },
+          { t: '11〜50名くらい', p: { shiraberu: 2, yatoeiru: 2, teichaku: 1 }, r: '仕組みが効いてくる人数じゃっど。' },
+          { t: '51名以上', p: { shiraberu: 2, komon: 2 }, r: '全員に同じこと伝えるだけで、一苦労ですよね。' }
+        ]
+      },
+      {
+        title: '1年後、どうなっていたら最高ですか？',
+        aside: '夢は大きくても大丈夫です。',
+        choices: [
+          { t: '定時で帰って、焼酎を飲んでいる', s: '鹿児島ではこれを「だれやめ」と言います', p: { teichaku: 2, komon: 2 }, r: 'だれやめ、最高じゃっど。お湯割りでどうぞ。' },
+          { t: '社内に「これ作っといたよ」と言える人がいる', p: { manaberu: 3, makaseru: 1 }, r: 'そげな人がひとりおると、会社が変わっど。' },
+          { t: 'お客さんからLINEで予約や問い合わせが届く', p: { line: 3, dounyu: 1 }, r: '電話対応、ちょっと減らしましょう。' },
+          { t: '新しい仲間が入って、そのまま辞めずにいる', p: { yatoeiru: 3, shiraberu: 1 }, r: '「続く」がいちばん嬉しかですよね。' },
+          { t: '社員が、なんだかんだ楽しそうに働いている', p: { shiraberu: 3 }, r: 'それがいちばん難しくて、いちばん大事じゃっど。' }
+        ]
+      },
+      {
+        title: '最後に。笹原にひとこと',
+        aside: '結果には少しだけ影響します。少しだけ。',
+        choices: [
+          { t: 'まずは顔を見て話してから決めたい', p: { rental: 3 }, r: 'ぜひ。顔はこげな感じです。' },
+          { t: '一緒に悩んでほしい', p: { dounyu: 1, komon: 2 }, r: '一緒に悩むとは、得意ですが。' },
+          { t: '自分でやるから、横で見ていてほしい', p: { makaseru: 2, manaberu: 1 }, r: '横で見ちょっど。たまに口も出すっど。' },
+          { t: 'よろしく頼みます', p: { komon: 1, teichaku: 1 }, r: 'こちらこそ、よろしくお願いします。' },
+          { t: '特にないです', p: {}, r: '……はい。（ちょっとさみしか）' }
+        ]
+      }
+    ];
+
+    const LOADING_LINES = [
+      '回答を集計しています…',
+      '笹原が腕組みしちょります…',
+      '「うーん、これは…」とつぶやいちょります…',
+      '桜島の灰をはらっています…（関係ありません）',
+      'わかったど！'
+    ];
+
+    /* =========================================================
+       ここから動き
+       ========================================================= */
+    const $ = (id) => document.getElementById(id);
+    const answers = [];
+    let current = 0;
+    let stampCount = 0;
+
+    function show(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('is-active'));
+      $(id).classList.add('is-active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestion() {
+      const q = QUESTIONS[current];
+      $('q-label').textContent = 'Q' + (current + 1);
+      $('q-title').textContent = q.title;
+      $('q-aside').textContent = q.aside;
+      $('progress-num').textContent = (current + 1) + ' / ' + QUESTIONS.length;
+      $('progress-fill').style.width = (current / QUESTIONS.length * 100) + '%';
+      $('back-btn').disabled = current === 0;
+      $('reaction').textContent = '';
+      const box = $('choices');
+      box.innerHTML = '';
+      q.choices.forEach((c, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'choice' + (answers[current] === i ? ' is-picked' : '');
+        b.innerHTML = '<span class="choice-mark">' + 'ABCDE'[i] + '</span><span></span>';
+        const label = b.lastChild;
+        label.textContent = c.t;
+        if (c.s) { const s = document.createElement('small'); s.textContent = c.s; label.appendChild(s); }
+        b.addEventListener('click', () => pick(i, b));
+        box.appendChild(b);
+      });
+    }
+
+    let picking = false;
+    function pick(i, btn) {
+      if (picking) return;
+      picking = true;
+      answers[current] = i;
+      document.querySelectorAll('.choice').forEach(c => c.classList.remove('is-picked'));
+      btn.classList.add('is-picked');
+      $('reaction').textContent = QUESTIONS[current].choices[i].r;
+      $('progress-fill').style.width = ((current + 1) / QUESTIONS.length * 100) + '%';
+      setTimeout(() => {
+        picking = false;
+        if (current < QUESTIONS.length - 1) { current++; renderQuestion(); }
+        else { runLoading(); }
+      }, 900);
+    }
+
+    function runLoading() {
+      show('screen-loading');
+      let n = 0;
+      $('loading-text').textContent = LOADING_LINES[0];
+      const timer = setInterval(() => {
+        n++;
+        if (n < LOADING_LINES.length) { $('loading-text').textContent = LOADING_LINES[n]; }
+        else { clearInterval(timer); renderResult(); }
+      }, 750);
+    }
+
+    function score() {
+      const total = {};
+      Object.keys(SERVICES).forEach(k => total[k] = 0);
+      answers.forEach((a, qi) => {
+        const p = QUESTIONS[qi].choices[a].p;
+        Object.keys(p).forEach(k => total[k] += p[k]);
+      });
+      // 同点のときは、入口のサービスを先に出す（SERVICES の並び順）
+      const order = Object.keys(SERVICES);
+      return order.slice().sort((a, b) => total[b] - total[a] || order.indexOf(a) - order.indexOf(b))
+        .map(k => ({ key: k, pts: total[k] }));
+    }
+
+    function pct(pts, top) {
+      // 次点は 1位との点差に応じて 40〜85%
+      if (top <= 0) return 60;
+      return Math.max(40, Math.min(85, Math.round(45 + (pts / top) * 40)));
+    }
+
+    let lastResult = null;
+    function renderResult() {
+      const ranking = score();
+      const top = ranking[0];
+      const s = SERVICES[top.key];
+      // 1位は2位との差で 88〜99%。100%にはしない（会ってみないとわからないので）
+      const topPct = Math.min(99, 88 + (top.pts - ranking[1].pts) * 2);
+      lastResult = { key: top.key, pct: topPct };
+
+      $('type-name').innerHTML = s.type.split('\n').map(escapeHtml).join('<br>');
+      $('type-sub').textContent = s.sub;
+      $('svc-name').textContent = s.name;
+      $('svc-catch').textContent = s.catch;
+      $('svc-for').innerHTML = s.for.map(t => '<li>' + escapeHtml(t) + '</li>').join('');
+      $('svc-price').textContent = s.price;
+      $('svc-price-note').textContent = s.note;
+      $('svc-memo').textContent = s.memo;
+      $('svc-side').textContent = s.side;
+      $('svc-link').href = s.link;
+      const external = /^https?:/.test(s.link);
+      $('svc-link').target = external ? '_blank' : '';
+      $('svc-link').rel = external ? 'noopener noreferrer' : '';
+      $('cta-type').textContent = s.type.replace('\n', '');
+
+      $('runners').innerHTML = '';
+      ranking.slice(1, 3).forEach((r, i) => {
+        const rs = SERVICES[r.key];
+        const a = document.createElement('a');
+        a.className = 'runner';
+        a.href = rs.link;
+        if (/^https?:/.test(rs.link)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+        a.innerHTML = '<span class="runner-rank dela">' + (i + 2) + '位</span>' +
+          '<span class="runner-body"><strong></strong><span></span></span>' +
+          '<span class="runner-pct dela">' + pct(r.pts, top.pts) + '%</span>';
+        a.querySelector('strong').textContent = rs.name;
+        a.querySelector('.runner-body span').textContent = rs.catch;
+        $('runners').appendChild(a);
+      });
+
+      const shareText = shareMessage();
+      $('line-share').href = 'https://line.me/R/share?text=' + encodeURIComponent(shareText);
+
+      // スタンプのアニメーションをやり直す
+      const stamp = $('stamp');
+      stamp.style.animation = 'none'; void stamp.offsetWidth; stamp.style.animation = '';
+      stampCount = 0;
+
+      show('screen-result');
+      $('meter-fill').style.width = '0';
+      $('meter-num').textContent = '0%';
+      setTimeout(() => {
+        $('meter-fill').style.width = topPct + '%';
+        countUp($('meter-num'), topPct);
+      }, 350);
+    }
+
+    function countUp(el, to) {
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / 1400);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3))) + '%';
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    function shareMessage() {
+      const s = SERVICES[lastResult.key];
+      return 'さっさー相性診断の結果は「' + s.type.replace('\n', '') + '」でした。\n' +
+        '合いそうなのは「' + s.name + '」（相性' + lastResult.pct + '%）\n' +
+        location.href.split('#')[0];
+    }
+
+    function escapeHtml(t) {
+      return t.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function toast(msg) {
+      const el = $('toast');
+      el.textContent = msg;
+      el.classList.add('is-show');
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => el.classList.remove('is-show'), 2600);
+    }
+
+    $('start-btn').addEventListener('click', () => {
+      answers.length = 0; current = 0; renderQuestion(); show('screen-question');
+    });
+    $('back-btn').addEventListener('click', () => {
+      if (current > 0 && !picking) { current--; renderQuestion(); }
+    });
+    $('retry-btn').addEventListener('click', () => {
+      answers.length = 0; current = 0; renderQuestion(); show('screen-question');
+      toast('何回やっても、笹原は出てくっど。');
+    });
+    $('copy-btn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(shareMessage());
+        toast('コピーしました。誰かに自慢してくいやい。');
+      } catch (e) {
+        toast('コピーできませんでした。お手数ですがスクショでお願いします。');
+      }
+    });
+    const STAMP_LINES = [
+      'ポン。',
+      'ポンポン。',
+      '押しても相性は上がらんど。',
+      'ほんのこて上がらんど。',
+      'ここまで押した人は、レンタルさっさーで「スタンプ押した」と言うてくいやい。笑いますが。'
+    ];
+    $('stamp').addEventListener('click', () => {
+      toast(STAMP_LINES[Math.min(stampCount, STAMP_LINES.length - 1)]);
+      stampCount++;
+    });
+  </script>
+</body>
+</html>
