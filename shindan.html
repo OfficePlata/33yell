@@ -228,6 +228,27 @@
     }
     .toast.is-show { transform: translateX(-50%) translateY(0); visibility: visible; }
 
+    /* ---- おやっとさっさー ---- */
+    .oyatto {
+      position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px;
+      background: rgba(26,26,26,0.55); opacity: 0; transition: opacity .25s; cursor: pointer;
+    }
+    .oyatto.is-show { opacity: 1; }
+    .oyatto[hidden] { display: none; }
+    .oyatto-burst {
+      width: min(440px, 100%); aspect-ratio: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; padding: 18% 14%;
+      background: var(--yellow);
+      clip-path: polygon(50% 0%, 59% 11%, 72% 4%, 75% 18%, 90% 15%, 86% 29%, 100% 33%, 91% 45%, 100% 56%, 87% 62%, 93% 77%, 78% 77%, 76% 92%, 63% 86%, 52% 100%, 43% 87%, 29% 95%, 26% 80%, 10% 82%, 15% 68%, 0% 60%, 10% 49%, 2% 36%, 16% 31%, 12% 16%, 27% 18%, 31% 4%, 43% 12%);
+      transform: scale(0.3) rotate(-12deg);
+      transition: transform .45s cubic-bezier(.3,1.7,.5,1);
+    }
+    .oyatto.is-show .oyatto-burst { transform: scale(1) rotate(-3deg); }
+    .oyatto-title { font-size: clamp(34px, 10vw, 48px); line-height: 1.15; margin: 0; color: var(--black); }
+    .oyatto-sub { margin: 10px 0 2px; font-weight: 900; font-size: 14px; }
+    .oyatto-note { margin: 0 0 12px; font-size: 11px; color: var(--ink-soft); }
+    .oyatto .btn { min-height: 42px; font-size: 14px; padding: 0 18px; }
+
     .site-footer { background: var(--black); color: var(--white); text-align: center; padding: 22px 16px; font-size: 13px; }
     .site-footer a { color: var(--yellow); }
 
@@ -374,6 +395,15 @@
     ささエール ／ <a href="https://officeplata.com/" target="_blank" rel="noopener noreferrer">Office Plata</a><br>
     <span style="opacity:.75;">この診断は笹原の経験とカンで作っています。科学的な根拠はありません。</span>
   </footer>
+
+  <div class="oyatto" id="oyatto" hidden role="dialog" aria-modal="true" aria-labelledby="oyatto-title">
+    <div class="oyatto-burst">
+      <p class="oyatto-title dela" id="oyatto-title">おやっと<br>さっさー！</p>
+      <p class="oyatto-sub">最後まで答えてくれて、あいがとね。</p>
+      <p class="oyatto-note">※「おやっとさあ」＝鹿児島弁で「おつかれさま」</p>
+      <button class="btn btn-main" id="oyatto-btn" type="button">結果を見る</button>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status"></div>
 
@@ -715,18 +745,40 @@
       const shareText = shareMessage();
       $('line-share').href = 'https://line.me/R/share?text=' + encodeURIComponent(shareText);
 
-      // スタンプのアニメーションをやり直す
       const stamp = $('stamp');
-      stamp.style.animation = 'none'; void stamp.offsetWidth; stamp.style.animation = '';
+      stamp.style.animation = 'none';
       stampCount = 0;
 
       show('screen-result');
       $('meter-fill').style.width = '0';
       $('meter-num').textContent = '0%';
-      setTimeout(() => {
-        $('meter-fill').style.width = topPct + '%';
-        countUp($('meter-num'), topPct);
-      }, 350);
+      // 「おやっとさっさー」を閉じてから、メーターとスタンプを動かす
+      showOyatto(() => {
+        void stamp.offsetWidth; stamp.style.animation = '';
+        setTimeout(() => {
+          $('meter-fill').style.width = topPct + '%';
+          countUp($('meter-num'), topPct);
+        }, 250);
+      });
+    }
+
+    function showOyatto(after) {
+      const el = $('oyatto');
+      let done = false;
+      const close = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        el.classList.remove('is-show');
+        setTimeout(() => { el.hidden = true; }, 250);
+        after();
+      };
+      el.hidden = false;
+      void el.offsetWidth;
+      el.classList.add('is-show');
+      el.onclick = close;
+      $('oyatto-btn').focus({ preventScroll: true });
+      const timer = setTimeout(close, 3800);
     }
 
     function countUp(el, to) {
