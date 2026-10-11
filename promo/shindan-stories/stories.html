@@ -138,12 +138,18 @@
   .s2 .mid { margin-top: 56px; }
   .s2 .mid .bubble { padding: 20px 28px; }
   .s2 .brand { bottom: 56px; }
+  .story::before, .story::after { display: none; }
+  .story > .bg { position: absolute; inset: 0; width: 1080px; height: 1920px; z-index: 0; }
+  .note, .s1 .yaku, .s3 .card .free, .s3 .url, .brand { font-weight: 700; }
+  .s3 .url { margin-top: 44px; }
+  .s3 .card .meta { margin-bottom: 18px; }
 </style>
 </head>
 <body>
 
 <!-- 1枚目：つかみ -->
 <section class="story s1" id="story1">
+  <img class="bg" src="bg.png" alt="">
   <div class="in">
     <span class="pill">ささエール 新企画</span>
     <h1 class="dela">どれを頼めば<br>よかか、<br><span class="hl">迷っちょらん？</span></h1>
@@ -163,6 +169,7 @@
 
 <!-- 2枚目：チラ見せ -->
 <section class="story s2" id="story2">
+  <img class="bg" src="bg.png" alt="">
   <div class="in">
     <span class="pill">さっさー相性診断</span>
     <h2 class="dela">たとえば、こんな質問。</h2>
@@ -188,6 +195,7 @@
 
 <!-- 3枚目：行動の呼びかけ -->
 <section class="story s3" id="story3">
+  <img class="bg" src="bg.png" alt="">
   <div class="in">
     <span class="pill">さっさー相性診断</span>
     <h2 class="dela">あなたは<br><span class="hl">何タイプ？</span></h2>
