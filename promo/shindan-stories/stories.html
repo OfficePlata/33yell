@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --y:#FFD600; --o:#F5A623; --a:#DD6420; --k:#1A1A1A; --w:#FFFFFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #888; font-family: "Noto Sans JP", sans-serif; font-weight: 700; color: var(--k); }
+  .dela { font-family: "Dela Gothic One", sans-serif; font-weight: 400; }
+  .story {
+    position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background: var(--y);
+  }
+  .story::before {
+    content: ""; position: absolute; left: 50%; top: 42%; width: 3200px; height: 3200px;
+    transform: translate(-50%, -50%);
+    background: repeating-conic-gradient(var(--y) 0deg 7.5deg, rgba(245,166,35,0.45) 7.5deg 15deg);
+  }
+  .story::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.55) 3px, transparent 3.5px);
+    background-size: 30px 30px;
+  }
+  .in { position: absolute; inset: 0; z-index: 1; padding: 150px 80px 0; }
+  .pill {
+    display: inline-block; background: var(--k); color: var(--y); font-size: 40px;
+    padding: 10px 34px; border-radius: 999px; transform: rotate(-2deg);
+  }
+  .card {
+    background: var(--w); border: 8px solid var(--k); border-radius: 44px;
+    box-shadow: 16px 16px 0 var(--k);
+  }
+  .photo {
+    width: 340px; height: 340px; border-radius: 50%; overflow: hidden;
+    border: 8px solid var(--k); background: var(--o); flex: 0 0 auto;
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 12%; }
+  .bubble {
+    position: relative; background: var(--w); border: 7px solid var(--k); border-radius: 40px;
+    padding: 30px 36px; font-size: 46px; line-height: 1.45; font-weight: 900;
+  }
+  .bubble.r::after { content: ""; position: absolute; right: -44px; top: 50%; transform: translateY(-50%);
+    border: 26px solid transparent; border-left: 40px solid var(--k); }
+  .bubble.r::before { content: ""; position: absolute; right: -30px; top: 50%; transform: translateY(-50%); z-index: 1;
+    border: 20px solid transparent; border-left: 30px solid var(--w); }
+  .bubble.l::after { content: ""; position: absolute; left: -44px; top: 50%; transform: translateY(-50%);
+    border: 26px solid transparent; border-right: 40px solid var(--k); }
+  .bubble.l::before { content: ""; position: absolute; left: -30px; top: 50%; transform: translateY(-50%); z-index: 1;
+    border: 20px solid transparent; border-right: 30px solid var(--w); }
+  .note { font-size: 30px; font-weight: 700; }
+  .brand { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font-size: 34px; z-index: 1; }
+  .brand b { font-family: "Dela Gothic One", sans-serif; font-weight: 400; font-size: 44px; margin-right: 14px; }
+
+  /* 1枚目 */
+  .s1 h1 { font-size: 150px; line-height: 1.12; margin-top: 46px; letter-spacing: -0.02em; }
+  .s1 h1 .hl { color: var(--a); -webkit-text-stroke: 0; display: inline-block; }
+  .s1 .yaku { display: inline-block; margin-top: 22px; background: var(--w); border: 5px solid var(--k);
+    border-radius: 16px; padding: 4px 22px; font-size: 32px; transform: rotate(1.5deg); }
+  .s1 .card { margin-top: 56px; padding: 46px 50px 52px; text-align: center; }
+  .s1 .card .lead { font-size: 44px; line-height: 1.5; }
+  .s1 .card .ttl { font-size: 104px; line-height: 1.2; margin: 18px 0 26px; }
+  .s1 .card .time { display: inline-block; background: var(--y); border: 5px solid var(--k); border-radius: 999px;
+    font-size: 40px; padding: 8px 36px; }
+  .s1 .foot { position: absolute; left: 80px; right: 80px; bottom: 170px; display: flex; align-items: center; gap: 70px; }
+  .s1 .foot .bubble { flex: 1; }
+
+  /* 2枚目 */
+  .s2 h2 { font-size: 104px; line-height: 1.2; margin-top: 40px; }
+  .s2 .card { margin-top: 50px; padding: 48px 46px 50px; }
+  .s2 .q { display: inline-block; background: var(--y); border: 5px solid var(--k); border-radius: 14px;
+    font-size: 40px; padding: 0 22px; }
+  .s2 .qt { font-size: 62px; line-height: 1.35; margin: 18px 0 30px; font-weight: 900; }
+  .s2 .ch { display: flex; align-items: center; gap: 26px; border: 6px solid var(--k); border-radius: 26px;
+    padding: 22px 26px; margin-top: 20px; font-size: 44px; line-height: 1.3; background: var(--w); box-shadow: 7px 7px 0 var(--k); }
+  .s2 .ch i { font-style: normal; flex: 0 0 76px; height: 76px; border-radius: 50%; border: 5px solid var(--k);
+    background: var(--y); display: grid; place-items: center; font-family: "Dela Gothic One", sans-serif; font-size: 38px; }
+  .s2 .ch.on { background: var(--a); color: var(--w); position: relative; }
+  .s2 .ch.on i { color: var(--k); }
+  .s2 .tap { position: absolute; right: -10px; bottom: -58px; background: var(--k); color: var(--y);
+    font-size: 32px; padding: 6px 22px; border-radius: 12px; transform: rotate(-4deg); }
+  .s2 .mid { display: flex; align-items: center; gap: 60px; margin-top: 90px; }
+  .s2 .mid .photo { width: 270px; height: 270px; }
+  .s2 .mid .bubble { flex: 1; font-size: 52px; }
+  .s2 .mid .bubble .note { display: block; margin-top: 8px; color: rgba(26,26,26,0.7); }
+  .s2 .result { position: absolute; left: 80px; right: 80px; bottom: 170px; background: var(--k); color: var(--w);
+    border-radius: 32px; padding: 32px 40px; text-align: center; }
+  .s2 .result small { display: block; font-size: 34px; color: var(--y); }
+  .s2 .result span { font-size: 52px; line-height: 1.4; }
+
+  /* 3枚目 */
+  .s3 h2 { font-size: 168px; line-height: 1.1; margin-top: 40px; }
+  .s3 h2 .hl { color: var(--a); }
+  .s3 .card { position: relative; margin-top: 56px; padding: 50px 50px 54px; text-align: center; }
+  .s3 .card .ttl { font-size: 100px; line-height: 1.2; }
+  .s3 .card .meta { font-size: 50px; margin: 18px 0 8px; }
+  .s3 .card .meta b { background: var(--y); padding: 0 14px; }
+  .s3 .card .free { font-size: 36px; }
+  .s3 .stamp { position: absolute; right: -30px; top: -96px; width: 200px; height: 200px; border-radius: 50%;
+    border: 10px double var(--a); color: var(--a); background: var(--w); display: grid; place-items: center;
+    text-align: center; font-size: 40px; line-height: 1.2; transform: rotate(-14deg); }
+  .s3 .btn { margin-top: 64px; background: var(--a); color: var(--w); border: 8px solid var(--k); border-radius: 999px;
+    box-shadow: 12px 12px 0 var(--k); text-align: center; font-size: 60px; padding: 34px 0; }
+  .s3 .url { text-align: center; font-size: 34px; margin-top: 26px; }
+  .s3 .foot { display: flex; align-items: center; gap: 60px; margin-top: 56px; }
+  .s3 .foot .photo { width: 250px; height: 250px; }
+  .s3 .foot .bubble { flex: 1; font-size: 44px; }
+  .s3 .linkzone { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; z-index: 1; }
+
+  .photo img { width: 175%; height: auto; max-width: none; object-fit: unset; margin-left: -62%; margin-top: 4%; }
+  .in { padding-top: 130px; }
+  .s1 h1 { font-size: 128px; line-height: 1.16; margin-top: 34px; }
+  .s1 .card { margin-top: 40px; padding: 40px 40px 44px; }
+  .s1 .card .ttl { font-size: 92px; margin: 14px 0 22px; }
+  .s1 .foot { bottom: 160px; gap: 64px; }
+  .s1 .foot .photo { width: 300px; height: 300px; }
+  .s2 h2 { font-size: 88px; margin-top: 34px; }
+  .s2 .card { margin-top: 40px; padding: 40px 40px 44px; }
+  .s2 .qt { font-size: 54px; margin: 14px 0 18px; }
+  .s2 .ch { font-size: 40px; padding: 16px 22px; margin-top: 16px; gap: 20px; }
+  .s2 .ch i { flex-basis: 68px; height: 68px; font-size: 34px; }
+  .s2 .tap { bottom: -50px; }
+  .s2 .mid { margin-top: 70px; gap: 56px; }
+  .s2 .mid .photo { width: 230px; height: 230px; }
+  .s2 .mid .bubble { font-size: 46px; padding: 24px 30px; }
+  .s2 .result { bottom: 160px; padding: 24px 36px; }
+  .s2 .result span { font-size: 48px; }
+  .s3 h2 { font-size: 150px; margin-top: 34px; }
+  .s3 .card { margin-top: 44px; padding: 40px 40px 44px; }
+  .s3 .card .ttl { font-size: 92px; }
+  .s3 .stamp { top: -80px; width: 180px; height: 180px; font-size: 36px; }
+  .s3 .foot { margin-top: 44px; gap: 56px; }
+  .s3 .foot .photo { width: 230px; height: 230px; }
+  .s3 .foot .bubble { font-size: 42px; padding: 24px 30px; }
+  .s3 .btn { margin-top: 44px; font-size: 56px; padding: 30px 0; }
+  .s3 .url { margin-top: 20px; }
+  .s2 .result { z-index: 2; bottom: 140px; }
+  .s2 .mid { margin-top: 56px; }
+  .s2 .mid .bubble { padding: 20px 28px; }
+  .s2 .brand { bottom: 56px; }
+</style>
+</head>
+<body>
+
+<!-- 1枚目：つかみ -->
+<section class="story s1" id="story1">
+  <div class="in">
+    <span class="pill">ささエール 新企画</span>
+    <h1 class="dela">どれを頼めば<br>よかか、<br><span class="hl">迷っちょらん？</span></h1>
+    <span class="yaku">訳：どれを頼めばいいか、迷っていませんか？</span>
+    <div class="card">
+      <p class="lead">8つの質問で、<br>あなたに合うサービスがわかる</p>
+      <p class="ttl dela">さっさー相性診断</p>
+      <span class="time">所要時間 だいたい1分</span>
+    </div>
+    <div class="foot">
+      <div class="bubble r">むずかしか質問は<br>しませんが。</div>
+      <div class="photo"><img src="../../images/representative-sm.png" alt=""></div>
+    </div>
+  </div>
+  <p class="brand"><b>ささエール</b>Lark・AI・LINEを、現場で使える形に</p>
+</section>
+
+<!-- 2枚目：チラ見せ -->
+<section class="story s2" id="story2">
+  <div class="in">
+    <span class="pill">さっさー相性診断</span>
+    <h2 class="dela">たとえば、こんな質問。</h2>
+    <div class="card">
+      <span class="q dela">Q7</span>
+      <p class="qt">1年後、どうなっていたら最高ですか？</p>
+      <div class="ch"><i>A</i>社内に「作れる人」がいる</div>
+      <div class="ch"><i>B</i>お客さんからLINEで予約が届く</div>
+      <div class="ch"><i>C</i>新しい仲間が、辞めずにいる</div>
+      <div class="ch on"><i>D</i>定時で帰って、焼酎を飲んでいる<span class="tap">笹原もこれを選びたい</span></div>
+    </div>
+    <div class="mid">
+      <div class="photo"><img src="../../images/representative-sm.png" alt=""></div>
+      <div class="bubble l">だれやめ、<br>最高じゃっど。<span class="note">※だれやめ＝鹿児島弁で「晩酌」</span></div>
+    </div>
+  </div>
+  <div class="result">
+    <small>結果はたとえば…</small>
+    <span class="dela">「配信ボタンの前で<br>30分固まるタイプ」</span>
+  </div>
+  <p class="brand"><b>ささエール</b>Lark・AI・LINEを、現場で使える形に</p>
+</section>
+
+<!-- 3枚目：行動の呼びかけ -->
+<section class="story s3" id="story3">
+  <div class="in">
+    <span class="pill">さっさー相性診断</span>
+    <h2 class="dela">あなたは<br><span class="hl">何タイプ？</span></h2>
+    <div class="card">
+      <div class="stamp dela">さっさー<br>認定</div>
+      <p class="ttl dela">さっさー<br>相性診断</p>
+      <p class="meta"><b>8問</b>・<b>約1分</b></p>
+      <p class="free">名前もメールアドレスも聞きません</p>
+    </div>
+    <div class="foot">
+      <div class="photo"><img src="../../images/representative-sm.png" alt=""></div>
+      <div class="bubble l">気になったら、<br>30分話しましょう。<br>気軽に来っくいやい。</div>
+    </div>
+    <div class="btn dela">リンクをタップして診断 ↓</div>
+    <p class="url">service.33l.jp/shindan.html</p>
+  </div>
+  <div class="linkzone"></div>
+</section>
+
+</body>
+</html>
