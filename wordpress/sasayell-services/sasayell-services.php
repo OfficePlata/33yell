@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ささエール サービスページ
  * Description: /sasayell/?service=yatoeiru|manaberu|makaseru|shiraberu で各サービスページを表示します。テーマのCSS・ヘッダー・フッターは読み込みません。
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Office Plata
  * Requires at least: 5.5
  * Requires PHP: 7.4
