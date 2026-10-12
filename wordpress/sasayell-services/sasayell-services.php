@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ささエール サービスページ
  * Description: /sasayell/?service=yatoeiru|manaberu|makaseru|shiraberu で各サービスページを表示します。テーマのCSS・ヘッダー・フッターは読み込みません。
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Office Plata
  * Requires at least: 5.5
  * Requires PHP: 7.4
@@ -76,6 +76,64 @@ function sasayell_services_page_html( $page_slug ) {
 </body>
 </html>';
 }
+
+/**
+ * トップ（sasayell-lp の出力）の「選べるサービス一覧」末尾に、各サービスページへのカードを差し込む。
+ */
+function sasayell_services_top_cards() {
+	$cards = array(
+		'yatoeiru'  => array( 'やとエール', '人を雇う会社を応援。募集から入社後の定着まで、Lark・AI・LINEで「迷わない仕組み」を一緒に整えます。' ),
+		'manaberu'  => array( 'まなベール', 'LarkとAIを道具に、自社のサービスやアプリを自分の手で形にする少人数オンライン講座です。' ),
+		'makaseru'  => array( 'まかセール', '作りたいもの1つに絞って、現役の開発者が完成までマンツーマンで伴走します。' ),
+		'shiraberu' => array( 'しらベール', '社員の声を毎月あつめる匿名アンケート。Lark・LINEから答えられて、AIが「次の一手」を提案します。' ),
+	);
+	$html = '
+        <!-- サービス別ページ（sasayell-services） -->
+        <style>@media (min-width:1101px){.cards-3.ssv-cards{grid-template-columns:repeat(4,1fr)}}.ssv-cards a.service-card{display:flex;flex-direction:column;text-decoration:none;color:inherit}</style>
+        <div class="service-group-head">
+          <span class="service-group-label">サービス別ページ</span>
+          <span class="service-group-line"></span>
+        </div>
+        <div class="cards-3 ssv-cards">';
+	foreach ( $cards as $slug => $card ) {
+		$html .= '
+          <a class="service-card gs-card" href="' . esc_url( sasayell_services_url( $slug ) ) . '">
+            <h3>' . esc_html( $card[0] ) . '</h3>
+            <p>' . esc_html( $card[1] ) . '</p>
+            <span class="price-mini" style="font-size:16px;">詳しく見る →</span>
+          </a>';
+	}
+	return $html . '
+        </div>
+';
+}
+
+function sasayell_services_inject_top( $html ) {
+	if ( false !== strpos( $html, 'ssv-cards' ) ) {
+		return $html;
+	}
+	// #services セクションの container 閉じタグの直前に差し込む
+	$cards = sasayell_services_top_cards();
+	$out   = preg_replace_callback(
+		'#(<section[^>]*id="services".*?)(\s*</div>\s*</section>)#s',
+		function ( $m ) use ( $cards ) {
+			return $m[1] . $cards . $m[2];
+		},
+		$html,
+		1
+	);
+	return is_string( $out ) ? $out : $html;
+}
+
+add_action(
+	'template_redirect',
+	function () {
+		if ( is_page( SASAYELL_SERVICES_PARENT_SLUG ) && empty( $_GET[ SASAYELL_SERVICES_PARAM ] ) ) {
+			ob_start( 'sasayell_services_inject_top' );
+		}
+	},
+	-1
+);
 
 add_action(
 	'template_redirect',
