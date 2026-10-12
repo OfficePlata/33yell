@@ -8,11 +8,12 @@
 | まなベール | https://officeplata.com/sasayell/?service=manaberu |
 | まかセール | https://officeplata.com/sasayell/?service=makaseru |
 | しらベール | https://officeplata.com/sasayell/?service=shiraberu |
+| さっさー相性診断 | https://officeplata.com/sasayell/?service=shindan |
 
-- やとエール / まなベール / しらベール … このリポジトリ直下の `*.html` を同梱して表示
+- やとエール / まなベール / しらベール / さっさー相性診断 … このリポジトリ直下の `*.html` を同梱して表示
 - まかセール … 既存の固定ページ `/makaseru/` の本文を、テーマを通さずそのまま表示
 - 未知の値（`?service=xxx`）はささエールトップを表示
-- トップ（`/sasayell/`）の「選べるサービス一覧」の末尾に、4サービスへのカード（サービス別ページ）を自動で差し込みます
+- トップ（`/sasayell/`）の「選べるサービス一覧」の末尾に、各サービスへのカード（サービス別ページ）を自動で差し込みます
 - 既存の `sasayell-lp` プラグインには手を入れません（併用）
 
 ## 導入

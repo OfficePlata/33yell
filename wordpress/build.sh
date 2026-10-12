@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 P=wordpress/sasayell-services
 rm -rf "$P/html" "$P/assets"
 mkdir -p "$P/html" "$P/assets/images"
-cp yatoeiru.html manaberu.html shiraberu.html "$P/html/"
+cp yatoeiru.html manaberu.html shiraberu.html shindan.html "$P/html/"
 cp images/* "$P/assets/images/"
 rm -f wordpress/sasayell-services.zip
 (cd wordpress && zip -qr sasayell-services.zip sasayell-services)
