@@ -1,0 +1,593 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style><title>歯科SNSおまかせ投稿デモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap">
+<style>
+/* Layout: 左に医院のスマホ（LINE）、右に仕組みの裏側。上に5ステップの進行バー。ささエールのトンマナ（黄色ベース×黒文字×白カード）で単一テーマ */
+:root{
+  --yellow:#FFD600; --orange:#F5A623; --accent:#DD6420; --ink:#1A1A1A; --card:#FFFFFF;
+  --ink-soft:#4a4536; --line-green:#06C755; --line-bg:#8CABD9; --ok:#1f8a4c; --warn:#DD6420;
+  --f-display:"Dela Gothic One","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--yellow);color:var(--ink);font-family:var(--f-body);font-weight:500;font-size:15px;line-height:1.7;margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:1.3}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Header */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900}
+.brand .tag{background:var(--ink);color:var(--yellow);font-family:var(--f-display);padding:4px 12px;border-radius:8px;transform:rotate(-3deg);display:inline-block}
+.demo-pill{background:var(--card);border:3px solid var(--ink);border-radius:999px;padding:2px 14px;font-weight:700;font-size:13px}
+.hero{margin-top:14px;display:grid;gap:6px}
+.hero h1{font-size:clamp(28px,5vw,48px)}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{margin:0;max-width:62ch;font-weight:700}
+
+/* Stepper */
+.steps{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.steps li{background:var(--card);border:3px solid var(--ink);border-radius:14px;padding:8px 10px;display:flex;gap:8px;align-items:center;font-weight:700;font-size:13px;line-height:1.35;opacity:.55;transition:opacity .2s,transform .2s}
+.steps li .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--yellow);display:grid;place-items:center;font-family:var(--f-display);font-size:14px}
+.steps li.done{opacity:1}
+.steps li.now{opacity:1;background:var(--ink);color:var(--card);transform:translateY(-2px)}
+.steps li.now .n{background:var(--accent);color:var(--card)}
+@media (max-width:760px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.steps li:last-child{grid-column:1/-1}}
+
+/* Main */
+.main{margin-top:22px;display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+.col-label{font-family:var(--f-display);font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.col-label small{font-family:var(--f-body);font-weight:700;font-size:12px;background:var(--ink);color:var(--yellow);padding:1px 8px;border-radius:6px}
+
+/* Phone */
+.phone-wrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+@media (max-width:900px){.phone-wrap{position:static}}
+.phone{background:var(--ink);border-radius:36px;padding:12px;box-shadow:8px 8px 0 var(--accent);max-width:370px;margin-inline:auto}
+.screen{background:var(--line-bg);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:640px}
+.lhead{background:#f6f6f6;color:#222;padding:10px 14px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;border-bottom:1px solid #ddd}
+.lhead .av{width:30px;height:30px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px}
+.lhead span small{display:block;font-weight:500;font-size:11px;color:#777}
+.chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:84%;display:flex;flex-direction:column;gap:4px;animation:pop .25s ease}
+.msg.me{align-self:flex-end;align-items:flex-end}
+.msg.bot{align-self:flex-start}
+.bubble{background:#fff;color:#111;border-radius:16px;padding:8px 12px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.msg.me .bubble{background:#8de055}
+.msg .time{font-size:10px;color:#2b3b55}
+.thumbs{display:grid;grid-template-columns:repeat(3,64px);gap:4px}
+.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:2px solid #fff}
+.lcard{background:#fff;border-radius:14px;overflow:hidden;width:250px;color:#111}
+.lcard img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.lcard .b{padding:10px 12px;font-size:12.5px;line-height:1.6}
+.lcard .b strong{display:block;font-size:13.5px;margin-bottom:4px}
+.lcard .acts{display:grid;border-top:1px solid #eee}
+.lcard .acts button{background:none;border:0;border-top:1px solid #eee;padding:10px;font-weight:700;color:#2f6fd6;cursor:pointer}
+.lcard .acts button:first-child{border-top:0;color:var(--line-green)}
+.lcard .acts button:disabled{color:#aaa;cursor:default}
+.lfoot{background:#fff;padding:8px 10px;display:flex;gap:8px;align-items:center;border-top:1px solid #ddd}
+.lfoot label{flex:1;background:#f1f1f1;border-radius:999px;padding:8px 12px;font-size:13px;color:#555;cursor:pointer;text-align:center;font-weight:700}
+.lfoot label:hover{background:#e6e6e6}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#999;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:.25}}
+@keyframes pop{from{transform:translateY(6px);opacity:.3}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Panels */
+.side{display:grid;gap:18px;min-width:0}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:18px;box-shadow:6px 6px 0 var(--ink);min-width:0}
+.card h2{font-size:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card h2 .chip{font-family:var(--f-body);font-weight:700;font-size:12px;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:0 10px}
+.card .lead{margin:6px 0 12px;color:var(--ink-soft);font-size:13.5px}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.form .full{grid-column:1/-1}
+@media (max-width:560px){.form{grid-template-columns:minmax(0,1fr)}}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-weight:700;font-size:13px}
+.field input,.field select,.field textarea{width:100%;border:2px solid var(--ink);border-radius:10px;padding:8px 10px;background:#fff}
+.field textarea{resize:vertical;min-height:70px}
+.photos{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.ph{position:relative;width:96px;height:96px;border-radius:12px;overflow:hidden;border:3px solid var(--ink)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-weight:900;line-height:1;cursor:pointer;padding:0}
+.ph .badge{position:absolute;left:4px;bottom:4px;background:var(--ink);color:var(--yellow);font-size:10px;padding:0 6px;border-radius:6px}
+.addph{width:96px;height:96px;border:3px dashed var(--ink);border-radius:12px;display:grid;place-items:center;text-align:center;font-weight:700;font-size:12px;cursor:pointer;background:#fffbe0;line-height:1.4}
+.addph:hover{background:var(--yellow)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+.btn{border:3px solid var(--ink);border-radius:999px;padding:9px 20px;font-weight:900;cursor:pointer;background:var(--card);box-shadow:3px 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.dark{background:var(--ink);color:var(--yellow)}
+.btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:3px 3px 0 var(--ink)}
+.status{font-size:13px;font-weight:700;color:var(--ink-soft)}
+.status.err{color:var(--accent)}
+.src{font-size:12px;font-weight:700;padding:1px 10px;border-radius:999px;border:2px solid var(--ink)}
+.src.ai{background:var(--yellow)}
+.src.ex{background:#eee}
+
+/* Tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tab{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:4px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--yellow)}
+.draft{margin-top:10px}
+.draft textarea{width:100%;min-height:180px;border:2px solid var(--ink);border-radius:12px;padding:12px;line-height:1.75;background:#fffdf3;resize:vertical}
+.meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+.meta .over{color:var(--accent)}
+
+/* Check */
+.checks{display:grid;gap:10px;margin-top:6px}
+.chk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;border:2px solid var(--ink);border-radius:12px;padding:10px 12px}
+.chk .ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px}
+.chk.ok .ic{background:var(--ok)}
+.chk.ng{background:#fff4ec}
+.chk.ng .ic{background:var(--warn)}
+.chk.fixed{background:#fffbe0}
+.chk.fixed .ic{background:var(--orange)}
+.chk p{margin:0;font-size:13.5px}
+.chk p b{font-weight:900}
+.chk .fix{font-size:12.5px;color:var(--ink-soft)}
+mark{background:#ffd0b5;color:inherit;padding:0 2px;border-radius:3px}
+
+/* Previews */
+.pv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px}
+@media (max-width:560px){.pv{grid-template-columns:minmax(0,1fr)}}
+.pv-item{border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;min-width:0}
+.pv-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-bottom:2px solid var(--ink);font-weight:900;font-size:13px}
+.pill{font-size:11px;font-weight:700;border-radius:999px;padding:0 8px;border:2px solid var(--ink);white-space:nowrap}
+.pill.wait{background:#fff}
+.pill.done{background:var(--ok);color:#fff;border-color:var(--ok)}
+.pv-body{padding:10px;font-size:12.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:200px;overflow:auto}
+.pv-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;max-width:100%}
+.pv-img.wide{aspect-ratio:4/3}
+.ig-bar{display:flex;gap:10px;padding:6px 10px 0;font-weight:900;font-size:14px}
+.gbp-btn{margin:0 10px 10px;border:2px solid #1a73e8;color:#1a73e8;border-radius:999px;text-align:center;font-weight:700;padding:3px;font-size:12px}
+
+/* Log */
+.tablewrap{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:2px solid #eee;padding:8px;text-align:left;white-space:nowrap}
+th{background:var(--ink);color:var(--yellow);font-weight:700}
+th:first-child{border-top-left-radius:8px}th:last-child{border-top-right-radius:8px}
+tr.new td{background:#fffbe0}
+.foot{margin-top:28px;font-size:12.5px;font-weight:700;display:grid;gap:4px;max-width:80ch}
+.sr{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.field{position:relative}
+</style></head><body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span class="tag">ささエール</span><span>歯科医院向け SNSおまかせ投稿</span></div>
+    <span class="demo-pill">デモ版：実際には投稿されません</span>
+  </header>
+
+  <section class="hero">
+    <h1>写真を送るだけで、<em>医院のSNS</em>が続く</h1>
+    <p>医院はLINEで写真を送るだけ。AIが媒体ごとに投稿文を下書きし、医療広告ガイドラインの表現をチェック。院長がOKを押すと投稿されます。</p>
+  </section>
+
+  <ol class="steps" id="steps" aria-label="仕組みの流れ">
+    <li data-s="1"><span class="n">1</span>LINEで写真を送る</li>
+    <li data-s="2"><span class="n">2</span>AIが媒体別に下書き</li>
+    <li data-s="3"><span class="n">3</span>表現をチェック</li>
+    <li data-s="4"><span class="n">4</span>院長がLINEで承認</li>
+    <li data-s="5"><span class="n">5</span>各媒体へ投稿・記録</li>
+  </ol>
+
+  <div class="main">
+    <!-- Phone -->
+    <div class="phone-wrap">
+      <div class="col-label">医院のスマホ <small>LINE</small></div>
+      <div class="phone">
+        <div class="screen">
+          <div class="lhead"><span class="av">SNS</span><span>SNSおまかせ投稿<small>公式アカウント</small></span></div>
+          <div class="chat" id="chat" aria-live="polite"></div>
+          <div class="lfoot"><label for="file2">＋ 写真を送る</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side -->
+    <div class="side">
+      <section class="card" aria-labelledby="h-in">
+        <h2 id="h-in">① 送られた写真とメモ <span class="chip">医院が入力</span></h2>
+        <p class="lead">サンプル画像が入っています。お手元の写真（最大10枚）に差し替えて試せます。</p>
+        <div class="form">
+          <div class="field"><label for="clinic">医院名</label><input id="clinic" value="さくら歯科クリニック"></div>
+          <div class="field"><label for="theme">今回のテーマ</label>
+            <select id="theme">
+              <option value="inside">院内の様子</option>
+              <option value="staff">スタッフ紹介</option>
+              <option value="care">予防・ケアの豆知識</option>
+              <option value="notice">お知らせ（休診・診療時間）</option>
+            </select>
+          </div>
+          <div class="field full"><label for="memo">院長のひとことメモ（任意）</label>
+            <textarea id="memo">新しい診療チェアを入れました。痛くない治療で地域No.1を目指します！</textarea>
+          </div>
+          <div class="field full" id="codeField" hidden><label for="code">デモ用の合言葉（AIで作る時に必要）</label><input id="code" autocomplete="off"></div>
+          <div class="field full"><span style="font-weight:700;font-size:13px">写真</span>
+            <div class="photos" id="photos"></div>
+            <input type="file" id="file1" class="sr" accept="image/jpeg,image/png,image/webp" multiple>
+            <input type="file" id="file2" class="sr" accept="image/jpeg,image/png,image/webp" multiple>
+          </div>
+        </div>
+        <div class="btns">
+          <button class="btn primary" id="gen">AIで下書きを作る</button>
+          <span class="status" id="genStatus"></span>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-draft">
+        <h2 id="h-draft">② 媒体別の下書き <span class="src ex" id="srcBadge">作成例</span></h2>
+        <p class="lead">同じ写真から、媒体ごとに文字数や書き方を変えて作ります。院長が直したい時はここで編集できます。</p>
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <div class="draft">
+          <label class="sr" for="draftText">下書き本文</label>
+          <textarea id="draftText"></textarea>
+          <div class="meta"><span id="draftNote"></span><span id="draftCount"></span></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-chk">
+        <h2 id="h-chk">③ 医療広告ガイドラインの表現チェック</h2>
+        <p class="lead">誇大・比較・断定・体験談などの表現を確認します。最終判断は院長の承認です。</p>
+        <div class="checks" id="checks"></div>
+      </section>
+
+      <section class="card" aria-labelledby="h-pv">
+        <h2 id="h-pv">④⑤ 投稿イメージ <span class="chip" id="pvState">院長の承認待ち</span></h2>
+        <p class="lead">左のスマホで「この内容で投稿」を押すと、各媒体に投稿された状態になります。</p>
+        <div class="pv" id="pv"></div>
+      </section>
+
+      <section class="card" aria-labelledby="h-log">
+        <h2 id="h-log">投稿の記録 <span class="chip">Lark BASE</span></h2>
+        <p class="lead">いつ・どの医院が・どの媒体に投稿したかが自動で残ります。パートナー様も一覧で確認できます。</p>
+        <div class="tablewrap"><table>
+          <thead><tr><th>日時</th><th>医院</th><th>テーマ</th><th>媒体</th><th>状態</th></tr></thead>
+          <tbody id="log"></tbody>
+        </table></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>※ このページは仕組みを見ていただくためのデモです。実際のSNSへの投稿・LINE送信は行いません。</span>
+    <span>※ 表現チェックは補助です。医療広告ガイドラインへの適合は、院長の確認を前提とします。</span>
+    <span>提案：ささエール（Office Plata）</span>
+  </div>
+</div>
+
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const PLATFORMS = [
+  {key:"instagram", name:"Instagram", limit:2200},
+  {key:"facebook", name:"Facebook", limit:3000},
+  {key:"google", name:"Googleビジネスプロフィール", limit:1500},
+  {key:"line", name:"LINE公式（配信）", limit:500},
+];
+const THEMES = {inside:"院内の様子", staff:"スタッフ紹介", care:"予防・ケアの豆知識", notice:"お知らせ（休診・診療時間）"};
+
+/* 医療広告ガイドラインで注意が必要な表現（デモ用の簡易リスト） */
+const RULES = [
+  {re:/痛くない|痛みゼロ|無痛/g, reason:"効果を断定する表現にあたるおそれ", fix:"「痛みに配慮した治療」「麻酔を工夫しています」など"},
+  {re:/No\.?\s?1|ナンバーワン|ナンバー1|地域一|日本一|業界初/gi, reason:"比較優良広告（他院より優れていると示す表現）", fix:"「地域の皆さまに通いやすい医院を目指します」など"},
+  {re:/絶対|必ず|完全|100\s?%|確実に/g, reason:"誇大広告・効果の断定", fix:"断定を避け、取り組みとして書く"},
+  {re:/最高|最先端|最新鋭|最上級/g, reason:"誇大広告にあたるおそれ（根拠のない最上級表現）", fix:"「新しい」「導入しました」など事実を書く"},
+  {re:/患者様の声|患者さんの声|口コミ|体験談|喜びの声/g, reason:"治療内容・効果に関する体験談は広告できない", fix:"体験談は載せない"},
+  {re:/ビフォー|アフター|before|after|治療前後/gi, reason:"術前術後写真は治療内容・費用・リスク等の併記が必要", fix:"原則載せない／載せる場合は必要事項を併記"},
+  {re:/格安|激安|今だけ|期間限定|割引|無料キャンペーン/g, reason:"費用を強調した誘引表現", fix:"費用の強調を避ける"},
+];
+
+/* ---------- サンプル画像（canvasで描画） ---------- */
+function scene(kind){
+  const c = document.createElement("canvas"); c.width = c.height = 900;
+  const g = c.getContext("2d");
+  const rr = (x,y,w,h,r,fill) => {g.beginPath();g.roundRect(x,y,w,h,r);g.fillStyle=fill;g.fill();};
+  if(kind==="chair"){
+    g.fillStyle="#e8f4f1";g.fillRect(0,0,900,900);
+    g.fillStyle="#d3e7e2";g.fillRect(0,620,900,280);
+    rr(560,80,260,300,16,"#cfe4f5"); g.fillStyle="#fff";g.fillRect(686,80,8,300);g.fillRect(560,226,260,8);
+    g.strokeStyle="#9aa7a5";g.lineWidth=14;g.beginPath();g.moveTo(330,140);g.lineTo(470,200);g.lineTo(520,300);g.stroke();
+    rr(470,280,110,60,30,"#f6f6f6");
+    rr(170,430,420,90,45,"#3fa7a0");
+    rr(120,330,120,150,50,"#3fa7a0");
+    rr(560,470,190,70,35,"#3fa7a0");
+    rr(330,520,60,140,10,"#b9c3c2"); rr(250,650,220,40,20,"#b9c3c2");
+    rr(640,560,140,90,14,"#ffffff"); g.fillStyle="#e3eceb";g.fillRect(660,580,100,10);
+  }else if(kind==="desk"){
+    g.fillStyle="#fbefe1";g.fillRect(0,0,900,900);
+    g.fillStyle="#f2dcc3";g.fillRect(0,640,900,260);
+    rr(150,120,600,120,20,"#ffffff");
+    g.fillStyle="#d77d8f";g.beginPath();g.arc(230,180,34,0,Math.PI*2);g.fill();
+    g.fillStyle="#3b3b3b";g.font="700 54px 'Noto Sans JP',sans-serif";g.fillText("さくら歯科",290,200);
+    rr(80,430,740,260,24,"#c99566"); rr(80,410,740,40,20,"#ddb183");
+    rr(380,330,140,90,10,"#2f3a45"); rr(440,420,20,20,4,"#2f3a45");
+    rr(640,300,90,120,20,"#6aa56a"); g.fillStyle="#6aa56a";g.beginPath();g.arc(685,290,70,0,Math.PI*2);g.fill();
+    rr(655,380,60,60,10,"#b97b4f");
+    rr(160,360,150,60,10,"#fff"); g.fillStyle="#d77d8f";g.fillRect(175,380,120,8);g.fillRect(175,396,80,8);
+  }else{
+    g.fillStyle="#e6f1fb";g.fillRect(0,0,900,900);
+    g.fillStyle="#d6e6f5";g.fillRect(0,600,900,300);
+    rr(300,420,240,280,30,"#ffffff");
+    const bs=[["#ff8aa0",340,-12],["#59b7e8",420,0],["#ffc53d",500,12]];
+    for(const [col,x,rot] of bs){g.save();g.translate(x,440);g.rotate(rot*Math.PI/180);rr(-12,-300,24,320,12,col);rr(-20,-330,40,70,10,"#ffffff");g.restore();}
+    rr(610,560,170,140,24,"#9fd3a8"); g.fillStyle="#fff";g.beginPath();g.arc(695,600,26,0,Math.PI*2);g.fill();
+    g.fillStyle="#3b3b3b";g.font="700 34px 'Noto Sans JP',sans-serif";g.fillText("FLOSS",640,680);
+  }
+  g.fillStyle="rgba(26,26,26,.55)";g.font="700 28px 'Noto Sans JP',sans-serif";g.fillText("サンプル画像",24,870);
+  return new Promise(res => c.toBlob(b => res({blob:b, url:URL.createObjectURL(b), sample:true}), "image/jpeg", .86));
+}
+
+/* ---------- 状態 ---------- */
+const S = {photos:[], drafts:null, notes:[], source:"example", tab:"instagram", step:3, approved:false, chat:[], log:[]};
+const now = () => {const d=new Date();return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;};
+
+/* ---------- 作成例（AIが使えない時のデモ用） ---------- */
+function exampleDrafts(clinic, theme){
+  const T = {
+    inside:{
+      instagram:`${clinic}に、新しい診療チェアが入りました🪥\n\n座り心地や姿勢の負担を見直して、治療中も少しでもリラックスしていただけるように選んだチェアです。\n\n歯医者さんが少し苦手な方も、痛みに配慮しながら一つひとつ説明して進めますので、気になることは遠慮なくお声がけください。\n\n地域の皆さまに通いやすい医院を目指して、これからも院内を整えていきます。`,
+      hashtags:["#歯医者","#歯科医院","#診療室","#院内紹介","#予防歯科"],
+      facebook:`【新しい診療チェアを導入しました】\n\n${clinic}では、このたび診療チェアを新しくしました。座り心地や姿勢の負担を見直し、治療中も落ち着いて過ごしていただけるよう選んだものです。\n\n治療は痛みに配慮し、内容を説明しながら進めます。気になることがあれば、お気軽にスタッフまでお声がけください。`,
+      google:`新しい診療チェアを導入しました。座り心地を見直し、治療中も落ち着いて過ごしていただけるよう整えています。痛みに配慮し、説明しながら進めますので、気になることはお気軽にご相談ください。`,
+      line:`いつも${clinic}をご利用いただきありがとうございます。\n新しい診療チェアを導入しました。次回のご来院時に、ぜひ座り心地をお試しください😊\nご予約はこちらのLINEからどうぞ。`,
+    },
+    staff:{
+      instagram:`${clinic}のスタッフをご紹介します😊\n\n受付では、ご予約やお困りごとの相談をお受けしています。初めての方も、久しぶりの方も、緊張せずにお越しください。\n\nスタッフ一同、ていねいな説明を大切にしています。`,
+      hashtags:["#歯科医院","#スタッフ紹介","#歯科衛生士","#受付","#歯医者"],
+      facebook:`【スタッフ紹介】\n${clinic}の受付スタッフです。ご予約の変更や治療についてのご質問など、どうぞお気軽にお声がけください。`,
+      google:`${clinic}のスタッフ紹介です。受付ではご予約・ご相談をお受けしています。初めての方もお気軽にお越しください。`,
+      line:`${clinic}です。今月はスタッフ紹介をお届けします。受付でお会いした際は、ぜひお声がけください😊`,
+    },
+    care:{
+      instagram:`歯ブラシ、どのくらいで交換していますか？🪥\n\n毛先が開いた歯ブラシは汚れが落ちにくくなります。目安は1か月に1回。\n\n歯と歯の間はフロスや歯間ブラシを使うと、歯ブラシだけでは届きにくい部分もケアできます。\n\n使い方が分からない方は、定期検診の時にお気軽にご相談ください。`,
+      hashtags:["#予防歯科","#歯ブラシ","#フロス","#歯のケア","#定期検診"],
+      facebook:`【歯のケアの豆知識】\n歯ブラシの交換の目安は1か月に1回です。毛先が開くと汚れが落ちにくくなります。フロスや歯間ブラシの使い方は、定期検診の際にご相談ください。`,
+      google:`歯ブラシは1か月に1回の交換が目安です。フロスや歯間ブラシの使い方も、検診時にご案内しています。`,
+      line:`${clinic}より、ケアの豆知識です🪥\n歯ブラシは1か月に1回の交換が目安です。定期検診のご予約はこちらのLINEからどうぞ。`,
+    },
+    notice:{
+      instagram:`【休診のお知らせ】\n\n${clinic}は、下記の日程を休診とさせていただきます。\n\n○月○日（○）〜○月○日（○）\n\nご不便をおかけしますが、よろしくお願いいたします。ご予約はLINEからも受け付けています。`,
+      hashtags:["#歯科医院","#休診のお知らせ","#診療時間"],
+      facebook:`【休診のお知らせ】\n○月○日（○）〜○月○日（○）は休診です。ご不便をおかけしますが、よろしくお願いいたします。`,
+      google:`【休診】○月○日（○）〜○月○日（○）は休診です。ご予約はLINEまたはお電話でお受けしています。`,
+      line:`${clinic}です。○月○日（○）〜○月○日（○）は休診となります。ご予約の変更はこちらのLINEからどうぞ。`,
+    }
+  };
+  return T[theme] || T.inside;
+}
+function exampleNotes(memo){
+  const out=[];
+  for(const r of RULES){ r.re.lastIndex=0; const m = memo.match(r.re); if(m) out.push({phrase:[...new Set(m)].join("・"), reason:r.reason, fix:"下書きでは言い換えています（例："+r.fix+"）"}); }
+  return out;
+}
+
+/* ---------- 写真UI ---------- */
+function renderPhotos(){
+  const box=$("#photos"); box.textContent="";
+  S.photos.forEach((p,i)=>{
+    const d=document.createElement("div");d.className="ph";
+    const im=new Image();im.src=p.url;im.alt=`写真${i+1}`;d.append(im);
+    if(p.sample){const b=document.createElement("span");b.className="badge";b.textContent="サンプル";d.append(b);}
+    const x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label",`写真${i+1}を外す`);
+    x.onclick=()=>{S.photos.splice(i,1);renderPhotos();};d.append(x);box.append(d);
+  });
+  if(S.photos.length<10){
+    const a=document.createElement("label");a.className="addph";a.htmlFor="file1";a.innerHTML="＋<br>写真を追加";box.append(a);
+  }
+}
+function addFiles(files, viaLine){
+  const list=[...files].filter(f=>/^image\/(jpeg|png|webp)$/.test(f.type)).slice(0,10);
+  if(!list.length) return;
+  if(S.photos.every(p=>p.sample)) S.photos=[];
+  for(const f of list){ if(S.photos.length>=10)break; S.photos.push({blob:f,url:URL.createObjectURL(f),sample:false}); }
+  renderPhotos();
+  resetFlow();
+  pushChat({who:"me",photos:S.photos.slice(0,6).map(p=>p.url),text:$("#memo").value.trim()});
+  setStep(1);
+  if(viaLine) generate();
+  else $("#genStatus").textContent="写真を受け取りました。「AIで下書きを作る」を押してください。";
+}
+$("#file1").onchange=e=>{addFiles(e.target.files,false);e.target.value="";};
+$("#file2").onchange=e=>{addFiles(e.target.files,true);e.target.value="";};
+
+/* ---------- ステップ表示 ---------- */
+function setStep(n){S.step=n;document.querySelectorAll("#steps li").forEach(li=>{const s=+li.dataset.s;li.classList.toggle("done",s<n);li.classList.toggle("now",s===n);});}
+
+/* ---------- LINEチャット ---------- */
+function pushChat(m){S.chat.push({...m,time:now()});renderChat();}
+function renderChat(){
+  const box=$("#chat");box.textContent="";
+  for(const m of S.chat){
+    const w=document.createElement("div");w.className="msg "+(m.who==="me"?"me":"bot");
+    if(m.photos){const t=document.createElement("div");t.className="thumbs";for(const u of m.photos){const i=new Image();i.src=u;i.alt="送った写真";t.append(i);}w.append(t);}
+    if(m.typing){const b=document.createElement("div");b.className="bubble";b.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';w.append(b);}
+    if(m.text){const b=document.createElement("div");b.className="bubble";b.textContent=m.text;w.append(b);}
+    if(m.card){
+      const c=document.createElement("div");c.className="lcard";
+      if(S.photos[0]){const i=new Image();i.src=S.photos[0].url;i.alt="投稿する写真";c.append(i);}
+      const b=document.createElement("div");b.className="b";
+      const st=document.createElement("strong");st.textContent="Instagramの投稿案";b.append(st);
+      b.append(document.createTextNode(((S.drafts?.instagram)||"").slice(0,70)+"…"));
+      c.append(b);
+      const a=document.createElement("div");a.className="acts";
+      const ok=document.createElement("button");ok.textContent=S.approved?"投稿しました":"この内容で投稿";ok.disabled=S.approved;ok.onclick=approve;
+      const ed=document.createElement("button");ed.textContent="修正する";ed.disabled=S.approved;ed.onclick=()=>{$("#draftText").focus();$("#draftText").scrollIntoView({behavior:"smooth",block:"center"});};
+      a.append(ok,ed);c.append(a);w.append(c);
+    }
+    const tm=document.createElement("span");tm.className="time";tm.textContent=m.time;w.append(tm);
+    box.append(w);
+  }
+  box.scrollTop=box.scrollHeight;
+}
+
+/* ---------- 下書き表示 ---------- */
+function renderTabs(){
+  const t=$("#tabs");t.textContent="";
+  for(const p of PLATFORMS){
+    const b=document.createElement("button");b.className="tab";b.setAttribute("role","tab");b.id="tab-"+p.key;
+    b.setAttribute("aria-selected",String(S.tab===p.key));b.textContent=p.name;
+    b.onclick=()=>{S.tab=p.key;renderTabs();renderDraft();};t.append(b);
+  }
+}
+function fullText(key){
+  if(!S.drafts) return "";
+  if(key==="instagram") return S.drafts.instagram+(S.drafts.hashtags?.length?"\n\n"+S.drafts.hashtags.join(" "):"");
+  return S.drafts[key]||"";
+}
+function renderDraft(){
+  const ta=$("#draftText");ta.value=fullText(S.tab);
+  const p=PLATFORMS.find(x=>x.key===S.tab);
+  const n=[...ta.value].length;
+  $("#draftCount").innerHTML=`<span class="${n>p.limit?"over":""}">${n.toLocaleString()} / ${p.limit.toLocaleString()} 文字</span>`;
+  $("#draftNote").textContent={instagram:"写真が主役。改行と絵文字を少し、ハッシュタグ付き",facebook:"見出し付きで少し丁寧に",google:"検索で見られる前提で短く要点だけ",line:"友だち向け。短く、予約導線つき"}[S.tab];
+  const b=$("#srcBadge");b.className="src "+(S.source==="ai"?"ai":"ex");b.textContent=S.source==="ai"?"AIが作成":"作成例";
+}
+$("#draftText").addEventListener("input",e=>{
+  if(!S.drafts) return;
+  let v=e.target.value;
+  if(S.tab==="instagram"){const m=v.match(/\n\n((?:#\S+\s*)+)$/);if(m){S.drafts.hashtags=m[1].trim().split(/\s+/);v=v.slice(0,m.index);}else S.drafts.hashtags=[];S.drafts.instagram=v;}
+  else S.drafts[S.tab]=v;
+  const p=PLATFORMS.find(x=>x.key===S.tab);const n=[...e.target.value].length;
+  $("#draftCount").innerHTML=`<span class="${n>p.limit?"over":""}">${n.toLocaleString()} / ${p.limit.toLocaleString()} 文字</span>`;
+  renderChecks();renderPreviews();
+});
+
+/* ---------- チェック ---------- */
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function scanDrafts(){
+  const hits=[];
+  for(const p of PLATFORMS){
+    const txt=fullText(p.key);
+    for(const r of RULES){r.re.lastIndex=0;let m;while((m=r.re.exec(txt))){hits.push({platform:p.name,word:m[0],reason:r.reason,fix:r.fix,ctx:txt.slice(Math.max(0,m.index-14),m.index+m[0].length+14),w:m[0]});}}
+  }
+  return hits;
+}
+function renderChecks(){
+  const box=$("#checks");box.textContent="";
+  const add=(cls,ic,html)=>{const d=document.createElement("div");d.className="chk "+cls;d.innerHTML=`<span class="ic" aria-hidden="true">${ic}</span><div>${html}</div>`;box.append(d);};
+  for(const n of S.notes) add("fixed","!",`<p><b>院長メモの「${esc(n.phrase)}」</b>：${esc(n.reason)}</p><p class="fix">→ ${esc(n.fix)}</p>`);
+  const hits=scanDrafts();
+  for(const h of hits){const c=esc(h.ctx).replace(esc(h.w),`<mark>${esc(h.w)}</mark>`);add("ng","×",`<p><b>${esc(h.platform)}</b>：…${c}…</p><p class="fix">${esc(h.reason)}。言い換え例：${esc(h.fix)}</p>`);}
+  if(!hits.length) add("ok","✓",`<p><b>下書きに注意が必要な表現は見つかりませんでした</b></p><p class="fix">誇大・比較・断定・体験談・費用強調・術前術後写真の表現を確認済み（4媒体）</p>`);
+  add("ok","✓",`<p><b>写真の確認</b>：患者さまの顔や個人情報が写っていないかを院長の承認画面でも確認します</p>`);
+  S.blocked=hits.length>0;
+}
+
+/* ---------- 投稿イメージ ---------- */
+function renderPreviews(){
+  const box=$("#pv");box.textContent="";
+  const clinic=$("#clinic").value||"医院名";
+  const img=S.photos[0]?.url;
+  const pill=S.approved?'<span class="pill done">投稿済み（デモ）</span>':'<span class="pill wait">承認待ち</span>';
+  const item=(name,imgCls,body,extra="")=>{
+    const d=document.createElement("div");d.className="pv-item";
+    d.innerHTML=`<div class="pv-head"><span>${esc(name)}</span>${pill}</div>${img?`<img class="pv-img ${imgCls}" alt="" src="${img}">`:""}${extra}<div class="pv-body"></div>`;
+    d.querySelector(".pv-body").textContent=body;box.append(d);return d;
+  };
+  item("Instagram","",`${clinic}\n${fullText("instagram")}`,'<div class="ig-bar" aria-hidden="true">♡ 💬 ↗</div>');
+  const g=item("Googleビジネスプロフィール","wide",fullText("google"));g.insertAdjacentHTML("beforeend",'<div class="gbp-btn">予約</div>');
+  item("LINE公式（配信）","wide",fullText("line"));
+  item("Facebook","wide",fullText("facebook"));
+  $("#pvState").textContent=S.approved?"投稿済み（デモ）":"院長の承認待ち";
+}
+
+/* ---------- 記録 ---------- */
+function renderLog(){
+  const tb=$("#log");tb.textContent="";
+  for(const r of S.log){const tr=document.createElement("tr");if(r.isNew)tr.className="new";for(const v of [r.time,r.clinic,r.theme,r.media,r.state]){const td=document.createElement("td");td.textContent=v;tr.append(td);}tb.append(tr);}
+}
+
+/* ---------- 承認 ---------- */
+function approve(){
+  if(S.approved||!S.drafts) return;
+  if(S.blocked){pushChat({who:"bot",text:"注意が必要な表現が残っています。下書きを修正してから、もう一度押してください。"});$("#checks").scrollIntoView({behavior:"smooth",block:"center"});return;}
+  S.approved=true;setStep(5);
+  pushChat({who:"me",text:"この内容で投稿"});
+  pushChat({who:"bot",text:"投稿しました（デモ）\n・Instagram\n・Facebook\n・Googleビジネスプロフィール\n・LINE公式（配信）\n\n記録はLark BASEに保存しました。"});
+  const t=now(),clinic=$("#clinic").value||"医院",theme=THEMES[$("#theme").value];
+  S.log=S.log.map(r=>({...r,isNew:false}));
+  S.log.unshift(...PLATFORMS.map(p=>({time:t,clinic,theme,media:p.name,state:"投稿済み（デモ）",isNew:true})));
+  renderChat();renderPreviews();renderLog();
+}
+
+/* ---------- 生成フロー ---------- */
+function resetFlow(){S.approved=false;S.chat=[];}
+function finishDraft(){
+  setStep(3);renderTabs();renderDraft();renderChecks();
+  S.chat=S.chat.filter(m=>!m.typing);
+  pushChat({who:"bot",text:`下書きができました。${S.notes.length?"\nメモの表現を一部言い換えています。":""}\n内容を確認して、問題なければ「この内容で投稿」を押してください。`});
+  pushChat({who:"bot",card:true});
+  setStep(4);renderPreviews();
+}
+let AI={ai:false,needsCode:false};
+async function toB64(blob){
+  const bmp=await createImageBitmap(blob);
+  const k=Math.min(1,1024/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  return {media_type:"image/jpeg",data:c.toDataURL("image/jpeg",.85).split(",")[1]};
+}
+async function generate(){
+  const btn=$("#gen"),st=$("#genStatus");
+  const clinic=$("#clinic").value.trim()||"医院",theme=$("#theme").value,memo=$("#memo").value.trim();
+  if(!S.photos.length){st.textContent="写真を1枚以上追加してください。";st.className="status err";return;}
+  if(AI.ai&&AI.needsCode&&!$("#code").value.trim()){st.textContent="AIで作るには、デモ用の合言葉を入力してください。";st.className="status err";$("#code").focus();return;}
+  resetFlow();
+  pushChat({who:"me",photos:S.photos.slice(0,6).map(p=>p.url),text:memo});
+  pushChat({who:"bot",text:"写真を受け取りました。投稿の下書きを作っています。"});
+  pushChat({who:"bot",typing:true});
+  setStep(2);btn.disabled=true;st.className="status";
+  const fallback=msg=>{st.textContent=msg;S.drafts=exampleDrafts(clinic,theme);S.notes=exampleNotes(memo);S.source="example";finishDraft();};
+  try{
+    if(!AI.ai){st.textContent="作成例を準備しています…";await new Promise(r=>setTimeout(r,1200));fallback("いまはAIを接続していないため、作成例を表示しています。");return;}
+    st.textContent="AIが写真を見て下書きを書いています（10〜40秒ほど）…";
+    const images=await Promise.all(S.photos.slice(0,6).map(p=>toB64(p.blob)));
+    const res=await fetch("/api/generate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({clinic,theme,memo,images,code:$("#code").value.trim()})});
+    const r=await res.json().catch(()=>({error:"upstream_error"}));
+    if(!res.ok||r.error){
+      st.className="status err";
+      if(r.error==="bad_code") fallback("合言葉が違います。いまは作成例を表示しています。");
+      else if(r.error==="rate_limited") fallback("AIが混み合っています。少し時間をおいて試してください。いまは作成例を表示しています。");
+      else fallback("AIの下書きがうまく作れませんでした。もう一度お試しください。いまは作成例を表示しています。");
+      return;
+    }
+    S.drafts={instagram:r.instagram,hashtags:r.hashtags||[],facebook:r.facebook,google:r.google,line:r.line};
+    S.notes=r.notes||[];S.source="ai";st.textContent="AIが写真を見て下書きを作りました。";finishDraft();
+  }catch(e){st.className="status err";fallback("通信がうまくいきませんでした。いまは作成例を表示しています。");}
+  finally{btn.disabled=false;}
+}
+$("#gen").onclick=generate;
+$("#clinic").addEventListener("input",()=>{if(S.source==="example"&&!S.approved){S.drafts=exampleDrafts($("#clinic").value||"医院",$("#theme").value);renderDraft();renderChecks();}renderPreviews();});
+$("#theme").addEventListener("change",()=>{if(S.source==="example"&&!S.approved){S.drafts=exampleDrafts($("#clinic").value||"医院",$("#theme").value);renderDraft();renderChecks();renderPreviews();}});
+
+/* ---------- 初期表示：作成例で「承認待ち」まで進んだ状態 ---------- */
+(async function init(){
+  S.photos=await Promise.all([scene("chair"),scene("desk"),scene("brush")]);
+  renderPhotos();
+  const clinic=$("#clinic").value,memo=$("#memo").value;
+  S.drafts=exampleDrafts(clinic,"inside");S.notes=exampleNotes(memo);
+  S.log=[
+    {time:"10/6 18:12",clinic:"（例）みどり歯科",theme:"予防・ケアの豆知識",media:"Instagram",state:"投稿済み"},
+    {time:"10/6 18:12",clinic:"（例）みどり歯科",theme:"予防・ケアの豆知識",media:"Googleビジネスプロフィール",state:"投稿済み"},
+    {time:"10/2 12:40",clinic:"（例）あおば歯科医院",theme:"お知らせ（休診・診療時間）",media:"LINE公式（配信）",state:"投稿済み"},
+  ];
+  S.chat=[];
+  pushChat({who:"me",photos:S.photos.map(p=>p.url),text:memo});
+  pushChat({who:"bot",text:"写真を受け取りました。投稿の下書きを作っています。"});
+  finishDraft();
+  renderLog();
+  try{const r=await fetch("/api/status");if(r.ok)AI=await r.json();}catch{}
+  $("#codeField").hidden=!(AI.ai&&AI.needsCode);
+  $("#genStatus").textContent=AI.ai?"「AIで下書きを作る」を押すと、AIが写真を見て実際に書きます。":"いまは作成例を表示しています。";
+})();
+})();
+</script>
+</body></html>
