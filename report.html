@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>講演レポート | ささエール</title>
+  <meta name="description" content="13会での笹原彰朗の講演レポート（デモ）。テーマ、会場の反応、参加者の声をまとめました。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       講演レポート（デモ）- ささエール トンマナ
+       色は5色のみ：#FFD600 / #F5A623 / #DD6420 / #1A1A1A / #FFFFFF
+       ========================================================= */
+    :root {
+      --yellow: #FFD600;
+      --orange: #F5A623;
+      --accent: #DD6420;
+      --black: #1A1A1A;
+      --white: #FFFFFF;
+      --radius: 18px;
+      --container: 960px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Noto Sans JP', "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      font-weight: 500; line-height: 1.85;
+      background: var(--yellow); color: var(--black);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .container { width: min(var(--container), calc(100% - 32px)); margin: 0 auto; }
+    .display { font-family: 'Keifont', 'けいふぉんと', 'Dela Gothic One', sans-serif; font-weight: 400; letter-spacing: .02em; }
+
+    /* ---- Header ---- */
+    .site-header { position: sticky; top: 0; z-index: 50; background: var(--black); }
+    .site-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; }
+    .site-logo { font-family: 'Dela Gothic One', sans-serif; color: var(--yellow); text-decoration: none; font-size: 20px; }
+    .site-nav { display: flex; gap: 20px; }
+    .site-nav a { color: var(--white); text-decoration: none; font-size: 14px; font-weight: 700; }
+    .site-nav a:hover { color: var(--yellow); }
+    @media (max-width: 720px) { .site-nav { display: none; } }
+
+    /* ---- Demo banner ---- */
+    .demo-banner { background: var(--accent); color: var(--white); text-align: center; font-size: 13px; font-weight: 700; padding: 6px 16px; }
+
+    /* ---- Hero ---- */
+    .hero { position: relative; padding: 56px 0 72px; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; top: 50%; left: 50%; width: 220%; height: 220%;
+      transform: translate(-50%, -50%);
+      background: repeating-conic-gradient(var(--yellow) 0deg 10deg, var(--orange) 10deg 11deg);
+      opacity: .35; z-index: 0;
+    }
+    .hero .container { position: relative; z-index: 1; }
+    .hero-tag { display: inline-block; background: var(--black); color: var(--yellow); font-weight: 900; font-size: 14px; padding: 6px 16px; border-radius: 999px; }
+    .hero h1 { font-size: clamp(30px, 6vw, 56px); line-height: 1.3; margin: 18px 0 16px; }
+    .hero h1 .em { color: var(--accent); }
+    .hero-lead { font-size: clamp(15px, 2.2vw, 18px); font-weight: 700; max-width: 720px; margin: 0; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .meta span { background: var(--white); border: 2px solid var(--black); border-radius: 10px; padding: 6px 14px; font-size: 14px; font-weight: 700; }
+
+    /* ---- Sections ---- */
+    section.block { padding: 40px 0; }
+    .section-label { font-family: 'Dela Gothic One', sans-serif; font-size: 13px; letter-spacing: .15em; color: var(--accent); margin: 0 0 4px; }
+    .section-title { font-size: clamp(24px, 4vw, 36px); line-height: 1.35; margin: 0 0 24px; }
+    .card {
+      background: var(--white); border: 3px solid var(--black); border-radius: var(--radius);
+      box-shadow: 6px 6px 0 var(--black); padding: clamp(20px, 4vw, 36px);
+    }
+    .card + .card { margin-top: 24px; }
+    .card p { margin: 0 0 1em; }
+    .card p:last-child { margin-bottom: 0; }
+    .marker { background: linear-gradient(transparent 60%, var(--yellow) 60%); font-weight: 700; }
+
+    /* Speaker */
+    .speaker { display: grid; grid-template-columns: 140px 1fr; gap: 24px; align-items: center; }
+    .speaker img { width: 140px; height: 140px; object-fit: cover; object-position: top; border-radius: 50%; border: 3px solid var(--black); background: var(--yellow); }
+    .speaker h3 { margin: 0 0 4px; font-size: 22px; }
+    .speaker .role { font-size: 13px; font-weight: 700; color: var(--accent); margin: 0 0 8px; }
+    @media (max-width: 560px) { .speaker { grid-template-columns: 1fr; text-align: center; } .speaker img { margin: 0 auto; } }
+
+    /* Points */
+    .points { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 800px) { .points { grid-template-columns: 1fr; } }
+    .point { background: var(--white); border: 3px solid var(--black); border-radius: var(--radius); padding: 24px; position: relative; }
+    .point-num { font-family: 'Dela Gothic One', sans-serif; font-size: 40px; line-height: 1; color: var(--orange); }
+    .point h3 { font-size: 18px; margin: 8px 0; line-height: 1.5; }
+    .point p { margin: 0; font-size: 15px; }
+
+    /* Reaction stats */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+    .stat { background: var(--black); color: var(--white); border-radius: var(--radius); padding: 20px; text-align: center; }
+    .stat .num { font-family: 'Dela Gothic One', sans-serif; font-size: 44px; color: var(--yellow); line-height: 1.1; }
+    .stat .num small { font-size: 18px; }
+    .stat .label { font-size: 14px; font-weight: 700; }
+
+    /* Voices */
+    .voices { display: grid; gap: 32px 20px; grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 720px) { .voices { grid-template-columns: 1fr; } }
+    .voice { background: var(--white); border: 3px solid var(--black); border-radius: var(--radius); padding: 22px 22px 18px; position: relative; }
+    .voice::after {
+      content: ''; position: absolute; left: 32px; bottom: -14px; width: 22px; height: 22px;
+      background: var(--white); border-right: 3px solid var(--black); border-bottom: 3px solid var(--black);
+      transform: rotate(45deg);
+    }
+    .voice p { margin: 0 0 10px; font-weight: 700; }
+    .voice .who { font-size: 13px; color: var(--accent); font-weight: 700; }
+
+    /* Q&A */
+    .qa dt { font-weight: 900; display: flex; gap: 10px; margin-top: 18px; }
+    .qa dt:first-child { margin-top: 0; }
+    .qa dd { margin: 6px 0 0; padding-left: 34px; position: relative; }
+    .qa .q, .qa .a { flex: 0 0 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Dela Gothic One', sans-serif; font-size: 13px; }
+    .qa .q { background: var(--black); color: var(--yellow); }
+    .qa .a { position: absolute; left: 0; top: 3px; background: var(--accent); color: var(--white); }
+
+    /* Message */
+    .message { background: var(--black); color: var(--white); border-radius: var(--radius); padding: clamp(24px, 5vw, 44px); }
+    .message h2 { color: var(--yellow); font-size: clamp(22px, 3.6vw, 32px); margin: 0 0 16px; line-height: 1.4; }
+    .message p { margin: 0 0 1em; }
+    .message .sign { text-align: right; font-weight: 700; color: var(--yellow); margin: 0; }
+
+    /* CTA */
+    .cta { text-align: center; }
+    .cta p { font-weight: 700; }
+    .btns { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 18px; }
+    .btn { display: inline-block; text-decoration: none; font-weight: 900; padding: 14px 28px; border-radius: 999px; border: 3px solid var(--black); box-shadow: 4px 4px 0 var(--black); transition: transform .15s, box-shadow .15s; }
+    .btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--black); }
+    .btn-primary { background: var(--accent); color: var(--white); }
+    .btn-secondary { background: var(--white); color: var(--black); }
+
+    .footer { background: var(--black); color: var(--white); font-size: 13px; padding: 20px 0; margin-top: 40px; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+    .footer a { color: var(--yellow); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">デモページです。【仮】の箇所は当日の内容に差し替えてください。</div>
+
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <a class="site-logo" href="./index.html">ささエール</a>
+      <nav class="site-nav" aria-label="ページ内メニュー">
+        <a href="#theme">テーマ</a>
+        <a href="#points">話したこと</a>
+        <a href="#reaction">会場の反応</a>
+        <a href="#message">笹原から</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======== Hero ======== -->
+    <section class="hero">
+      <div class="container">
+        <span class="hero-tag">13会 講演レポート</span>
+        <h1 class="display">“難しい”を“できる”へ。<br><span class="em">Lark・AI・LINE</span>を<br>現場で使える形に</h1>
+        <p class="hero-lead">2026年10月13日、13会でささエール代表・笹原彰朗が講演しました。当日のテーマ、会場の反応、参加者の声をまとめてお届けします。</p>
+        <div class="meta">
+          <span>📅 2026年10月13日（火）</span>
+          <span>📍 【仮】会場名</span>
+          <span>👥 参加 【仮】30名</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Theme ======== -->
+    <section class="block" id="theme">
+      <div class="container">
+        <p class="section-label">THEME</p>
+        <h2 class="section-title display">今日のテーマ</h2>
+        <div class="card reveal">
+          <p>「ITやAIが大事なのはわかる。でも、うちの現場で何から始めたらいいのかわからない」。<br>今回の講演は、そんな<span class="marker">“わからなさ”をそのまま認めるところ</span>から始めました。</p>
+          <p>テーマは【仮】<strong>「道具より先に、業務を整理する ― Lark・AI・LINEで“難しい”を“できる”へ」</strong>。<br>鹿児島・宮崎の中小企業で実際に伴走してきた事例をもとに、明日から現場で試せる小さな一歩をお話ししました。</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="speaker">
+            <img src="./images/representative-sm.png" alt="ささエール代表 笹原彰朗">
+            <div>
+              <p class="role">講師</p>
+              <h3>笹原 彰朗（さっさー）</h3>
+              <p>ささエール代表／企業のデジタル応援団員。鹿児島県薩摩川内市生まれ、鹿児島大学卒業。Lark・LINE・Claude Code などを使った業務の仕組みを13社以上に提供し、業務整理から定着まで伴走しています。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Points ======== -->
+    <section class="block" id="points">
+      <div class="container">
+        <p class="section-label">POINTS</p>
+        <h2 class="section-title display">話したこと 3つ</h2>
+        <div class="points">
+          <div class="point reveal">
+            <div class="point-num">01</div>
+            <h3>道具を入れる前に<br>「業務の棚卸し」</h3>
+            <p>まずは紙とペンで「誰が・いつ・何をしているか」を書き出す。ツール選びは、そのあとで十分です。</p>
+          </div>
+          <div class="point reveal">
+            <div class="point-num">02</div>
+            <h3>Lark・AI・LINE<br>それぞれの役割</h3>
+            <p>Larkは社内の整理、AIは作業の効率化、LINEはお客さまとの接点。役割を分けると、迷いが減ります。</p>
+          </div>
+          <div class="point reveal">
+            <div class="point-num">03</div>
+            <h3>小さく始めて<br>現場に定着させる</h3>
+            <p>最初から全部をつくらない。ひとつの業務で試して、使う人の声を聞きながら育てていきます。</p>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:24px">
+          <p><strong>事例紹介【仮】</strong><br>電話と紙で受けていた予約を、LINEの受付フォームとLark BASEに置き換えたベーカリー（K社）の事例をご紹介しました。「予約の聞き漏れがなくなった」「スタッフ全員が同じ画面を見られるようになった」という現場の変化に、うなずく方が多くいらっしゃいました。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Reaction ======== -->
+    <section class="block" id="reaction">
+      <div class="container">
+        <p class="section-label">REACTION</p>
+        <h2 class="section-title display">会場の反応</h2>
+
+        <div class="stats reveal">
+          <div class="stat"><div class="num">【仮】30<small>名</small></div><div class="label">参加者</div></div>
+          <div class="stat"><div class="num">【仮】12<small>件</small></div><div class="label">質疑応答</div></div>
+          <div class="stat"><div class="num">【仮】90<small>%</small></div><div class="label">「参考になった」（アンケート）</div></div>
+        </div>
+
+        <div class="card reveal">
+          <p>【仮】会場がいちばん盛り上がったのは、「AIに議事録の下書きを任せる」デモの場面。その場で録った音声から要点がまとまっていく様子に、「これならうちでもできそう」という声があがりました。</p>
+          <p>【仮】後半の質疑応答では、「社員がITに苦手意識を持っている」「何から手をつければいいか」といった、現場ならではの悩みが次々と寄せられました。</p>
+        </div>
+
+        <h3 class="display" style="font-size:22px;margin:36px 0 20px">参加者の声【仮】</h3>
+        <div class="voices">
+          <div class="voice reveal">
+            <p>「ツールの話かと思ったら、業務の整理から。順番がよくわかりました。」</p>
+            <div class="who">製造業・経営者 Aさん</div>
+          </div>
+          <div class="voice reveal">
+            <p>「LINEとLarkがつながる例を見て、予約受付をすぐ見直したくなりました。」</p>
+            <div class="who">美容サロン・オーナー Bさん</div>
+          </div>
+          <div class="voice reveal">
+            <p>「“わからない”を責めない話し方で、質問しやすい雰囲気でした。」</p>
+            <div class="who">建設業・総務 Cさん</div>
+          </div>
+          <div class="voice reveal">
+            <p>「AIは難しいと思っていたけど、下書き係として使えばいいと腑に落ちました。」</p>
+            <div class="who">士業・事務所代表 Dさん</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Q&A ======== -->
+    <section class="block" id="qa">
+      <div class="container">
+        <p class="section-label">Q&amp;A</p>
+        <h2 class="section-title display">質疑応答から【仮】</h2>
+        <div class="card reveal">
+          <dl class="qa">
+            <dt><span class="q">Q</span>ITが苦手な社員が多いのですが、それでも使えますか？</dt>
+            <dd><span class="a">A</span>はい。最初は「見るだけ」「押すだけ」の操作から始めます。手順書と社内研修まで一緒につくるので、慣れるペースに合わせて進められます。</dd>
+            <dt><span class="q">Q</span>まず何から始めればいいですか？</dt>
+            <dd><span class="a">A</span>いちばん時間を取られている業務をひとつ選ぶことです。そこが決まれば、どの道具を使うかは自然と見えてきます。</dd>
+            <dt><span class="q">Q</span>費用はどのくらいかかりますか？</dt>
+            <dd><span class="a">A</span>会社ごとに業務が違うので、まずは30分の壁打ち（レンタルさっさー）で状況をお聞きしてからご提案しています。</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Message ======== -->
+    <section class="block" id="message">
+      <div class="container">
+        <div class="message reveal">
+          <h2 class="display">13会のみなさん、<br>ありがとうございました。</h2>
+          <p>今日、質問をくださった方の多くが「うちの場合は…」と、ご自身の現場の話をしてくださいました。それがいちばんうれしかったです。</p>
+          <p>13会は、業種も立場も違う人たちが、お互いの悩みを持ち寄って一緒に考えられる場所だと感じました。こういう場があるから、地域の会社は一歩ずつ前に進めるんだと思います。</p>
+          <p>“難しい”は、ひとりで抱えなくて大丈夫です。これからも、地域の会社のデジタル応援団員として、現場に寄り添っていきます。</p>
+          <p class="sign">ささエール代表　笹原 彰朗</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== CTA ======== -->
+    <section class="block cta">
+      <div class="container">
+        <div class="card reveal">
+          <h2 class="section-title display" style="margin-bottom:8px">13会が気になった方へ</h2>
+          <p>13会では、毎回テーマを変えて学び合いの場を開いています。<br>【仮】次回の開催予定や参加方法は、13会の事務局までお気軽にお問い合わせください。</p>
+          <div class="btns">
+            <a class="btn btn-primary" href="#">【仮】13会について詳しく見る</a>
+            <a class="btn btn-secondary" href="./index.html">講師・ささエールについて</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>13会 講演レポート | ささエール</div>
+      <div><a href="https://officeplata.com/company/" target="_blank" rel="noopener noreferrer">運営会社（Office Plata）について</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
