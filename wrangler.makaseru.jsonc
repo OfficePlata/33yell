@@ -1,0 +1,7 @@
+// マカセル LP（makaseru/）を Cloudflare Workers の静的アセットとして makaseru.33l.jp に公開する設定
+{
+  "name": "makaseru",
+  "compatibility_date": "2026-09-01",
+  "assets": { "directory": "./makaseru" },
+  "routes": [{ "pattern": "makaseru.33l.jp", "custom_domain": true }]
+}

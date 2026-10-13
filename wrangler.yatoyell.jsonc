@@ -1,0 +1,7 @@
+// ヤトエール LP（yatoyell/）を Cloudflare Workers の静的アセットとして yatoyell.33l.jp に公開する設定
+{
+  "name": "yatoyell",
+  "compatibility_date": "2026-09-01",
+  "assets": { "directory": "./yatoyell" },
+  "routes": [{ "pattern": "yatoyell.33l.jp", "custom_domain": true }]
+}

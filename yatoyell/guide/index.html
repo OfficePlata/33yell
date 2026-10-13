@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3分でわかるヤトエール｜はじめてガイド</title>
+<meta name="description" content="ヤトエールは、会社のことを覚えたAIの部下をスマホの中に雇うサービス。しくみ、1日の使い方、業種別の例、料金、できること・させないことを、やさしく説明します。">
+<link rel="canonical" href="https://yatoyell.33l.jp/guide/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://yatoyell.33l.jp/guide/">
+<meta property="og:title" content="3分でわかるヤトエール｜はじめてガイド">
+<meta property="og:description" content="会社のことを覚えたAIの部下を、スマホの中に。しくみ・使い方・料金をやさしく説明します。">
+<meta property="og:image" content="https://yatoyell.33l.jp/images/ogp.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&amp;family=Noto+Sans+JP:wght@500;700;900&amp;display=swap">
+<style>
+body{margin:0;font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;background:#FFD600}
+a{color:#1A1A1A}a:hover{color:#DD6420}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.burst{background:repeating-conic-gradient(from 0deg at 70% 40%,#FFD600 0deg 6deg,#FFE04A 6deg 12deg)}
+.dots{background-image:radial-gradient(#F5A623 32%,transparent 34%);background-size:14px 14px}
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:center}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) 88px minmax(0,1.15fr);gap:0;align-items:center}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:end}
+.prof{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;align-items:center}
+.demo{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:center}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:60px;padding:0 28px;border:3px solid #1A1A1A;border-radius:999px;font-weight:900;font-size:19px;text-decoration:none;box-shadow:5px 5px 0 #1A1A1A;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 #1A1A1A;color:#1A1A1A}
+.btn:focus-visible,summary:focus-visible,button:focus-visible{outline:4px solid #DD6420;outline-offset:3px}
+.spbar{display:none}
+.pc{display:block}
+
+/* 見出しまわり */
+.sec{padding:72px 0;border-bottom:4px solid #1A1A1A}
+.sec.white{background:#FFFFFF}
+.head{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.tag{padding:2px 14px;background:#1A1A1A;color:#FFD600;border-radius:4px;font-weight:900;font-size:15px}
+.h2{margin:0;font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:clamp(24px,4.4vw,46px);line-height:1.3}
+.mk{background:linear-gradient(transparent 62%,#FFD600 62%)}
+.mkw{background:linear-gradient(transparent 62%,#FFFFFF 62%)}
+.card{background:#FFFFFF;border:4px solid #1A1A1A;border-radius:14px;box-shadow:8px 8px 0 #1A1A1A}
+
+/* こんな方に */
+.check{width:100%;max-width:760px;box-sizing:border-box;margin:0;padding:24px 22px;list-style:none;background:#FFFFFF;border:4px solid #1A1A1A;border-radius:14px;box-shadow:8px 8px 0 #FFD600;display:flex;flex-direction:column;gap:16px}
+.check li{display:flex;gap:14px;align-items:flex-start;font-weight:700;font-size:19px;line-height:1.6}
+.check svg{flex-shrink:0}
+
+/* 組織図 */
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.org .boss{padding:12px 28px;background:#1A1A1A;color:#FFD600;border:4px solid #1A1A1A;border-radius:14px;box-shadow:6px 6px 0 #DD6420;text-align:center}
+.org .boss b{display:block;font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:24px}
+.org .boss span{font-weight:700;font-size:14px;color:#FFFFFF}
+.org .stem{width:4px;height:26px;background:#1A1A1A}
+.org .row{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%;padding-top:26px}
+.org .row::before{content:"";position:absolute;top:0;left:16.6%;right:16.6%;border-top:4px solid #1A1A1A}
+.member{position:relative;padding:12px 12px 12px;background:#FFFFFF;border:3px solid #1A1A1A;border-radius:12px;text-align:center}
+.org .row .member:nth-child(-n+3)::before{content:"";position:absolute;top:-29px;left:50%;height:26px;border-left:4px solid #1A1A1A}
+.member .ico{display:block;margin:0 auto 4px}
+.member b{display:block;font-weight:900;font-size:16px;line-height:1.3}
+.member span{display:block;font-weight:500;font-size:13px;line-height:1.5;margin-top:2px}
+.member .badge{display:inline-block;margin-bottom:4px;padding:0 8px;background:#FFD600;border:2px solid #1A1A1A;border-radius:999px;font-weight:900;font-size:11px}
+
+/* スマホのやりとり */
+.phone{max-width:340px;margin:0 auto;padding:14px;background:#1A1A1A;border-radius:36px;box-shadow:10px 10px 0 #DD6420}
+.screen{background:#FFFFFF;border-radius:26px;padding:18px 14px 20px;display:flex;flex-direction:column;gap:12px;min-height:420px;box-sizing:border-box}
+.screen .bar{text-align:center;font-weight:900;font-size:13px;padding-bottom:10px;border-bottom:2px dashed #1A1A1A}
+.bub{max-width:88%;padding:10px 14px;border:3px solid #1A1A1A;border-radius:18px;font-weight:700;font-size:15px;line-height:1.6}
+.bub.me{align-self:flex-end;background:#FFD600;border-bottom-right-radius:4px}
+.bub.ai{align-self:flex-start;background:#FFFFFF;border-bottom-left-radius:4px}
+.bub.ai small{display:block;font-weight:900;font-size:12px;margin-bottom:2px}
+.bub.save{align-self:flex-start;background:#1A1A1A;color:#FFFFFF;font-size:13px}
+.bub.save b{color:#FFD600}
+
+/* 料金 */
+.plan{padding:24px;display:flex;flex-direction:column;gap:14px}
+.plan .nm{margin:0;font-family:'Dela Gothic One',sans-serif;font-size:26px;line-height:1.3}
+.plan .nm small{display:block;font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:15px}
+.price{margin:0;white-space:nowrap;font-family:'Dela Gothic One',sans-serif;font-size:clamp(28px,3.4vw,40px);line-height:1.1}
+.price.lg{font-size:clamp(32px,3.9vw,46px)}
+.price span{font-size:17px}
+.plan ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-weight:700;font-size:17px;line-height:1.5}
+.plan li{padding-bottom:8px;border-bottom:2px dashed #1A1A1A}
+.plan li:last-child{padding-bottom:0;border-bottom:0}
+.ribbon{margin:0;align-self:flex-start;padding:4px 12px;background:#1A1A1A;color:#FFD600;border-radius:4px;font-weight:900;font-size:16px}
+
+/* 流れ */
+.step{padding:22px 18px;background:#FFFFFF;border:4px solid #1A1A1A;border-radius:14px;box-shadow:6px 6px 0 #FFD600;display:flex;flex-direction:column;gap:8px}
+.step .n{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#F5A623;border:3px solid #1A1A1A;border-radius:50%;font-family:'Dela Gothic One',sans-serif;font-size:20px}
+.step p{margin:0}
+.step .t{font-weight:900;font-size:20px}
+.step .d{font-weight:500;font-size:16px;line-height:1.7}
+
+/* FAQ */
+.faq{background:#FFFFFF;border:4px solid #1A1A1A;border-radius:14px;box-shadow:5px 5px 0 #1A1A1A;overflow:hidden}
+.faq summary{list-style:none;min-height:60px;display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;font-weight:900;font-size:19px;line-height:1.5}
+.faq summary::-webkit-details-marker{display:none}
+.faq .mark::before{content:"＋";font-family:'Dela Gothic One',sans-serif;font-size:26px}
+.faq[open] .mark::before{content:"−"}
+.faq .ans{display:flex;gap:14px;padding:4px 20px 20px;font-weight:500;font-size:18px;line-height:1.8}
+.qa{flex-shrink:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-family:'Dela Gothic One',sans-serif;font-size:17px}
+.qa.q{background:#FFD600;border:3px solid #1A1A1A}
+.qa.a{background:#1A1A1A;color:#FFD600}
+html{scroll-behavior:smooth}
+
+@media (max-width:820px){
+.hero,.g2,.g3,.prof,.demo{grid-template-columns:minmax(0,1fr)}
+.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vs{grid-template-columns:minmax(0,1fr)}
+.vs-arrow{transform:rotate(90deg);margin:4px auto}
+.plans{grid-template-columns:minmax(0,1fr);gap:32px}
+.pc{display:none}
+.btn{white-space:normal;text-align:center}
+header .btn{white-space:nowrap}
+.spbar{display:flex}
+.price{font-size:40px}.price.lg{font-size:46px}
+.pagepad{padding-bottom:84px}
+.org .row{grid-template-columns:repeat(2,minmax(0,1fr))}
+.org .row::before,.org .row .member:nth-child(-n+3)::before{display:none}
+.org .row{padding-top:14px}
+}
+@media (max-width:480px){
+.check li{font-size:17px}
+.faq summary{font-size:17px}
+.faq .ans{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}html{scroll-behavior:auto}}
+
+.narrow{max-width:900px}
+.sec .wrap{display:flex;flex-direction:column;gap:32px}
+.lead{margin:0;font-weight:900;font-size:22px;line-height:1.7}
+.txt{margin:0;font-weight:500;font-size:18px;line-height:1.85}
+.note{margin:0;font-weight:700;font-size:16px;line-height:1.8}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{padding:6px 14px;background:#FFFFFF;border:3px solid #1A1A1A;border-radius:999px;font-weight:900;font-size:15px;text-decoration:none}
+.toc a:hover{background:#1A1A1A;color:#FFD600}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.cmp-col{padding:24px;display:flex;flex-direction:column;gap:14px}
+.cmp-h{margin:0;align-self:flex-start;padding:4px 14px;border-radius:6px;font-weight:900;font-size:17px}
+.cmp ul,.case ul,.lst{margin:0;padding-left:22px;font-weight:500;font-size:17px;line-height:1.85}
+.cmp b{font-weight:900}
+.flow4{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.fstep{position:relative;padding:30px 18px 22px;background:#FFFFFF;border:4px solid #1A1A1A;border-radius:14px;box-shadow:6px 6px 0 #FFD600;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.fstep.dark{background:#1A1A1A;color:#FFFFFF;box-shadow:6px 6px 0 #DD6420}
+.fstep .n{position:absolute;top:-20px;left:16px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#F5A623;border:3px solid #1A1A1A;border-radius:50%;font-family:'Dela Gothic One',sans-serif;font-size:20px;color:#1A1A1A}
+.fstep .t{margin:0;font-weight:900;font-size:20px}
+.fstep .d{margin:0;font-weight:500;font-size:16px;line-height:1.7}
+.timeline{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px;position:relative}
+.timeline li{display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;align-items:center}
+.tm{font-family:'Dela Gothic One',sans-serif;font-size:24px;text-align:right}
+.tl{padding:16px 20px;box-shadow:6px 6px 0 #1A1A1A}
+.tl b{font-weight:900;font-size:18px}
+.tl p{margin:4px 0 0;font-weight:500;font-size:17px;line-height:1.7}
+.g4c{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.case{padding:22px;display:flex;flex-direction:column;gap:12px}
+.ch{margin:0;align-self:flex-start;padding:4px 14px;background:#FFD600;border:3px solid #1A1A1A;border-radius:6px;font-weight:900;font-size:17px}
+.cost{width:100%;border-collapse:collapse}
+.cost th{width:120px;padding:18px;background:#FFD600;border-bottom:3px solid #1A1A1A;border-right:3px solid #1A1A1A;font-weight:900;font-size:17px;text-align:left;vertical-align:top}
+.cost td{padding:18px;border-bottom:3px solid #1A1A1A;font-weight:500;font-size:16px;line-height:1.8}
+.cost tr:last-child th,.cost tr:last-child td{border-bottom:0}
+.cost b{font-weight:900;font-size:18px}
+.words{margin:0;display:flex;flex-direction:column;gap:14px}
+.words .card{padding:18px 22px;box-shadow:5px 5px 0 #1A1A1A}
+.words dt{font-weight:900;font-size:19px}
+.words dd{margin:4px 0 0;font-weight:500;font-size:17px;line-height:1.8}
+@media (max-width:820px){
+.cmp,.g4c{grid-template-columns:minmax(0,1fr)}
+.flow4{grid-template-columns:minmax(0,1fr);gap:28px}
+.timeline li{grid-template-columns:64px minmax(0,1fr);gap:10px}
+.tm{font-size:19px}
+.cost th{width:84px;padding:14px 10px;font-size:15px}
+.cost td{padding:14px 12px}
+}
+</style>
+</head>
+<body>
+<div class="pagepad" style="width:100%;min-height:100%;background:#FFD600">
+
+<header style="background:#1A1A1A">
+<div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px">
+<a href="../" style="display:flex;align-items:baseline;gap:10px;text-decoration:none;color:#FFD600">
+<span style="font-family:'Dela Gothic One',sans-serif;font-size:26px;color:#FFD600;white-space:nowrap">ヤトエール</span>
+<span class="pc" style="font-weight:700;font-size:14px;color:#FFFFFF">はじめてガイド</span>
+</a>
+<a class="btn" href="#" data-link="line" target="_blank" rel="noopener" style="min-height:44px;padding:0 18px;font-size:16px;background:#FFD600;color:#1A1A1A;border-color:#FFD600;box-shadow:none">LINEで相談</a>
+</div>
+</header>
+
+<!-- ヒーロー -->
+<section class="burst" style="position:relative;overflow:hidden;border-bottom:4px solid #1A1A1A">
+<div class="wrap hero" style="position:relative;padding-top:48px;padding-bottom:56px">
+<div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<span style="padding:6px 18px 6px 14px;background:#1A1A1A;color:#FFD600;font-weight:900;font-size:17px;transform:rotate(-3deg);clip-path:polygon(0 0,100% 0,95% 100%,0 100%)">はじめてガイド</span>
+<div style="padding:14px 32px 18px 24px;background:#FFFFFF;border:4px solid #1A1A1A;box-shadow:8px 8px 0 #1A1A1A;transform:rotate(-1.5deg)">
+<h1 style="margin:0;font-family:'Dela Gothic One',sans-serif;font-weight:400;font-size:clamp(30px,5vw,60px);line-height:1.25"><span style="display:inline-block">3分でわかる</span><br><span style="display:inline-block">ヤトエール</span></h1>
+<div aria-hidden="true" style="height:12px;margin-top:8px;background:#DD6420;border-radius:12px 3px 12px 3px;transform:rotate(-1deg)"></div>
+</div>
+<p style="margin:0;max-width:30em;font-weight:700;font-size:18px;line-height:1.8">AIのことがよく分からなくても大丈夫。ヤトエールが何をするサービスなのか、どう使うのか、いくらかかるのかを、順番に説明します。</p>
+<nav class="toc" aria-label="もくじ">
+<a href="#what">ヤトエールって？</a><a href="#ai">AI社員とは</a><a href="#how">しくみ</a><a href="#day">1日の使い方</a><a href="#cases">業種別の例</a><a href="#cost">お金のこと</a><a href="#can">できること</a><a href="#words">用語集</a>
+</nav>
+</div>
+<div class="pc" style="position:relative;height:360px">
+<div aria-hidden="true" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:260px;height:260px;background:#FFFFFF;border:4px solid #1A1A1A;border-radius:50%"></div>
+<img src="../images/01_sasaemon_point.png" alt="ささえもん" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:290px;width:auto">
+<div style="position:absolute;top:0;right:2%;max-width:240px;padding:12px 16px;background:#FFFFFF;border:3px solid #1A1A1A;border-radius:24px;box-shadow:5px 5px 0 #1A1A1A;text-align:center">
+<p style="margin:0;font-weight:900;font-size:18px;line-height:1.5">むずかしい話は<br><span class="mk">しません！</span></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 1 -->
+<section id="what" class="sec white">
+<div class="wrap narrow">
+<div class="head"><span class="tag">01</span><h2 class="h2">ヤトエールって、<span class="mk">なに？</span></h2></div>
+<div class="card" style="padding:28px;display:flex;flex-direction:column;gap:14px">
+<p class="lead">ひとことで言うと、<b class="mk">「会社のことを覚えたAIの部下」を、スマホの中に雇うサービス</b>です。</p>
+<p class="txt">秘書、経理、営業、集客…。会社に必要な担当をAIでそろえ、一人ひとりに「仕事のやり方」を書いた指示書を持たせます。社長はスマホから「〇〇担当、これやって」と頼むだけ。人を雇うより、ずっと小さな負担で始められます。</p>
+<p class="txt">つくるのは、鹿児島の OFFICE PLATA。自分たちの会社もAI社員と一緒に回していて、うまくいった形をそのままお渡しします。</p>
+</div>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="ai" class="sec burst">
+<div class="wrap narrow">
+<div class="head"><span class="tag">02</span><h2 class="h2">ふつうのAIと、<span class="mkw">AI社員</span>のちがい</h2></div>
+<div class="cmp">
+<div class="card cmp-col" style="box-shadow:6px 6px 0 #1A1A1A">
+<p class="cmp-h" style="background:#1A1A1A;color:#FFFFFF">ふつうのAIチャット</p>
+<ul>
+<li>会社のことを毎回説明しないといけない</li>
+<li>何でも屋。担当が決まっていない</li>
+<li>やりとりがチャットに流れて残らない</li>
+<li>どこまで任せていいか決まっていない</li>
+</ul>
+</div>
+<div class="card cmp-col" style="box-shadow:8px 8px 0 #DD6420">
+<p class="cmp-h" style="background:#F5A623;color:#1A1A1A;border:3px solid #1A1A1A">ヤトエールのAI社員</p>
+<ul>
+<li><b>料金表・言葉づかい・会社のルールを覚えている</b></li>
+<li>秘書・経理・営業など、<b>担当ごとに得意な仕事がある</b></li>
+<li>できた書類は<b>Larkに記録として残る</b></li>
+<li>送信・支払いの前は<b>必ず社長に確認する</b></li>
+</ul>
+</div>
+</div>
+<p class="note">中身は、AI（Claude）に渡す「会社専用の指示書」です。この指示書づくりが、ヤトエールの仕事です。</p>
+</div>
+</section>
+
+<!-- 3 -->
+<section id="how" class="sec white">
+<div class="wrap">
+<div class="head"><span class="tag">03</span><h2 class="h2">しくみは、<span class="mk">4ステップ</span></h2></div>
+<ol class="flow4">
+<li class="fstep"><span class="n">1</span><svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="3" width="24" height="42" rx="5" fill="#FFD600" stroke="#1A1A1A" stroke-width="4"/><path d="M20 38h8" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/></svg><p class="t">社長がスマホで頼む</p><p class="d">「営業担当、明日の商談の下調べして」</p></li>
+<li class="fstep"><span class="n">2</span><svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 6h20l8 8v28H10z" fill="#FFD600" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/><path d="M16 22h16M16 30h16" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/></svg><p class="t">担当が指示書を読む</p><p class="d">会社のルールと、仕事の手順を確認します</p></li>
+<li class="fstep"><span class="n">3</span><svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40l4-12L32 8l8 8-20 20z" fill="#FFD600" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/></svg><p class="t">下書きをつくる</p><p class="d">資料・文章・表を作り、判断が必要な点を伝えます</p></li>
+<li class="fstep dark"><span class="n">4</span><svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="#FFD600" stroke="#FFFFFF" stroke-width="4"/><path d="M15 24l6 6 12-12" fill="none" stroke="#1A1A1A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><p class="t" style="color:#FFD600">社長がOK → 記録</p><p class="d">確認して使うだけ。書類はLarkに残ります</p></li>
+</ol>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="day" class="sec burst">
+<div class="wrap narrow">
+<div class="head"><span class="tag">04</span><h2 class="h2">たとえば、<span class="mkw">社長の1日</span></h2></div>
+<ol class="timeline">
+<li><span class="tm">7:30</span><div class="card tl"><b>秘書担当</b><p>移動中に「今日の予定と、準備することを教えて」</p></div></li>
+<li><span class="tm">10:00</span><div class="card tl"><b>営業担当</b><p>商談前に「相手の会社の下調べと、聞くことリストを」</p></div></li>
+<li><span class="tm">13:00</span><div class="card tl"><b>経理担当</b><p>商談後に「今日の内容で見積書の下書きを」</p></div></li>
+<li><span class="tm">18:00</span><div class="card tl"><b>集客担当</b><p>帰りに「今週のLINE配信の文章を3パターン」</p></div></li>
+<li><span class="tm">21:00</span><div class="card tl" style="box-shadow:6px 6px 0 #DD6420"><b>社長</b><p>できた下書きを見て、OKを出すだけ。夜と週末が戻ってきます。</p></div></li>
+</ol>
+</div>
+</section>
+
+<!-- 5 -->
+<section id="cases" class="sec white">
+<div class="wrap">
+<div class="head"><span class="tag">05</span><h2 class="h2">業種別の<span class="mk">組み合わせ例</span></h2></div>
+<div class="g4c">
+<div class="card case"><p class="ch">美容室・サロン</p><ul><li>予約・問い合わせの返信案</li><li>LINE配信・SNS投稿</li><li>リピートのお声かけ文</li></ul></div>
+<div class="card case"><p class="ch">工務店・建設</p><ul><li>見積書・工程表の下書き</li><li>現場日報のまとめ</li><li>お客さまへの報告文</li></ul></div>
+<div class="card case"><p class="ch">飲食店</p><ul><li>メニュー紹介文・POP案</li><li>仕入れ・売上のまとめ</li><li>求人・口コミへの返信案</li></ul></div>
+<div class="card case"><p class="ch">士業・コンサル</p><ul><li>面談の議事録</li><li>提案書・報告書の下書き</li><li>制度や補助金の下調べ</li></ul></div>
+</div>
+<p class="note" style="text-align:center">会社の仕事をお聞きして、必要な担当だけをそろえます。</p>
+</div>
+</section>
+
+<!-- 6 -->
+<section id="cost" class="sec burst">
+<div class="wrap narrow">
+<div class="head"><span class="tag">06</span><h2 class="h2">お金のこと、<span class="mkw">ぜんぶ見せます</span></h2></div>
+<div class="card" style="padding:0;overflow:hidden">
+<table class="cost">
+<tr><th scope="row">最初に1回</th><td><b>採用プラン</b><br>パート採用（3人）98,000円／正社員採用（10人）298,000円／本社まるごと（20人まで）498,000円</td></tr>
+<tr><th scope="row">毎月</th><td><b>Claudeの月額料金</b>（お客さまご自身で契約）<br>何回頼んでも、使った分だけ請求が増えることはありません。</td></tr>
+<tr><th scope="row">必要なら</th><td><b>人事部サポート</b> 月20,000円<br>指示書の見直し・AI社員の追加（月1人まで）・使い方の質問</td></tr>
+<tr><th scope="row">お試し</th><td><b>AI社員 面接会</b> 90分 30,000円<br>1ヶ月以内に採用プランを申し込むと、この料金を差し引きます。</td></tr>
+</table>
+</div>
+<p class="note">料金はすべて税別です。Lark・会計ソフトを使う場合は、それぞれの利用料が別にかかります（なくても使えます）。</p>
+</div>
+</section>
+
+<!-- 7 -->
+<section id="can" class="sec white">
+<div class="wrap narrow">
+<div class="head"><span class="tag">07</span><h2 class="h2">できること・<span class="mk">させないこと</span></h2></div>
+<div class="g2">
+<div class="card" style="padding:24px"><p class="ch" style="background:#FFD600">得意なこと</p><ul class="lst"><li>書く（文章・メール・配信文）</li><li>まとめる（議事録・日報・レポート）</li><li>調べる（相場・競合・制度）</li><li>つくる（見積・提案書の下書き）</li></ul></div>
+<div class="card" style="padding:24px"><p class="ch" style="background:#1A1A1A;color:#FFFFFF">させないこと</p><ul class="lst"><li>勝手に送信・公開すること</li><li>お金を動かすこと</li><li>電話や現場の作業</li><li>社長のかわりに最終判断すること</li></ul></div>
+</div>
+<div class="card" style="margin-top:28px;padding:22px 24px;display:flex;gap:16px;align-items:flex-start;box-shadow:6px 6px 0 #DD6420">
+<svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true" style="flex-shrink:0"><path d="M24 4l16 6v12c0 10-7 18-16 22C15 40 8 32 8 22V10z" fill="#FFD600" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/><path d="M17 24l5 5 9-10" fill="none" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div><p style="margin:0 0 6px;font-weight:900;font-size:19px">安心して使うための決まり</p><p class="txt" style="margin:0">AIは間違えることがあります。だからAI社員は「下書きまで」が仕事。お客さまの個人情報など、AIに入れない情報のルールも指示書に書いておきます。指示書はあとからいつでも直せます。</p></div>
+</div>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="words" class="sec burst">
+<div class="wrap narrow">
+<div class="head"><span class="tag">08</span><h2 class="h2">ことばの説明</h2></div>
+<dl class="words">
+<div class="card"><dt>Claude（クロード）</dt><dd>AI社員の「頭脳」になるAIです。スマホやパソコンのアプリで使います。月額で契約します。</dd></div>
+<div class="card"><dt>指示書（スキル）</dt><dd>AI社員一人ひとりの「仕事のやり方」をまとめたものです。会社のルールもここに書きます。</dd></div>
+<div class="card"><dt>組織図</dt><dd>社長の下に、どんな担当のAI社員がいるかを一枚にした図です。最初にいっしょに作ります。</dd></div>
+<div class="card"><dt>Lark（ラーク）</dt><dd>社内の情報をまとめておけるツールです。AI社員がつくった書類の記録先に使います。</dd></div>
+<div class="card"><dt>従量課金</dt><dd>使った分だけ料金が増える仕組みです。ヤトエールでは、毎月の費用はClaudeの月額だけです。</dd></div>
+</dl>
+</div>
+</section>
+
+<!-- CTA -->
+<section style="padding:64px 0;background:#1A1A1A;color:#FFFFFF">
+<div class="wrap" style="display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
+<h2 class="h2" style="color:#FFFFFF">まずは、<span style="color:#FFD600">面接会</span>で試してみませんか？</h2>
+<p style="margin:0;max-width:34em;font-weight:500;font-size:18px;line-height:1.8">90分で、いちばん手放したい仕事の担当を1人、その場で採用します。</p>
+<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">
+<a class="btn" href="#" data-link="apply" target="_blank" rel="noopener" style="background:#F5A623;color:#1A1A1A">面接会を申し込む</a>
+<a class="btn" href="../" style="background:#FFFFFF;color:#1A1A1A">サービス紹介に戻る</a>
+</div>
+</div>
+</section>
+
+<footer style="background:#1A1A1A;color:#FFFFFF;border-top:4px solid #FFD600">
+<div class="wrap" style="min-height:88px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:20px;padding-bottom:20px">
+<p style="margin:0;display:flex;align-items:center;gap:12px"><span style="font-family:'Dela Gothic One',sans-serif;font-size:25px;color:#FFD600">ヤトエール</span><span style="width:2px;height:18px;background:#FFFFFF"></span><span style="font-weight:900;font-size:17px;letter-spacing:1px">OFFICE PLATA</span></p>
+<p style="margin:0;font-weight:500;font-size:15px">© OFFICE PLATA</p>
+</div>
+</footer>
+
+<div class="spbar" style="position:fixed;left:0;right:0;bottom:0;z-index:10;padding:10px 16px;background:#1A1A1A;border-top:3px solid #FFD600;justify-content:center">
+<a class="btn" href="#" data-link="line" target="_blank" rel="noopener" style="width:100%;max-width:420px;box-sizing:border-box;background:#FFD600;color:#1A1A1A;border-color:#FFD600;box-shadow:none">LINEで相談する</a>
+</div>
+</div>
+
+<script>
+/* ===== 差し替え用の設定（ここだけ書き換える） ===== */
+const CONFIG = {
+  SERVICE_NAME: 'ヤトエール',
+  LINE_URL: 'https://line.me/R/ti/p/@503hiemz',   // LINE公式アカウントの友だち追加URL（OFFICE PLATA）
+  // 面接会の申込フォーム（ささエール 相談・お問い合わせフォーム）。
+  // APPLY_PREFILL の各項目は ?prefill_<項目名>=<値> として付与され、フォームに初期入力される。
+  APPLY_URL: 'https://yjpw4ydvu698.jp.larksuite.com/share/base/form/shrjpk1nUQ2hyQaJpu8Ydh4Pipe',
+  APPLY_PREFILL: { 'ご相談内容（自由記入）': '【ヤトエール】AI社員 面接会（90分／30,000円・税別）を申し込みます。\nいちばん手放したい仕事：' },
+  SLOTS_HONSHA: 3   // 本社まるごとプランの月あたり受付数
+};
+/* ================================================ */
+document.querySelectorAll('[data-link="line"]').forEach(a => a.href = CONFIG.LINE_URL);
+const applyUrl = CONFIG.APPLY_URL + '?' + Object.entries(CONFIG.APPLY_PREFILL || {})
+  .map(([k, v]) => 'prefill_' + encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
+document.querySelectorAll('[data-link="apply"]').forEach(a => a.href = applyUrl);
+document.querySelectorAll('[data-slot="honsha"]').forEach(e => e.textContent = CONFIG.SLOTS_HONSHA);
+</script>
+</body>
+</html>
