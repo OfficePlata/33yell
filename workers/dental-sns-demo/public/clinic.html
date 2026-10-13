@@ -1,0 +1,300 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SNSおまかせ投稿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* Layout: 医院のスマホで使う1画面1ステップ。白×水色×ミントの清潔感。大きなボタンで迷わない */
+:root{
+  --bg:#F3FAFC; --card:#FFFFFF; --sky:#3AA6D8; --sky-deep:#1F86B8; --sky-soft:#E1F2FA;
+  --mint:#4FBFA5; --mint-deep:#2E9E7F; --mint-soft:#E2F5EF; --ink:#21384A; --ink-soft:#5B7183; --rule:#D5E7EF;
+  --warn:#D9694C; --warn-soft:#FCEDE8; --caution-soft:#FFF6E3;
+  --f-display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.app{max-width:480px;margin:0 auto;padding-inline:16px;padding-block:calc(env(safe-area-inset-top,0px) + 12px) calc(env(safe-area-inset-bottom,0px) + 32px);display:grid;gap:16px}
+header{display:flex;align-items:center;gap:10px;padding-block:4px}
+header .logo{width:40px;height:40px;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:14px;flex:none}
+header .who{min-width:0}
+header .who b{display:block;font-family:var(--f-display);font-size:17px;line-height:1.3}
+header .who span{font-size:12px;color:var(--ink-soft)}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:28px;height:6px;border-radius:3px;background:var(--rule)}
+.dots i.on{background:var(--sky)}
+h1{font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1.4;margin:0;text-wrap:balance}
+.sub{margin:4px 0 0;color:var(--ink-soft);font-size:14px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:22px;padding:18px;box-shadow:0 4px 16px rgba(58,166,216,.07);display:grid;gap:14px;min-width:0}
+.big{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;border-radius:18px;border:0;font-weight:700;font-size:18px;cursor:pointer;text-align:center;padding:12px 16px}
+.big.sky{background:var(--sky);color:#fff;box-shadow:0 8px 20px rgba(58,166,216,.3)}
+.big.mint{background:var(--mint-deep);color:#fff;box-shadow:0 8px 20px rgba(46,158,127,.3)}
+.big.pick{background:var(--sky-soft);color:var(--sky-deep);border:2px dashed var(--sky);min-height:120px;flex-direction:column;gap:2px}
+.big.pick small{font-weight:500;font-size:13px}
+.big:disabled{opacity:.45;cursor:default;box-shadow:none}
+.link{background:none;border:0;color:var(--sky-deep);font-weight:700;cursor:pointer;padding:6px;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.thumbs div{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:1px solid var(--rule)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs button{position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-weight:700;cursor:pointer;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.lbl{font-weight:700;font-size:14px}
+.lbl small{font-weight:400;color:var(--ink-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--rule);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--sky);border-color:var(--sky);color:#fff}
+textarea{width:100%;border:1px solid var(--rule);border-radius:14px;padding:12px;background:#fbfdfe;resize:vertical;min-height:84px;line-height:1.7}
+textarea:focus{border-color:var(--sky);background:#fff}
+.wait{display:grid;place-items:center;gap:14px;padding-block:48px;text-align:center}
+.spin{width:56px;height:56px;border-radius:50%;border:6px solid var(--sky-soft);border-top-color:var(--sky);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+.post{border:1px solid var(--rule);border-radius:18px;overflow:hidden;background:#fff}
+.post .ph{display:flex;align-items:center;gap:8px;padding:10px 12px;font-weight:700;font-size:14px}
+.post .ph i{width:28px;height:28px;border-radius:50%;background:var(--sky-soft);display:inline-block}
+.post img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.post .tx{padding:12px;font-size:14px;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.note{border-radius:14px;padding:12px 14px;font-size:14px}
+.note.ok{background:var(--mint-soft)}
+.note.fix{background:var(--caution-soft)}
+.note.ng{background:var(--warn-soft)}
+.note b{display:block}
+.done{text-align:center;display:grid;gap:10px;justify-items:center;padding-block:20px}
+.done .ok{width:84px;height:84px;border-radius:50%;background:var(--mint-deep);color:#fff;display:grid;place-items:center;font-size:44px;font-weight:700}
+.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;width:100%}
+.list li{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;font-weight:700;font-size:14px}
+.list li span{color:var(--mint-deep)}
+.foot{font-size:12px;color:var(--ink-soft);text-align:center}
+.status{font-size:13px;color:var(--ink-soft);text-align:center;min-height:1em}
+.sr{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style></head><body>
+<div class="app">
+  <header><span class="logo">SNS</span><div class="who"><b id="clinicName">医院名</b><span>SNSおまかせ投稿（デモ）</span></div></header>
+  <div class="dots" aria-hidden="true"><i id="d1" class="on"></i><i id="d2"></i><i id="d3"></i></div>
+
+  <!-- 1. 写真を選ぶ -->
+  <section id="s1">
+    <div>
+      <h1>今日の写真を送りましょう</h1>
+      <p class="sub">写真を選んで、ボタンを押すだけ。文章はAIが作ります。</p>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <label class="big pick" for="file">＋ 写真を選ぶ<small>10枚まで・スマホのアルバムから</small></label>
+      <input type="file" id="file" class="sr" accept="image/jpeg,image/png,image/webp" multiple>
+      <div class="thumbs" id="thumbs" hidden></div>
+      <div class="row"><button class="link" type="button" id="sampleBtn">サンプル写真で試す</button></div>
+      <div>
+        <div class="lbl">何の写真ですか？</div>
+        <div class="chips" id="themes" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <label class="lbl" for="memo">ひとこと <small>（なくてもOK）</small></label>
+        <textarea id="memo" placeholder="例：新しい診療チェアを入れました"></textarea>
+      </div>
+      <button class="big sky" id="go" type="button" disabled>投稿案をつくる</button>
+      <p class="status" id="st1"></p>
+    </div>
+  </section>
+
+  <!-- 2. 作成中 -->
+  <section id="s2" hidden>
+    <div class="card wait"><div class="spin" aria-hidden="true"></div><h1>投稿案をつくっています</h1><p class="sub">写真を見て、媒体ごとの文章を書いています。<br>このままお待ちください。</p></div>
+  </section>
+
+  <!-- 3. 確認 -->
+  <section id="s3" hidden>
+    <div><h1>この内容で投稿しますか？</h1><p class="sub" id="srcNote"></p></div>
+    <div class="card" style="margin-top:14px">
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="post">
+        <div class="ph"><i></i><span id="pvName"></span></div>
+        <img id="pvImg" alt="投稿する写真">
+        <div class="tx" id="pvText"></div>
+      </div>
+      <div id="edit" hidden>
+        <label class="lbl" for="editText">文章を直す</label>
+        <textarea id="editText" style="min-height:180px"></textarea>
+      </div>
+      <div id="notes"></div>
+      <button class="big mint" id="ok" type="button">この内容で投稿する</button>
+      <div class="row"><button class="link" id="editBtn" type="button">文章を直す</button><button class="link" id="redo" type="button">最初からやり直す</button></div>
+    </div>
+  </section>
+
+  <!-- 4. 完了 -->
+  <section id="s4" hidden>
+    <div class="card done">
+      <div class="ok" aria-hidden="true">✓</div>
+      <h1>投稿しました</h1>
+      <p class="sub">デモのため、実際には投稿されていません。</p>
+      <ul class="list" id="doneList"></ul>
+      <button class="big sky" id="again" type="button">続けて写真を送る</button>
+    </div>
+  </section>
+
+  <p class="foot">ご提案：ささエール ／ 表現チェックは補助です。最終確認は院長がお願いします。</p>
+</div>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const THEMES = {inside:"院内の様子", staff:"スタッフ紹介", care:"予防・ケアの豆知識", notice:"お知らせ"};
+const MEDIA = [["instagram","Instagram"],["facebook","Facebook"],["google","Google"],["line","LINE"]];
+const RULES = [
+  {re:/痛くない|痛みゼロ|無痛/g, reason:"効果を断定する表現にあたるおそれ", fix:"「痛みに配慮した治療」「麻酔を工夫しています」など"},
+  {re:/No\.?\s?1|ナンバーワン|ナンバー1|地域一|日本一|業界初/gi, reason:"比較優良広告（他院より優れていると示す表現）", fix:"「地域の皆さまに通いやすい医院を目指します」など"},
+  {re:/絶対|必ず|完全|100\s?%|確実に/g, reason:"誇大広告・効果の断定", fix:"断定を避け、取り組みとして書く"},
+  {re:/最高|最先端|最新鋭|最上級/g, reason:"誇大広告にあたるおそれ（根拠のない最上級表現）", fix:"「新しい」「導入しました」など事実を書く"},
+  {re:/患者様の声|患者さんの声|口コミ|体験談|喜びの声/g, reason:"治療内容・効果に関する体験談は広告できない", fix:"体験談は載せない"},
+  {re:/ビフォー|アフター|before|after|治療前後/gi, reason:"術前術後写真は治療内容・費用・リスク等の併記が必要", fix:"原則載せない／載せる場合は必要事項を併記"},
+  {re:/格安|激安|今だけ|期間限定|割引|無料キャンペーン/g, reason:"費用を強調した誘引表現", fix:"費用の強調を避ける"},
+];
+
+function scene(kind){
+  const c = document.createElement("canvas"); c.width = c.height = 900;
+  const g = c.getContext("2d");
+  const rr = (x,y,w,h,r,fill) => {g.beginPath();g.roundRect(x,y,w,h,r);g.fillStyle=fill;g.fill();};
+  if(kind==="chair"){
+    g.fillStyle="#e8f4f1";g.fillRect(0,0,900,900);
+    g.fillStyle="#d3e7e2";g.fillRect(0,620,900,280);
+    rr(560,80,260,300,16,"#cfe4f5"); g.fillStyle="#fff";g.fillRect(686,80,8,300);g.fillRect(560,226,260,8);
+    g.strokeStyle="#9aa7a5";g.lineWidth=14;g.beginPath();g.moveTo(330,140);g.lineTo(470,200);g.lineTo(520,300);g.stroke();
+    rr(470,280,110,60,30,"#f6f6f6");
+    rr(170,430,420,90,45,"#3fa7a0");
+    rr(120,330,120,150,50,"#3fa7a0");
+    rr(560,470,190,70,35,"#3fa7a0");
+    rr(330,520,60,140,10,"#b9c3c2"); rr(250,650,220,40,20,"#b9c3c2");
+    rr(640,560,140,90,14,"#ffffff"); g.fillStyle="#e3eceb";g.fillRect(660,580,100,10);
+  }else if(kind==="desk"){
+    g.fillStyle="#fbefe1";g.fillRect(0,0,900,900);
+    g.fillStyle="#f2dcc3";g.fillRect(0,640,900,260);
+    rr(150,120,600,120,20,"#ffffff");
+    g.fillStyle="#d77d8f";g.beginPath();g.arc(230,180,34,0,Math.PI*2);g.fill();
+    g.fillStyle="#3b3b3b";g.font="700 54px 'Noto Sans JP',sans-serif";g.fillText("さくら歯科",290,200);
+    rr(80,430,740,260,24,"#c99566"); rr(80,410,740,40,20,"#ddb183");
+    rr(380,330,140,90,10,"#2f3a45"); rr(440,420,20,20,4,"#2f3a45");
+    rr(640,300,90,120,20,"#6aa56a"); g.fillStyle="#6aa56a";g.beginPath();g.arc(685,290,70,0,Math.PI*2);g.fill();
+    rr(655,380,60,60,10,"#b97b4f");
+    rr(160,360,150,60,10,"#fff"); g.fillStyle="#d77d8f";g.fillRect(175,380,120,8);g.fillRect(175,396,80,8);
+  }else{
+    g.fillStyle="#e6f1fb";g.fillRect(0,0,900,900);
+    g.fillStyle="#d6e6f5";g.fillRect(0,600,900,300);
+    rr(300,420,240,280,30,"#ffffff");
+    const bs=[["#ff8aa0",340,-12],["#59b7e8",420,0],["#ffc53d",500,12]];
+    for(const [col,x,rot] of bs){g.save();g.translate(x,440);g.rotate(rot*Math.PI/180);rr(-12,-300,24,320,12,col);rr(-20,-330,40,70,10,"#ffffff");g.restore();}
+    rr(610,560,170,140,24,"#9fd3a8"); g.fillStyle="#fff";g.beginPath();g.arc(695,600,26,0,Math.PI*2);g.fill();
+    g.fillStyle="#3b3b3b";g.font="700 34px 'Noto Sans JP',sans-serif";g.fillText("FLOSS",640,680);
+  }
+  g.fillStyle="rgba(26,26,26,.55)";g.font="700 28px 'Noto Sans JP',sans-serif";g.fillText("サンプル画像",24,870);
+  return new Promise(res => c.toBlob(b => res({blob:b, url:URL.createObjectURL(b), sample:true}), "image/jpeg", .86));
+}
+
+function exampleDrafts(clinic, theme, reserve){
+  const T = {
+    inside:{
+      instagram:`${clinic}に、新しい診療チェアが入りました🪥\n\n座り心地や姿勢の負担を見直して、治療中も少しでもリラックスしていただけるように選んだチェアです。\n\n歯医者さんが少し苦手な方も、痛みに配慮しながら一つひとつ説明して進めますので、気になることは遠慮なくお声がけください。\n\n地域の皆さまに通いやすい医院を目指して、これからも院内を整えていきます。`,
+      hashtags:["#歯医者","#歯科医院","#診療室","#院内紹介","#予防歯科"],
+      facebook:`【新しい診療チェアを導入しました】\n\n${clinic}では、このたび診療チェアを新しくしました。座り心地や姿勢の負担を見直し、治療中も落ち着いて過ごしていただけるよう選んだものです。\n\n治療は痛みに配慮し、内容を説明しながら進めます。気になることがあれば、お気軽にスタッフまでお声がけください。`,
+      google:`新しい診療チェアを導入しました。座り心地を見直し、治療中も落ち着いて過ごしていただけるよう整えています。痛みに配慮し、説明しながら進めますので、気になることはお気軽にご相談ください。`,
+      line:`いつも${clinic}をご利用いただきありがとうございます。\n新しい診療チェアを導入しました。次回のご来院時に、ぜひ座り心地をお試しください😊\nご予約はこちらのLINEからどうぞ。`,
+    },
+    staff:{
+      instagram:`${clinic}のスタッフをご紹介します😊\n\n受付では、ご予約やお困りごとの相談をお受けしています。初めての方も、久しぶりの方も、緊張せずにお越しください。\n\nスタッフ一同、ていねいな説明を大切にしています。`,
+      hashtags:["#歯科医院","#スタッフ紹介","#歯科衛生士","#受付","#歯医者"],
+      facebook:`【スタッフ紹介】\n${clinic}の受付スタッフです。ご予約の変更や治療についてのご質問など、どうぞお気軽にお声がけください。`,
+      google:`${clinic}のスタッフ紹介です。受付ではご予約・ご相談をお受けしています。初めての方もお気軽にお越しください。`,
+      line:`${clinic}です。今月はスタッフ紹介をお届けします。受付でお会いした際は、ぜひお声がけください😊`,
+    },
+    care:{
+      instagram:`歯ブラシ、どのくらいで交換していますか？🪥\n\n毛先が開いた歯ブラシは汚れが落ちにくくなります。目安は1か月に1回。\n\n歯と歯の間はフロスや歯間ブラシを使うと、歯ブラシだけでは届きにくい部分もケアできます。\n\n使い方が分からない方は、定期検診の時にお気軽にご相談ください。`,
+      hashtags:["#予防歯科","#歯ブラシ","#フロス","#歯のケア","#定期検診"],
+      facebook:`【歯のケアの豆知識】\n歯ブラシの交換の目安は1か月に1回です。毛先が開くと汚れが落ちにくくなります。フロスや歯間ブラシの使い方は、定期検診の際にご相談ください。`,
+      google:`歯ブラシは1か月に1回の交換が目安です。フロスや歯間ブラシの使い方も、検診時にご案内しています。`,
+      line:`${clinic}より、ケアの豆知識です🪥\n歯ブラシは1か月に1回の交換が目安です。定期検診のご予約はこちらのLINEからどうぞ。`,
+    },
+    notice:{
+      instagram:`【休診のお知らせ】\n\n${clinic}は、下記の日程を休診とさせていただきます。\n\n○月○日（○）〜○月○日（○）\n\nご不便をおかけしますが、よろしくお願いいたします。ご予約はLINEからも受け付けています。`,
+      hashtags:["#歯科医院","#休診のお知らせ","#診療時間"],
+      facebook:`【休診のお知らせ】\n○月○日（○）〜○月○日（○）は休診です。ご不便をおかけしますが、よろしくお願いいたします。`,
+      google:`【休診】○月○日（○）〜○月○日（○）は休診です。ご予約はLINEまたはお電話でお受けしています。`,
+      line:`${clinic}です。○月○日（○）〜○月○日（○）は休診となります。ご予約の変更はこちらのLINEからどうぞ。`,
+    }
+  };
+  return withReserve({...(T[theme] || T.inside)}, reserve);
+}
+function withReserve(d, url){
+  if(!url) return d;
+  d.line = d.line.replace(/(定期検診の)?ご予約はこちらのLINEからどうぞ。?/, "").trim() + "\nご予約はこちら▶ " + url;
+  d.google = d.google.trim() + "\nご予約：" + url;
+  d.facebook = d.facebook.trim() + "\n\nご予約はこちら：" + url;
+  d.instagram = d.instagram.trim() + "\n\nご予約はプロフィールのリンクから📅";
+  return d;
+}
+function exampleNotes(memo){
+  const out=[];
+  for(const r of RULES){ r.re.lastIndex=0; const m = memo.match(r.re); if(m) out.push({phrase:[...new Set(m)].join("・"), reason:r.reason, fix:"下書きでは言い換えています（例："+r.fix+"）"}); }
+  return out;
+}
+const slug = (location.pathname.match(/^\/c\/([a-z0-9-]+)/)||[])[1] || "sakura";
+const S = {tenant:{name:"医院",reserveUrl:""}, photos:[], theme:"inside", drafts:null, notes:[], tab:"instagram", ai:false, source:"example"};
+
+function show(n){for(let i=1;i<=4;i++)$("#s"+i).hidden=i!==n;["d1","d2","d3"].forEach((d,i)=>$("#"+d).classList.toggle("on",i<Math.min(n,3)));window.scrollTo({top:0});}
+function renderThemes(){const box=$("#themes");box.textContent="";for(const [k,v] of Object.entries(THEMES)){const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=v;b.setAttribute("aria-pressed",String(S.theme===k));b.onclick=()=>{S.theme=k;renderThemes();};box.append(b);}}
+function renderThumbs(){
+  const box=$("#thumbs");box.textContent="";box.hidden=!S.photos.length;
+  S.photos.forEach((p,i)=>{const d=document.createElement("div");const im=new Image();im.src=p.url;im.alt=`写真${i+1}`;const x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label",`写真${i+1}を外す`);x.onclick=()=>{S.photos.splice(i,1);renderThumbs();};d.append(im,x);box.append(d);});
+  $("#go").disabled=!S.photos.length;
+}
+$("#file").onchange=e=>{for(const f of e.target.files){if(S.photos.length>=10)break;if(/^image\/(jpeg|png|webp)$/.test(f.type))S.photos.push({blob:f,url:URL.createObjectURL(f)});}e.target.value="";renderThumbs();};
+$("#sampleBtn").onclick=async()=>{S.photos=await Promise.all([scene("chair"),scene("desk"),scene("brush")]);$("#memo").value="新しい診療チェアを入れました。痛くない治療で地域No.1を目指します！";S.theme="inside";renderThemes();renderThumbs();};
+
+async function toB64(blob){const bmp=await createImageBitmap(blob);const k=Math.min(1,1024/Math.max(bmp.width,bmp.height));const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);return {media_type:"image/jpeg",data:c.toDataURL("image/jpeg",.85).split(",")[1]};}
+
+$("#go").onclick=async()=>{
+  const memo=$("#memo").value.trim();
+  show(2);
+  const useExample=msg=>{S.drafts=exampleDrafts(S.tenant.name,S.theme,S.tenant.reserveUrl);S.notes=exampleNotes(memo);S.source="example";$("#srcNote").textContent=msg;};
+  try{
+    if(!S.ai){await new Promise(r=>setTimeout(r,1500));useExample("※デモ用の作成例を表示しています");}
+    else{
+      const images=await Promise.all(S.photos.slice(0,6).map(p=>toB64(p.blob)));
+      const res=await fetch("/api/generate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({tenant:slug,theme:S.theme,memo,images})});
+      const r=await res.json().catch(()=>({error:"x"}));
+      if(!res.ok||r.error) useExample("※AIにつながらなかったため、作成例を表示しています");
+      else{S.drafts={instagram:r.instagram,hashtags:r.hashtags||[],facebook:r.facebook,google:r.google,line:r.line};S.notes=r.notes||[];S.source="ai";$("#srcNote").textContent="AIが写真を見て作りました。媒体を切り替えて確認できます。";}
+    }
+  }catch{useExample("※通信がうまくいかなかったため、作成例を表示しています");}
+  S.tab="instagram";$("#edit").hidden=true;$("#editBtn").textContent="文章を直す";renderReview();show(3);
+};
+function textOf(k){if(!S.drafts)return "";return k==="instagram"?S.drafts.instagram+(S.drafts.hashtags?.length?"\n\n"+S.drafts.hashtags.join(" "):""):(S.drafts[k]||"");}
+function hits(){const out=[];for(const [k,n] of MEDIA){const t=textOf(k);for(const r of RULES){r.re.lastIndex=0;const m=t.match(r.re);if(m)out.push({media:n,word:m[0],fix:r.fix});}}return out;}
+function renderReview(){
+  const tb=$("#tabs");tb.textContent="";
+  for(const [k,n] of MEDIA){const b=document.createElement("button");b.type="button";b.className="chip";b.setAttribute("role","tab");b.setAttribute("aria-selected",String(S.tab===k));b.setAttribute("aria-pressed",String(S.tab===k));b.textContent=n;b.onclick=()=>{S.tab=k;$("#editText").value=textOf(k);renderReview();};tb.append(b);}
+  $("#pvName").textContent=S.tenant.name;$("#pvImg").src=S.photos[0]?.url||"";$("#pvText").textContent=textOf(S.tab);
+  const nb=$("#notes");nb.textContent="";
+  const h=hits();
+  for(const n of S.notes){const d=document.createElement("div");d.className="note fix";d.innerHTML="<b></b><span></span>";d.querySelector("b").textContent=`ひとことの「${n.phrase}」は言い換えました`;d.querySelector("span").textContent=n.reason;nb.append(d);}
+  for(const x of h){const d=document.createElement("div");d.className="note ng";d.innerHTML="<b></b><span></span>";d.querySelector("b").textContent=`${x.media}の「${x.word}」は広告で使えない表現です`;d.querySelector("span").textContent="直し方の例："+x.fix;nb.append(d);}
+  if(!h.length){const d=document.createElement("div");d.className="note ok";d.innerHTML="<b>表現のチェック：問題は見つかりませんでした</b><span>患者さまが写っていないかだけ、写真を確認してください。</span>";nb.append(d);}
+  $("#ok").disabled=h.length>0;
+}
+$("#editBtn").onclick=()=>{const e=$("#edit");e.hidden=!e.hidden;$("#editBtn").textContent=e.hidden?"文章を直す":"直し終わった";if(!e.hidden){$("#editText").value=textOf(S.tab);$("#editText").focus();}};
+$("#editText").addEventListener("input",e=>{let v=e.target.value;if(S.tab==="instagram"){const m=v.match(/\n\n((?:#\S+\s*)+)$/);if(m){S.drafts.hashtags=m[1].trim().split(/\s+/);v=v.slice(0,m.index);}else S.drafts.hashtags=[];S.drafts.instagram=v;}else S.drafts[S.tab]=v;$("#pvText").textContent=textOf(S.tab);const tabs=$("#tabs").innerHTML;renderReview();});
+$("#ok").onclick=()=>{const ul=$("#doneList");ul.textContent="";for(const [,n] of MEDIA){const li=document.createElement("li");li.innerHTML="<b></b><span>投稿済み</span>";li.querySelector("b").textContent=n;ul.append(li);}show(4);};
+$("#redo").onclick=()=>show(1);
+$("#again").onclick=()=>{S.photos=[];$("#memo").value="";renderThumbs();show(1);};
+
+(async function init(){
+  renderThemes();renderThumbs();
+  try{const r=await fetch("/api/tenants/"+slug);if(r.ok)S.tenant=await r.json();}catch{}
+  $("#clinicName").textContent=S.tenant.name;document.title=S.tenant.name+"｜SNSおまかせ投稿";
+  try{const r=await fetch("/api/status");if(r.ok)S.ai=(await r.json()).ai;}catch{}
+})();
+})();
+</script>
+</body></html>

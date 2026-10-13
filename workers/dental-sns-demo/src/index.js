@@ -2,17 +2,26 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const THEMES = { inside: "院内の様子", staff: "スタッフ紹介", care: "予防・ケアの豆知識", notice: "お知らせ（休診・診療時間）" };
 const MAX_IMAGES = 6;
+
+// デモ用の医院（本番では Lark BASE の医院台帳から読む）
+const TENANTS = [
+  { slug: "sakura", name: "さくら歯科クリニック（デモ）", reserveUrl: "https://example.com/yoyaku/sakura" },
+  { slug: "aoba", name: "あおば歯科医院（デモ）", reserveUrl: "https://example.com/yoyaku/aoba" },
+  { slug: "midori", name: "みどり歯科（デモ）", reserveUrl: "https://example.com/yoyaku/midori" },
+];
+const findTenant = slug => TENANTS.find(t => t.slug === slug);
 const MAX_IMAGE_B64 = 1_500_000;
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
 
-function buildPrompt({ clinic, theme, memo, count }) {
+function buildPrompt({ clinic, theme, memo, count, reserveUrl }) {
   return `あなたは日本の歯科医院のSNS担当です。添付の写真（${count}枚）と下記の情報から、医院の公式アカウント用の投稿文を媒体ごとに作ってください。
 
 医院名: ${clinic}
 今回のテーマ: ${THEMES[theme] || THEMES.inside}
 院長のメモ: ${memo || "（なし）"}
+予約ページのURL: ${reserveUrl || "（なし）"}
 
 守ること（医療広告ガイドライン）:
 - 効果の断定（痛くない、必ず治る、100%など）、他院との比較（No.1、地域一など）、誇大・最上級表現（最高、最先端など）、患者の体験談、費用の強調（格安、今だけ割引など）は使わない
@@ -25,7 +34,8 @@ function buildPrompt({ clinic, theme, memo, count }) {
 - instagram: 250〜400字。改行多め。ハッシュタグは本文に入れず hashtags に5個
 - facebook: 200〜350字。【見出し】から始める
 - google: Googleビジネスプロフィールの投稿。120〜200字。要点だけ
-- line: 友だちへの配信。80〜140字。最後に予約への一言
+- line: 友だちへの配信。80〜140字。最後に予約への一言（予約ページのURLがあれば「ご予約はこちら▶ URL」で入れる）
+- google と facebook にも、予約ページのURLがあれば最後に「ご予約：URL」を入れる。instagram はURLを本文に入れず「ご予約はプロフィールのリンクから」とする
 
 JSONだけを返してください（前後に文章を付けない）:
 {"instagram":"…","hashtags":["#…"],"facebook":"…","google":"…","line":"…","notes":[{"phrase":"問題の言葉","reason":"理由","fix":"どう言い換えたか"}]}
@@ -47,7 +57,9 @@ async function generate(request, env) {
   try { body = await request.json(); } catch { return json({ error: "bad_request" }, 400); }
   if (env.DEMO_PASSCODE && body.code !== env.DEMO_PASSCODE) return json({ error: "bad_code" }, 401);
 
-  const clinic = String(body.clinic || "医院").slice(0, 60);
+  const tenant = findTenant(String(body.tenant || ""));
+  const clinic = tenant ? tenant.name : String(body.clinic || "医院").slice(0, 60);
+  const reserveUrl = tenant ? tenant.reserveUrl : (/^https?:\/\/\S+$/.test(String(body.reserveUrl || "")) ? String(body.reserveUrl).slice(0, 300) : "");
   const theme = String(body.theme || "inside");
   const memo = String(body.memo || "").slice(0, 400);
   const images = Array.isArray(body.images) ? body.images.slice(0, MAX_IMAGES) : [];
@@ -58,7 +70,7 @@ async function generate(request, env) {
     if (!media_type || !data || data.length > MAX_IMAGE_B64) return json({ error: "bad_image" }, 400);
     content.push({ type: "image", source: { type: "base64", media_type, data } });
   }
-  content.push({ type: "text", text: buildPrompt({ clinic, theme, memo, count: content.length }) });
+  content.push({ type: "text", text: buildPrompt({ clinic, theme, memo, count: content.length, reserveUrl }) });
 
   const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 1 });
   let response;
@@ -95,7 +107,11 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/api/status") return json({ ai: !!env.ANTHROPIC_API_KEY, needsCode: !!env.DEMO_PASSCODE });
     if (url.pathname === "/api/generate" && request.method === "POST") return generate(request, env);
+    if (url.pathname === "/api/tenants") return json({ tenants: TENANTS });
+    const tm = url.pathname.match(/^\/api\/tenants\/([a-z0-9-]+)$/);
+    if (tm) { const t = findTenant(tm[1]); return t ? json(t) : json({ error: "not_found" }, 404); }
     if (url.pathname.startsWith("/api/")) return json({ error: "not_found" }, 404);
+    if (/^\/c\/[a-z0-9-]+\/?$/.test(url.pathname)) return env.ASSETS.fetch(new Request(new URL("/clinic", url), request));
     return env.ASSETS.fetch(request);
   },
 };

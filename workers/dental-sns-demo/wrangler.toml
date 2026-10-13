@@ -7,7 +7,7 @@ workers_dev = true
 [assets]
 directory = "./public"
 binding = "ASSETS"
-run_worker_first = ["/api/*"]
+run_worker_first = ["/api/*", "/c/*"]
 
 # 秘密情報（コードに書かない）:
 #   npx wrangler secret put ANTHROPIC_API_KEY   … AI下書きを有効にする
