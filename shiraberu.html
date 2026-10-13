@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>しらベール | ささエール</title>
   <meta name="description" content="Lark・LINEで答えられる匿名の組織サーベイ『しらベール』の紹介ページです。">
-  <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     /* =========================================================
        ささエール LP - 黄色サンバースト基調 + アメコミ演出
@@ -716,6 +715,243 @@
       .oneline { padding: 22px 18px; }
     }
   </style>
+  <style>
+    /* =========================================================
+       トンマナ統一レイヤー（マカセルLPに合わせる / 2026-09-27）
+       5色：黄 #FFD600 / サブ #F5A623 / 強調 #DD6420 / 黒 #1A1A1A / 白 #FFFFFF
+       見出し Dela Gothic One・本文 Noto Sans JP。太い黒枠＋黒ベタ影・黒リボン・オレンジのブラシ下線
+       ========================================================= */
+    :root {
+      --black: #1A1A1A; --text: #1A1A1A; --text-soft: #1A1A1A;
+      --bg: #FFD600; --bg-soft: #FFD600; --panel: #FFFFFF;
+      --radius: 14px;
+      --shadow-comic: 6px 6px 0 #1A1A1A;
+      --rays: repeating-conic-gradient(from 0deg at 50% 50%, #FFD600 0deg 6deg, #FFE04A 6deg 12deg);
+    }
+    body { font-family: 'Noto Sans JP', sans-serif; font-weight: 500; color: #1A1A1A; background: #FFD600; }
+    .service-name { font-family: inherit; }
+    .site-logo, .loader-logo, .hero-title, .section-title, .cta-box h2, .package-title, .role-card h3,
+    .big-price, .price-mini, .flow-num, .advisor-tier, .footer-inner .service-name {
+      font-family: 'Dela Gothic One', sans-serif; font-weight: 400; letter-spacing: normal;
+    }
+
+    /* ---- ヘッダー・ローダー ---- */
+    .site-header { background: #1A1A1A; backdrop-filter: none; border-bottom: 4px solid #1A1A1A; }
+    .site-logo { font-size: 28px; color: #FFD600; text-shadow: none; }
+    .site-nav a { font-weight: 900; font-size: 15px; }
+    .loader-logo { color: #FFD600; text-shadow: none; }
+
+    /* ---- ボタン：サブ黄＋黒文字／太枠＋黒ベタ影、押すと沈む ---- */
+    .btn { min-height: 54px; padding: 0 26px; border: 3px solid #1A1A1A; font-weight: 900; font-size: 16px;
+      box-shadow: 5px 5px 0 #1A1A1A; transition: transform .12s, box-shadow .12s, background .2s; }
+    .btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #1A1A1A; }
+    .btn .btn-ripple { background: rgba(255,255,255,0.35); }
+    .btn-primary { background: #F5A623; color: #1A1A1A; border-color: #1A1A1A; box-shadow: 5px 5px 0 #1A1A1A; }
+    .btn-primary:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #1A1A1A; }
+    .btn-secondary { background: #FFFFFF; color: #1A1A1A; border-color: #1A1A1A; box-shadow: 5px 5px 0 #1A1A1A; }
+    .btn-secondary:hover { background: #FFD600; }
+    .btn-black { background: #F5A623; color: #1A1A1A; border-color: #1A1A1A; box-shadow: 5px 5px 0 #1A1A1A; }
+    .btn-black:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #1A1A1A; }
+    .site-header .btn { min-height: 44px; padding: 0 18px; font-size: 14px; box-shadow: none; border-color: #FFD600; }
+    .site-header .btn-secondary { background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
+    .site-header .btn-primary { background: #FFD600; }
+
+    /* ---- サンバースト：マカセルの放射線に（回転の動きは維持） ---- */
+    .hero::before, .cta-section::before, .sunburst-bg::before { background: var(--rays); }
+    .hero::after, .cta-section::after, .sunburst-bg::after {
+      background-image: radial-gradient(#F5A623 32%, transparent 34%); background-size: 14px 14px;
+      inset: auto; right: -30px; top: -30px; width: 280px; height: 220px; opacity: .55;
+    }
+    .hero::after { left: -30px; right: auto; top: auto; bottom: -20px; }
+    .hero-speed-lines span { background: rgba(26,26,26,0.08); }
+
+    /* ---- ヒーロー ---- */
+    .hero { padding: 64px 0 56px; border-bottom: 4px solid #1A1A1A; }
+    .hero-badge { padding: 6px 16px; border-radius: 4px; border: 0; box-shadow: none;
+      background: #1A1A1A; color: #FFD600; font-size: 16px; clip-path: polygon(0 0, 100% 0, 97% 100%, 0 100%); padding-right: 26px; }
+    .hero-title { font-size: clamp(30px, 4.6vw, 56px); line-height: 1.3; text-shadow: none;
+      background: #FFFFFF; border: 4px solid #1A1A1A; box-shadow: 8px 8px 0 #1A1A1A; padding: 18px 26px 26px; position: relative; }
+    .hero-title::after { content: ''; position: absolute; left: 26px; right: 26px; bottom: 12px; height: 10px;
+      background: #DD6420; border-radius: 10px 3px 10px 3px; }
+    .hero-title strong { font-weight: 400; background: linear-gradient(transparent 58%, #FFD600 58%); padding: 0 2px; }
+    .hero-lead { font-size: 17px; color: #FFFFFF; background: #1A1A1A; border: 0; border-radius: 0; padding: 16px 20px;
+      font-weight: 700; line-height: 1.8; }
+    .hero-lead .service-name { color: #FFD600; }
+    .hero-points li { background: #FFFFFF; border: 3px solid #1A1A1A; box-shadow: 3px 3px 0 #1A1A1A; font-weight: 900; }
+    .hero-points li:hover { background: #1A1A1A; color: #FFD600; box-shadow: 3px 3px 0 #1A1A1A; }
+    .hero-logo-item, .ai-badge { border: 3px solid #1A1A1A; box-shadow: 3px 3px 0 #1A1A1A; }
+    .ai-badge { background: #1A1A1A; color: #FFD600; font-family: 'Dela Gothic One', sans-serif; font-weight: 400; }
+    .hero-right::before { content: ''; position: absolute; left: 50%; bottom: -40px; transform: translateX(-50%);
+      width: min(380px, 90%); aspect-ratio: 1; background: #FFFFFF; border: 4px solid #1A1A1A; border-radius: 50%; z-index: 1; }
+    .hero-representative { filter: none; }
+    .burst-boom { background: #1A1A1A; color: #FFD600; border: 3px solid #1A1A1A; box-shadow: 4px 4px 0 #1A1A1A; text-shadow: none; }
+    .burst-yeah { background: #F5A623; color: #1A1A1A; border: 3px solid #1A1A1A; box-shadow: 4px 4px 0 #1A1A1A; text-shadow: none; }
+
+    /* ---- セクション共通：白セクションと黄サンバーストを交互に・黒の区切り線 ---- */
+    .section { padding: 80px 0; border-bottom: 4px solid #1A1A1A; }
+    .bg-panel { background: #FFFFFF; }
+    .bg-soft { background: repeating-conic-gradient(from 0deg at 70% 40%, #FFD600 0deg 6deg, #FFE04A 6deg 12deg); }
+    .section-head { margin-bottom: 40px; }
+    .section-kicker { padding: 2px 14px; border-radius: 4px; border: 0; box-shadow: none;
+      background: #1A1A1A; color: #FFD600; font-size: 15px; margin-bottom: 14px; }
+    .section-title { font-size: clamp(24px, 4.2vw, 44px); line-height: 1.3; margin-bottom: 14px; }
+    .section-lead { font-size: 17px; font-weight: 700; color: #1A1A1A; }
+
+    /* ---- カード：太枠＋黒ベタ影 ---- */
+    .worry-card, .role-card, .service-card, .package, .flow-card, .faq-item, table {
+      border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; background: #FFFFFF;
+    }
+    .worry-card:hover, .role-card:hover, .service-card:hover, .package:hover, .flow-card:hover {
+      transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #1A1A1A; border-color: #1A1A1A;
+    }
+    .worry-card::before { display: none; }
+    .worry-icon { background: #FFD600; border: 3px solid #1A1A1A; border-radius: 50%; }
+    .worry-card h3, .service-card h3, .flow-card h3 { font-size: 19px; font-weight: 900; }
+    .worry-card p, .role-card p, .service-card p, .flow-card p, .package-copy, .step-body p, .faq-a-inner { font-size: 16px; color: #1A1A1A; }
+    .role-card-image { border-bottom: 4px solid #1A1A1A; }
+    .role-label, .role-label.lark, .role-label.ai, .role-label.line {
+      background: #FFD600; color: #1A1A1A; border: 2px solid #1A1A1A; font-weight: 900; font-size: 13px; }
+    .role-card h3 { font-size: 26px; }
+
+    /* ---- 料金：黒のDela＋黄マーカー ---- */
+    .price-mini { font-size: 26px; color: #1A1A1A; background: linear-gradient(transparent 62%, #FFD600 62%); width: fit-content; }
+    .price-mini-sub, .sub { font-size: 13px; font-weight: 700; color: #1A1A1A; }
+    .big-price { font-size: 34px; color: #1A1A1A; background: linear-gradient(transparent 62%, #FFD600 62%); display: inline-block; white-space: nowrap; }
+    .service-card.is-entry { background: #FFFFFF; box-shadow: 6px 6px 0 #1A1A1A; }
+    .entry-badge, .recommended-badge { font-size: 13px; border: 3px solid #1A1A1A; border-top: none; }
+    .entry-badge { background: #FFD600; color: #1A1A1A; }
+    .recommended-badge { background: #1A1A1A; color: #FFD600; border-color: #1A1A1A; }
+    .service-card.is-recommended { border-color: #1A1A1A; box-shadow: 6px 6px 0 #DD6420; }
+    .service-card::after, .service-card.is-recommended::after, .service-card.is-entry::after { background: #DD6420; height: 6px; }
+    .service-group-label { font-size: 17px; border-left: 6px solid #1A1A1A; }
+    .service-group-line { height: 3px; background: #1A1A1A; }
+    .advisor-tier { border: 3px solid #1A1A1A; }
+    .advisor-plan-name { font-size: 20px; }
+
+    /* ---- パッケージ ---- */
+    .package-title { font-size: 26px; }
+    .package-badge { background: #1A1A1A; color: #FFD600; border: 0; box-shadow: none; font-size: 13px; }
+    ul.clean li { font-size: 16px; font-weight: 700; border-bottom: 2px dashed #1A1A1A; }
+    ul.clean li::before { color: #1A1A1A; background: #FFD600; border: 2px solid #1A1A1A; border-radius: 4px;
+      width: 18px; height: 18px; font-size: 12px; line-height: 14px; text-align: center; top: 11px; }
+    ul.clean li { padding-left: 28px; }
+    .step-label { border: 3px solid #1A1A1A; font-size: 13px; }
+    .step-body strong { font-size: 17px; font-weight: 900; }
+    .compare-note, .package-note { font-size: 14px; font-weight: 700; color: #1A1A1A; }
+    .bg-soft .package-note { background: #FFFFFF; border: 3px solid #1A1A1A; border-radius: 12px; padding: 14px 18px; }
+
+    /* ---- 比較表 ---- */
+    th { background: #1A1A1A; color: #FFD600; font-size: 15px; }
+    td { font-size: 15px; border-bottom: 2px solid #1A1A1A; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tr:hover td { background: #FFF6BF; }
+    td:first-child { font-weight: 900; white-space: nowrap; }
+
+    /* ---- 導入の流れ ---- */
+    .flow-num { width: 56px; height: 56px; font-size: 24px; border: 3px solid #1A1A1A; box-shadow: 3px 3px 0 #1A1A1A; }
+    .flow-card:hover .flow-num { background: #1A1A1A; color: #FFD600; }
+
+    /* ---- FAQ ---- */
+    .faq-item.is-open { border-color: #1A1A1A; }
+    .faq-q { font-weight: 900; font-size: 18px; padding: 20px 56px 20px 64px; line-height: 1.5; }
+    .faq-q::before { content: 'Q'; position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+      width: 34px; height: 34px; border-radius: 50%; background: #FFD600; border: 3px solid #1A1A1A; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center; font-family: 'Dela Gothic One', sans-serif; font-size: 16px; }
+    .faq-q::after { content: '＋'; font-family: 'Dela Gothic One', sans-serif; color: #1A1A1A; font-size: 24px; }
+    .faq-item.is-open .faq-q::after { content: '−'; }
+    .faq-a-inner { padding: 0 24px 22px 64px; font-weight: 500; line-height: 1.8; }
+
+    /* ---- 最終CTA ---- */
+    .cta-section { padding: 72px 0; border-bottom: 4px solid #1A1A1A; }
+    .cta-representative { position: relative; z-index: 2; filter: none; }
+    .cta-box::before { content: ''; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+      width: 230px; height: 230px; background: #FFFFFF; border: 4px solid #1A1A1A; border-radius: 50%; z-index: 0; }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-comic-text { color: #1A1A1A; text-shadow: 3px 3px 0 #FFFFFF; }
+    .cta-box h2 { display: inline-block; background: #FFFFFF; border: 4px solid #1A1A1A; box-shadow: 8px 8px 0 #1A1A1A;
+      padding: 12px 28px 22px; transform: rotate(-1.5deg); text-shadow: none; line-height: 1.3; }
+    .cta-box h2::after { content: ''; display: block; height: 10px; margin-top: 6px; background: #DD6420; border-radius: 10px 3px 10px 3px; }
+    .cta-box p { display: block; width: fit-content; max-width: 100%; margin: 24px auto; color: #1A1A1A; font-weight: 700;
+      background: #FFFFFF; border: 3px solid #1A1A1A; border-radius: 12px; }
+    .cta-box p.cta-line-alt { background: none; border: 0; padding: 0; margin: 14px auto 0; font-size: 14px !important; opacity: 1 !important; }
+
+    /* ---- フッター・固定予約ボタン ---- */
+    .footer { color: #FFFFFF; font-weight: 700; }
+    .footer-inner .service-name { color: #FFD600; font-size: 22px; }
+    .footer a { color: #FFFFFF; }
+    .back-to-top { background: #FFD600; color: #1A1A1A; border: 3px solid #1A1A1A; box-shadow: 4px 4px 0 #1A1A1A; }
+    .back-to-top:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #1A1A1A; }
+
+    .nb { display: inline-block; }
+    .hero-title { font-size: clamp(26px, 3.3vw, 44px); }
+    .burst-boom { right: 0; }
+    .title-row { flex-direction: column; gap: 6px; }
+    .title-row > div:first-child { padding-right: 70px; }
+    .title-row .sub { display: inline-block; margin-left: 8px; }
+    table { border-radius: 0; overflow: visible; }
+    .table-wrap { padding: 0 8px 8px 0; }
+    /* スライドイン前の要素が画面外にはみ出してスマホの表示幅を広げないように（fixed要素が画面外に落ちる原因だった） */
+    main > section, .footer { overflow-x: clip; }
+    @media (max-width: 1100px) {
+      .hero-title { text-align: left; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 56px 0; }
+      .hero-title { padding: 14px 18px 24px; }
+      .hero-title::after { left: 18px; right: 18px; }
+      .faq-q { font-size: 16px; }
+      .cta-box h2 { padding: 10px 18px 18px; }
+      td:first-child { white-space: normal; }
+      /* ヘッダーはマカセル同様「ロゴ＋相談ボタン」の1行に（ナビはページ内に同じ導線があるため省略） */
+      .site-header-inner { flex-direction: row; align-items: center; padding: 10px 0; }
+      .site-nav, .site-header .btn-secondary { display: none; }
+      .site-actions { width: auto; }
+      .site-logo { font-size: 24px; }
+      .title-row > div:first-child { padding-right: 48px; }
+      .package-title { font-size: 22px; }
+      .cta-box .btn { font-size: 15px; padding: 0 18px; }
+    }
+  </style>
+  <style>
+    /* =========================================================
+       サービスページ用の追加分（ひとこと・名前の由来・ステップ・ビフォーアフター・料金など）
+       ========================================================= */
+    .oneline { background: #FFFFFF; border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; }
+    .oneline-catch { font-weight: 900; line-height: 1.6; color: #1A1A1A; }
+    .oneline-catch mark { background: linear-gradient(transparent 58%, #FFD600 58%); }
+    .oneline p { color: #1A1A1A; font-weight: 700; }
+    .name-part { background: #FFD600; border: 3px solid #1A1A1A; border-radius: 12px; box-shadow: 3px 3px 0 #1A1A1A; color: #1A1A1A; }
+    .name-part small { color: #1A1A1A; }
+    .name-plus { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; }
+    .step-box { background: #FFFFFF; border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; }
+    .step-box:not(:last-child)::after { color: #1A1A1A; }
+    .step-phase { display: inline-block; background: #1A1A1A; color: #FFD600; padding: 2px 10px; border-radius: 4px; font-size: 13px; font-weight: 900; }
+    .step-box h3 { font-size: 19px; font-weight: 900; }
+    .step-box p { font-size: 15px; color: #1A1A1A; }
+    .tool-chip, .tool-chip.lark, .tool-chip.line, .tool-chip.ai {
+      color: #1A1A1A; background: #FFD600; border: 2px solid #1A1A1A; font-weight: 900; }
+    .ba-col { border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; background: #FFFFFF; }
+    .ba-col.after { background: #FFD600; }
+    .ba-col h3 { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; font-size: 20px; }
+    .ba-col ul { font-size: 16px; color: #1A1A1A; font-weight: 700; }
+    .ba-arrow { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; color: #DD6420; }
+    .price-cards .price-mini { font-size: 24px; }
+    .price-cards .service-card.recommend { border-color: #1A1A1A; box-shadow: 6px 6px 0 #DD6420; }
+    .price-note { font-size: 14px; font-weight: 700; color: #1A1A1A; background: #FFFFFF; border: 3px solid #1A1A1A; border-radius: 12px; padding: 14px 18px 14px 36px; }
+    .price-pending { background: #FFFFFF; border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; }
+    .price-pending strong { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; }
+    .price-pending p { color: #1A1A1A; font-weight: 700; }
+    .cards-3 .service-card .num { background: #1A1A1A; color: #FFD600; border: 0; border-radius: 4px; font-size: 13px; }
+    .target-list li { border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; font-size: 16px; }
+    .target-list li::before { content: '✓'; width: 22px; height: 22px; background: #FFD600; border: 2px solid #1A1A1A; border-radius: 4px;
+      color: #1A1A1A; font-size: 13px; display: flex; align-items: center; justify-content: center; top: 50%; transform: translateY(-50%); left: 12px; }
+    .teacher, .includes { border: 4px solid #1A1A1A; border-radius: 14px; box-shadow: 6px 6px 0 #1A1A1A; }
+    .teacher img { background: #FFD600; border: 4px solid #1A1A1A; }
+    .teacher h3 { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; font-size: 24px; }
+    .teacher .role { color: #DD6420; font-weight: 900; }
+    .includes h3 { font-weight: 900; font-size: 18px; }
+    .comic-text { font-family: 'Dela Gothic One', sans-serif; font-weight: 400; letter-spacing: normal; }
+  </style>
 </head>
 <body>
 
@@ -748,7 +984,7 @@
           <div class="hero-badge">ささエールの組織サーベイ</div>
           <h1 class="hero-title">
             しらベール<br>
-            <strong>職場の"今"を、毎月すこしずつ。</strong>
+            <strong>職場の"今"を、<span class="nb">毎月すこしずつ。</span></strong>
           </h1>
           <p class="hero-lead">
             しらベールは、社員の声を毎月あつめる匿名のアンケートです。<br>
@@ -773,7 +1009,7 @@
           </div>
         </div>
         <div class="hero-right">
-          <img class="hero-representative" src="./images/representative-sm.png" alt="代表 笹原彰朗" />
+          <img class="hero-representative" src="./images/representative-center.png" alt="代表 笹原彰朗" />
           <div class="comic-burst burst-boom comic-text">CHECK!</div>
           <div class="comic-burst burst-yeah comic-text">YELL!</div>
         </div>
@@ -1005,7 +1241,7 @@
     <section class="cta-section" id="cta">
       <div class="container">
         <div class="cta-box">
-          <img class="cta-representative" src="./images/representative-sm.png" alt="代表 笹原彰朗" />
+          <img class="cta-representative" src="./images/representative-center.png" alt="代表 笹原彰朗" />
           <div class="cta-comic-text comic-text">YELL!</div>
           <h2>職場の"今"を、いっしょに確かめませんか。</h2>
           <p>
