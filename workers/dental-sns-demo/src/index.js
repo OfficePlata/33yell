@@ -1,3 +1,5 @@
+import Anthropic from "@anthropic-ai/sdk";
+
 const THEMES = { inside: "院内の様子", staff: "スタッフ紹介", care: "予防・ケアの豆知識", notice: "お知らせ（休診・診療時間）" };
 const MAX_IMAGES = 6;
 const MAX_IMAGE_B64 = 1_500_000;
@@ -58,17 +60,26 @@ async function generate(request, env) {
   }
   content.push({ type: "text", text: buildPrompt({ clinic, theme, memo, count: content.length }) });
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "x-api-key": env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: env.CLAUDE_MODEL || "claude-sonnet-5-5", max_tokens: 2500, messages: [{ role: "user", content }] }),
-  });
-  if (!res.ok) {
-    console.log("anthropic error", res.status, (await res.text()).slice(0, 500));
-    return json({ error: res.status === 429 ? "rate_limited" : "upstream_error" }, 502);
+  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 1 });
+  let response;
+  try {
+    response = await client.beta.messages.create({
+      model: env.CLAUDE_MODEL || "claude-opus-5-5",
+      max_tokens: 16000,
+      output_config: { effort: env.CLAUDE_EFFORT || "medium" },
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
+      messages: [{ role: "user", content }],
+    });
+  } catch (e) {
+    if (e instanceof Anthropic.RateLimitError) return json({ error: "rate_limited" }, 502);
+    if (e instanceof Anthropic.APIError) { console.log("anthropic error", e.status, e.message); return json({ error: "upstream_error" }, 502); }
+    console.log("anthropic connection error", String(e));
+    return json({ error: "upstream_error" }, 502);
   }
-  const out = await res.json();
-  const text = (out.content || []).filter(c => c.type === "text").map(c => c.text).join("");
+  if (response.stop_reason === "refusal") return json({ error: "refused" }, 502);
+  console.log("usage", JSON.stringify(response.usage));
+  const text = response.content.filter(c => c.type === "text").map(c => c.text).join("");
   const r = parseJson(text);
   if (!r || typeof r.instagram !== "string") return json({ error: "invalid_json" }, 502);
   return json({
