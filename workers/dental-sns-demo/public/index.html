@@ -204,7 +204,7 @@ td a{color:var(--sky-deep)}
               <option value="notice">お知らせ（休診・診療時間）</option>
             </select>
           </div>
-          <div class="field full"><label for="reserve">予約ページのURL</label><input id="reserve" type="url" value="https://example.com/yoyaku/sakura"><span class="hint">医院ごとに登録しておくと、投稿文の予約案内とGoogleの「予約」ボタンに自動で入ります。</span></div>
+          <div class="field full"><label for="reserve">予約ページのURL</label><input id="reserve" type="url" value=""><span class="hint">医院ごとのWeb予約ページ（このサービスに含まれます）。投稿文の予約案内とGoogleの「予約」ボタンに自動で入ります。</span></div>
           <div class="field full"><label for="memo">院長のひとことメモ（任意）</label>
             <textarea id="memo">新しい診療チェアを入れました。痛くない治療で地域No.1を目指します！</textarea>
           </div>
@@ -257,7 +257,7 @@ td a{color:var(--sky-deep)}
         <h2 id="h-ten">医院ごとの専用URL <span class="chip">パートナー様の管理画面</span></h2>
         <p class="lead">医院を登録すると、その医院専用のURLが発行されます。医院はスマホでそのURLを開き、写真を選んでボタンを押すだけ。予約ページのURLも医院ごとに持てます。</p>
         <div class="tablewrap"><table>
-          <thead><tr><th>医院</th><th>専用URL（医院が使う画面）</th><th>予約ページ</th><th></th></tr></thead>
+          <thead><tr><th>医院</th><th>医院用画面（投稿・予約一覧）</th><th>患者さん用のWeb予約</th><th></th></tr></thead>
           <tbody id="tenants"><tr><td colspan="4">読み込み中…</td></tr></tbody>
         </table></div>
       </section>
@@ -597,7 +597,7 @@ async function loadTenants(){
     const tr=document.createElement("tr");
     const c1=document.createElement("td");c1.textContent=t.name;
     const c2=document.createElement("td");c2.className="urlcell";const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.textContent=url;c2.append(a);
-    const c3=document.createElement("td");c3.className="urlcell";c3.textContent=t.reserveUrl;
+    const c3=document.createElement("td");c3.className="urlcell";const a3=document.createElement("a");a3.href=t.reserveUrl;a3.target="_blank";a3.rel="noopener";a3.textContent=t.reserveUrl;c3.append(a3);
     const c4=document.createElement("td");const b=document.createElement("button");b.className="btn sm";b.type="button";b.textContent="URLをコピー";
     b.onclick=async()=>{try{await navigator.clipboard.writeText(url);b.textContent="コピーしました";}catch{b.textContent="コピーできませんでした";}setTimeout(()=>b.textContent="URLをコピー",1600);};
     c4.append(b);tr.append(c1,c2,c3,c4);tb.append(tr);
@@ -606,6 +606,7 @@ async function loadTenants(){
 
 /* ---------- 初期表示：作成例で「承認待ち」まで進んだ状態 ---------- */
 (async function init(){
+  $("#reserve").value=location.origin+"/c/sakura/yoyaku";
   S.photos=await Promise.all([scene("chair"),scene("desk"),scene("brush")]);
   renderPhotos();
   const clinic=$("#clinic").value,memo=$("#memo").value;

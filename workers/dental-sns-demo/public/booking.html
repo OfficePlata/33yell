@@ -1,0 +1,163 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Web予約</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* Layout: 患者さんがスマホで上から順に選ぶ1ページ予約。白×水色×ミントの清潔感 */
+:root{
+  --bg:#F3FAFC; --card:#FFFFFF; --sky:#3AA6D8; --sky-deep:#1F86B8; --sky-soft:#E1F2FA;
+  --mint:#4FBFA5; --mint-deep:#2E9E7F; --mint-soft:#E2F5EF; --ink:#21384A; --ink-soft:#5B7183; --rule:#D5E7EF;
+  --warn:#D9694C; --warn-soft:#FCEDE8; --sun:#D9694C; --sat:#1F86B8;
+  --f-display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.app{max-width:520px;margin:0 auto;padding-inline:16px;padding-block:calc(env(safe-area-inset-top,0px) + 12px) calc(env(safe-area-inset-bottom,0px) + 32px);display:grid;gap:14px}
+header{display:flex;align-items:center;gap:10px}
+header .logo{width:42px;height:42px;border-radius:50%;background:var(--mint);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:13px;flex:none}
+header b{display:block;font-family:var(--f-display);font-size:18px;line-height:1.3}
+header span{font-size:12.5px;color:var(--ink-soft)}
+.demo{background:var(--sky-soft);color:var(--sky-deep);font-size:12.5px;border-radius:12px;padding:8px 12px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px;display:grid;gap:12px;min-width:0}
+.card.off{opacity:.45;pointer-events:none}
+h2{font-family:var(--f-display);font-weight:700;font-size:17px;margin:0;display:flex;align-items:center;gap:8px}
+h2 .n{width:26px;height:26px;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;font-size:13px;font-family:var(--f-body)}
+.card.ok h2 .n{background:var(--mint-deep)}
+.menus{display:grid;gap:8px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;border:1px solid var(--rule);background:#fbfdfe;border-radius:14px;padding:12px 14px;font-weight:700;cursor:pointer}
+.opt[aria-pressed="true"]{border-color:var(--sky);background:var(--sky-soft);color:var(--sky-deep)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x proximity}
+.day{flex:none;width:64px;border:1px solid var(--rule);background:#fff;border-radius:14px;padding:8px 4px;text-align:center;cursor:pointer;scroll-snap-align:start;line-height:1.35}
+.day small{display:block;font-size:11px;color:var(--ink-soft)}
+.day b{display:block;font-size:18px}
+.day .mk{display:block;font-weight:700;font-size:13px;color:var(--mint-deep)}
+.day.sun small{color:var(--sun)}.day.sat small{color:var(--sat)}
+.day:disabled{background:#f2f5f6;cursor:default;color:#9aa8b2}
+.day:disabled .mk{color:#9aa8b2}
+.day[aria-pressed="true"]{border-color:var(--sky);background:var(--sky);color:#fff}
+.day[aria-pressed="true"] small,.day[aria-pressed="true"] .mk{color:#fff}
+.times{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tm{border:1px solid var(--rule);background:#fff;border-radius:12px;padding:10px 0;font-weight:700;cursor:pointer;font-variant-numeric:tabular-nums}
+.tm:disabled{background:#f2f5f6;color:#b3bec6;cursor:default;text-decoration:line-through}
+.tm[aria-pressed="true"]{background:var(--sky);border-color:var(--sky);color:#fff}
+.empty{font-size:14px;color:var(--ink-soft)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+label.f{display:grid;gap:4px;font-weight:700;font-size:14px}
+label.f small{font-weight:400;color:var(--ink-soft)}
+input[type=text],input[type=tel],textarea{width:100%;border:1px solid var(--rule);border-radius:12px;padding:11px 12px;background:#fbfdfe}
+input:focus,textarea:focus{border-color:var(--sky);background:#fff}
+textarea{min-height:72px;resize:vertical}
+.big{width:100%;min-height:60px;border:0;border-radius:18px;background:var(--mint-deep);color:#fff;font-weight:700;font-size:18px;cursor:pointer;box-shadow:0 8px 20px rgba(46,158,127,.28)}
+.big:disabled{opacity:.45;cursor:default;box-shadow:none}
+.sum{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:15px}
+.sum dt{color:var(--ink-soft)}
+.sum dd{margin:0;font-weight:700}
+.err{color:var(--warn);font-size:14px;font-weight:700;min-height:1em;margin:0}
+.done{text-align:center;justify-items:center}
+.done .ok{width:76px;height:76px;border-radius:50%;background:var(--mint-deep);color:#fff;display:grid;place-items:center;font-size:40px;font-weight:700}
+.foot{font-size:12px;color:var(--ink-soft);text-align:center}
+</style></head><body>
+<div class="app">
+  <header><span class="logo">予約</span><div><b id="clinicName">医院名</b><span>Web予約</span></div></header>
+  <p class="demo">デモ画面です。お名前・電話番号は架空のものを入力してください。</p>
+
+  <div id="form">
+    <section class="card" id="c1"><h2><span class="n">1</span>ご希望の内容</h2><div class="menus" id="menus"></div></section>
+    <section class="card off" id="c2" style="margin-top:14px"><h2><span class="n">2</span>日にち</h2><div class="days" id="days"></div></section>
+    <section class="card off" id="c3" style="margin-top:14px"><h2><span class="n">3</span>時間</h2><div class="times" id="times"></div><p class="empty" id="noTime" hidden>この日は空きがありません。別の日を選んでください。</p></section>
+    <section class="card off" id="c4" style="margin-top:14px">
+      <h2><span class="n">4</span>お客さまの情報</h2>
+      <div class="seg" role="group" aria-label="受診歴">
+        <button class="opt" type="button" data-visit="初診" aria-pressed="true">はじめて</button>
+        <button class="opt" type="button" data-visit="再診" aria-pressed="false">通院したことがある</button>
+      </div>
+      <label class="f" for="name">お名前<input type="text" id="name" autocomplete="name" placeholder="例：歯科 花子"></label>
+      <label class="f" for="phone">電話番号<input type="tel" id="phone" autocomplete="tel" inputmode="tel" placeholder="例：090-0000-0000"></label>
+      <label class="f" for="note">気になること <small>（任意）</small><textarea id="note" placeholder="例：右下の奥歯がしみる"></textarea></label>
+      <dl class="sum" id="sum"></dl>
+      <p class="err" id="err" role="alert"></p>
+      <button class="big" id="submit" type="button" disabled>この内容で予約する</button>
+    </section>
+  </div>
+
+  <section class="card done" id="done" hidden>
+    <div class="ok" aria-hidden="true">✓</div>
+    <h2 style="justify-content:center">ご予約を受け付けました</h2>
+    <dl class="sum" id="doneSum" style="text-align:left"></dl>
+    <p class="empty">当日は保険証（マイナ保険証）をお持ちください。<br>変更・キャンセルは医院へお電話ください。</p>
+    <button class="opt" type="button" id="again" style="justify-content:center">別の予約をする</button>
+  </section>
+
+  <p class="foot">SNSおまかせ投稿＋Web予約（デモ）／ご提案：ささエール</p>
+</div>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const slug = (location.pathname.match(/^\/c\/([a-z0-9-]+)/)||[])[1] || "sakura";
+const API = "/api/tenants/" + slug;
+const S = {menu:null, date:null, time:null, visit:"初診"};
+const fmt = d => { const [y,m,dd] = d.split("-"); return `${+m}月${+dd}日`; };
+
+function step(n){ for(let i=1;i<=4;i++){ const c=$("#c"+i); c.classList.toggle("off", i>n); c.classList.toggle("ok", i<n); } }
+function renderSum(){
+  const rows=[["内容",S.menu],["日時",S.date&&S.time?`${fmt(S.date)}（${S.dow}）${S.time}`:""],["受診",S.visit==="初診"?"はじめて":"通院したことがある"]];
+  const dl=$("#sum");dl.textContent="";for(const [k,v] of rows){if(!v)continue;const dt=document.createElement("dt");dt.textContent=k;const dd=document.createElement("dd");dd.textContent=v;dl.append(dt,dd);}
+  $("#submit").disabled=!(S.menu&&S.date&&S.time&&$("#name").value.trim()&&$("#phone").value.replace(/\D/g,"").length>=10);
+}
+async function loadDays(){
+  const box=$("#days");box.textContent="";
+  const r=await fetch(API+"/days").then(r=>r.json()).catch(()=>({days:[]}));
+  for(const d of r.days){
+    const b=document.createElement("button");b.type="button";b.className="day"+(d.dow==="日"?" sun":d.dow==="土"?" sat":"");
+    const [,m,dd]=d.date.split("-");
+    b.innerHTML=`<small>${+m}月 ${d.dow}</small><b>${+dd}</b><span class="mk">${!d.open?"休":d.left<1?"×":d.left<6?"△":"○"}</span>`;
+    b.disabled=!d.open||d.left<1;b.setAttribute("aria-pressed",String(S.date===d.date));
+    b.setAttribute("aria-label",`${+m}月${+dd}日 ${d.dow}曜日 ${!d.open?"休診":d.left<1?"満席":"空きあり"}`);
+    b.onclick=()=>{S.date=d.date;S.dow=d.dow;S.time=null;[...box.children].forEach(x=>x.setAttribute("aria-pressed",String(x===b)));loadTimes();step(3);renderSum();};
+    box.append(b);
+  }
+}
+async function loadTimes(){
+  const box=$("#times");box.textContent="";
+  const r=await fetch(API+"/slots?date="+S.date).then(r=>r.json()).catch(()=>({slots:[]}));
+  $("#noTime").hidden=r.slots.some(s=>s.left>0);
+  for(const s of r.slots){
+    const b=document.createElement("button");b.type="button";b.className="tm";b.textContent=s.time;b.disabled=s.left<1;
+    b.setAttribute("aria-pressed",String(S.time===s.time));
+    b.onclick=()=>{S.time=s.time;[...box.children].forEach(x=>x.setAttribute("aria-pressed",String(x===b)));step(4);renderSum();$("#c4").scrollIntoView({behavior:"smooth",block:"start"});};
+    box.append(b);
+  }
+}
+document.querySelectorAll("[data-visit]").forEach(b=>b.onclick=()=>{S.visit=b.dataset.visit;document.querySelectorAll("[data-visit]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderSum();});
+["#name","#phone"].forEach(id=>$(id).addEventListener("input",renderSum));
+$("#submit").onclick=async()=>{
+  const btn=$("#submit");btn.disabled=true;$("#err").textContent="";
+  try{
+    const res=await fetch(API+"/reservations",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({menu:S.menu,date:S.date,time:S.time,visit:S.visit,name:$("#name").value.trim(),phone:$("#phone").value.trim(),note:$("#note").value.trim()})});
+    const r=await res.json().catch(()=>({}));
+    if(!res.ok){$("#err").textContent=r.message||"予約できませんでした。もう一度お試しください。";if(res.status===409){S.time=null;loadTimes();loadDays();step(3);}renderSum();return;}
+    const dl=$("#doneSum");dl.innerHTML=$("#sum").innerHTML;
+    $("#form").hidden=true;$("#done").hidden=false;window.scrollTo({top:0});
+  }catch{$("#err").textContent="通信がうまくいきませんでした。もう一度お試しください。";renderSum();}
+};
+$("#again").onclick=()=>{Object.assign(S,{menu:null,date:null,time:null});$("#name").value="";$("#phone").value="";$("#note").value="";$("#done").hidden=true;$("#form").hidden=false;init();};
+
+async function init(){
+  const t=await fetch(API).then(r=>r.ok?r.json():null).catch(()=>null);
+  if(!t){$("#clinicName").textContent="医院が見つかりません";return;}
+  $("#clinicName").textContent=t.name;document.title=t.name+"｜Web予約";
+  const box=$("#menus");box.textContent="";
+  for(const m of t.menus){const b=document.createElement("button");b.type="button";b.className="opt";b.textContent=m;b.setAttribute("aria-pressed","false");
+    b.onclick=()=>{S.menu=m;[...box.children].forEach(x=>x.setAttribute("aria-pressed",String(x===b)));if(!S.date)step(2);renderSum();};box.append(b);}
+  step(1);loadDays();renderSum();
+}
+init();
+})();
+</script>
+</body></html>
