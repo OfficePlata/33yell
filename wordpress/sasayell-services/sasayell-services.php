@@ -86,7 +86,7 @@ function sasayell_services_page_html( $page_slug ) {
  */
 function sasayell_services_top_cards() {
 	$cards = array(
-		'yatoeiru'  => array( 'やとエール', '人を雇う会社を応援。募集から入社後の定着まで、Lark・AI・LINEで「迷わない仕組み」を一緒に整えます。' ),
+		'yatoeiru'  => array( 'やとエール', 'あなたの会社だけの「AI社員」をつくるサービス。ヒアリングで最適な社員構成を設計し、自走できるまで伴走します。' ),
 		'manaberu'  => array( 'まなベール', 'LarkとAIを道具に、自社のサービスやアプリを自分の手で形にする少人数オンライン講座です。' ),
 		'makaseru'  => array( 'まかセール', '作りたいもの1つに絞って、現役の開発者が完成までマンツーマンで伴走します。' ),
 		'shiraberu' => array( 'しらベール', '社員の声を毎月あつめる匿名アンケート。Lark・LINEから答えられて、AIが「次の一手」を提案します。' ),
